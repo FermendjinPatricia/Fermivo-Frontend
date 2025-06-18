@@ -1,17 +1,23 @@
 <template>
   <div class="track-page">
     <h2>Bun venit! 🚛</h2>
-    <p>Introduceți numele dumneavoastră și permiteți locația pentru a fi urmărit de cumpărător.</p>
+    <p>
+      Introduceți numele dumneavoastră și permiteți locația pentru a fi urmărit
+      de cumpărător.
+    </p>
 
     <form @submit.prevent="startTracking">
       <input v-model="driverName" placeholder="Nume șofer" required />
       <button type="submit">Permite locația</button>
+      <button @click="anuleazaPartajarea" class="anuleaza-btn">
+        Oprește partajarea
+      </button>
     </form>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 
 export default {
   name: "TrackPage",
@@ -22,6 +28,18 @@ export default {
     };
   },
   methods: {
+    async anuleazaPartajarea() {
+      try {
+        const token = this.$route.params.token;
+        await axios.patch(`https://fermivo-backend.onrender.com/api/trackers/${token}/cancel`);
+        alert("Ai oprit partajarea locației.");
+        this.driverName = ""; // Resetăm numele șoferului
+        this.$router.push("/"); // Redirecționăm utilizatorul la pagina principală
+      } catch (err) {
+        alert("Eroare la anulare: " + err.message);
+      }
+    },
+
     async startTracking() {
       const token = this.$route.params.token;
 
@@ -34,11 +52,14 @@ export default {
         async (position) => {
           const { latitude, longitude } = position.coords;
           try {
-            await axios.post(`https://fermivo-backend.onrender.com/api/trackers/${token}/location`, {
-              lat: latitude,
-              lng: longitude,
-              driverName: this.driverName,
-            });
+            await axios.post(
+              `https://fermivo-backend.onrender.com/api/trackers/${token}/location`,
+              {
+                lat: latitude,
+                lng: longitude,
+                driverName: this.driverName,
+              }
+            );
           } catch (err) {
             console.error("Eroare la trimiterea locației:", err);
           }
@@ -48,8 +69,8 @@ export default {
         },
         { enableHighAccuracy: true }
       );
-    }
-  }
+    },
+  },
 };
 </script>
 
