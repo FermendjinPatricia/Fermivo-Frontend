@@ -69,8 +69,8 @@ export default {
         return URL.createObjectURL(this.selectedFile);
       }
       return this.formData.profilePicture
-        ? `http://localhost:5000/uploads/${this.formData.profilePicture}`
-        : `http://localhost:5000/uploads/default_profile.jpg`;
+        ? `/uploads/${this.formData.profilePicture}`
+        : `/uploads/default_profile.jpg`;
     },
   },
   created() {
@@ -81,7 +81,7 @@ export default {
       try {
         const userId = JSON.parse(localStorage.getItem("user"))?._id;
         const response = await axios.get(
-          `http://localhost:5000/api/users/${userId}`
+          `/users/${userId}`
         );
         if (response.data.success) {
           this.formData = { ...response.data.user };
@@ -105,7 +105,7 @@ export default {
           const token = localStorage.getItem("token");
 
           const uploadResponse = await axios.post(
-            "http://localhost:5000/api/users/upload-profile",
+            "/users/upload-profile",
             formDataImage,
             {
               headers: {
@@ -121,7 +121,7 @@ export default {
 
         // Update date profil
         const updateResponse = await axios.put(
-          `http://localhost:5000/api/users/${userId}`,
+          `/users/${userId}`,
           {
             nume: this.formData.nume,
             prenume: this.formData.prenume,

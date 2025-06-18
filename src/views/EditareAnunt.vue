@@ -143,7 +143,7 @@ export default {
     async fetchScraperData() {
       if (!this.anunt.produs) return;
       try {
-        const response = await axios.get("http://localhost:5000/scrape/brm");
+        const response = await axios.get("/scrape/brm");
         if (response.data.success) {
           this.scraperData = response.data;
           this.filterPrices();

@@ -76,7 +76,7 @@ export default {
     },
     async fetchData() {
       try {
-        const response = await axios.get("http://localhost:5000/scrape");
+        const response = await axios.get("/scrape");
         console.log("📊 Date primite în frontend:", response.data);
         this.commodities = response.data.data; // Stocăm datele
       } catch (error) {

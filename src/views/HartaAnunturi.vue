@@ -100,8 +100,8 @@ export default {
     },
     userProfilePicture() {
       return this.user?.profilePicture
-        ? `http://localhost:5000/${this.user.profilePicture}`
-        : `http://localhost:5000/uploads/default_profile.jpg`;
+        ? `/${this.user.profilePicture}`
+        : `/uploads/default_profile.jpg`;
     },
     anunturiFiltrate() {
       if (this.selectedCategory === "toate") return this.anunturi;
@@ -134,7 +134,7 @@ export default {
     },
     async fetchAnunturi() {
       try {
-        const res = await fetch("http://localhost:5000/api/anunturi");
+        const res = await fetch("/anunturi");
         const data = await res.json();
         this.anunturi = data.anunturi || [];
       } catch (err) {
@@ -142,7 +142,7 @@ export default {
       }
     },
     async fetchUser(id) {
-      const res = await fetch(`http://localhost:5000/api/users/${id}`);
+      const res = await fetch(`/users/${id}`);
       const data = await res.json();
       if (data.success) {
         this.user = data.user;
