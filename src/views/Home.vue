@@ -180,8 +180,8 @@ export default {
     },
     userProfilePicture() {
       return this.user?.profilePicture
-        ? `http://localhost:5000${this.user.profilePicture}`
-        : `http://localhost:5000/uploads/default_profile.jpg`;
+        ? `https://fermivo-backend.onrender.com/api/${this.user.profilePicture}`
+        : `https://fermivo-backend.onrender.com/api/uploads/default_profile.jpg`;
     },
     anunturiFiltrate() {
       if (this.selectedCategory === "toate") return this.cereals;
@@ -229,7 +229,7 @@ export default {
         if (!userId) return;
 
         const response = await axios.get(
-          `http://localhost:5000/api/users/${userId}`
+          `https://fermivo-backend.onrender.com/api/users/${userId}`
         );
         if (response.data.success) {
           this.user = response.data.user;
@@ -245,7 +245,7 @@ export default {
         if (!userId) return;
 
         const response = await axios.get(
-          `http://localhost:5000/api/anunturi/user/${userId}`
+          `https://fermivo-backend.onrender.com/api/anunturi/user/${userId}`
         );
         if (response.data.success) {
           this.cereals = response.data.anunturi;
@@ -259,7 +259,7 @@ export default {
     },
     async fetchPredictii() {
       try {
-        const response = await axios.get("http://localhost:5000/api/predictii");
+        const response = await axios.get("https://fermivo-backend.onrender.com/api/predictii");
         if (response.data.success) {
           this.predictii = response.data.predictii;
         }

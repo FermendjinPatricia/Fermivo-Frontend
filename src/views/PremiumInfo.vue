@@ -59,7 +59,7 @@ export default {
   methods: {
     async activatePremium() {
       try {
-        const response = await axios.post('http://localhost:5000/api/payments-premium/create-checkout-session', {
+        const response = await axios.post('https://fermivo-backend.onrender.com/api/payments-premium/create-checkout-session', {
           userId: this.user._id
         });
         window.location.href = response.data.url;

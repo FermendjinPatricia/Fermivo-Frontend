@@ -120,11 +120,11 @@ export default {
   },
   methods: {
     goToChat() {
-      this.$router.push("/chat");
+      this.$router.push("https://fermivo-backend.onrender.com/api/chat");
     },
     goToUserProfile() {
       this.$router.push({
-        path: `/profil-utilizator/${this.otherUser._id}`,
+        path: `https://fermivo-backend.onrender.com/api/profil-utilizator/${this.otherUser._id}`,
         query: { from: this.$route.fullPath },
       });
     },
@@ -133,7 +133,7 @@ export default {
     },
     async fetchMessages() {
       try {
-        const res = await axios.get(`/conversatii/${this.convId}/messages`);
+        const res = await axios.get(`https://fermivo-backend.onrender.com/api/conversatii/${this.convId}/messages`);
         if (res.data.success) {
           this.messages = res.data.messages;
           this.$nextTick(() => this.scrollToBottom());
@@ -144,7 +144,7 @@ export default {
     },
     async fetchConversation() {
       try {
-        const res = await axios.get(`/conversatii/id/${this.convId}`);
+        const res = await axios.get(`https://fermivo-backend.onrender.com/api/conversatii/id/${this.convId}`);
         const conv = res.data.conversatie;
         this.otherUser = conv.participants.find((p) => p._id !== this.user._id);
         await this.checkIfBlocked(); // aici verific dacă e blocat
@@ -156,7 +156,7 @@ export default {
     async sendMessage() {
       if (!this.newMessage.trim()) return;
       try {
-        const res = await axios.post(`/conversatii/${this.convId}/messages`, {
+        const res = await axios.post(`https://fermivo-backend.onrender.com/api/conversatii/${this.convId}/messages`, {
           text: this.newMessage,
           senderId: this.user._id,
         });
@@ -184,7 +184,7 @@ export default {
       }
 
       try {
-        await axios.post("/reports", {
+        await axios.post("https://fermivo-backend.onrender.com/api/reports", {
           reporterId: this.user._id,
           reportedId: this.otherUser._id,
           reason: this.reportReason,
@@ -202,9 +202,9 @@ export default {
     async confirmDelete() {
       if (confirm("Ești sigur că vrei să ștergi conversația?")) {
         try {
-          await axios.delete(`/conversatii/${this.convId}`);
+          await axios.delete(`https://fermivo-backend.onrender.com/api/conversatii/${this.convId}`);
           alert("Conversația a fost ștearsă!");
-          this.$router.push("/chat");
+          this.$router.push("https://fermivo-backend.onrender.com/api/chat");
         } catch (err) {
           console.error("❌ Eroare la ștergerea conversației:", err);
           alert("A apărut o eroare la ștergerea conversației.");
@@ -218,12 +218,12 @@ export default {
         )
       ) {
         try {
-          await axios.post("/blocked", {
+          await axios.post("https://fermivo-backend.onrender.com/api/blocked", {
             blockerId: this.user._id,
             blockedId: this.otherUser._id,
           });
           alert("Utilizator blocat.");
-          this.$router.push("/chat/:id"); // redirecționare, opțional
+          this.$router.push("https://fermivo-backend.onrender.com/api/chat/:id"); // redirecționare, opțional
         } catch (err) {
           console.error("❌ Eroare la blocare:", err);
           alert("Nu s-a putut bloca utilizatorul.");
@@ -234,7 +234,7 @@ export default {
     async checkIfBlocked() {
       try {
         const res = await axios.get(
-          `/blocked/${this.user._id}/${this.otherUser._id}`
+          `https://fermivo-backend.onrender.com/api/blocked/${this.user._id}/${this.otherUser._id}`
         );
         this.isBlocked = res.data.blocked;
       } catch (err) {
@@ -244,7 +244,7 @@ export default {
     async checkIfWasBlocked() {
       try {
         const res = await axios.get(
-          `/blocked/${this.otherUser._id}/${this.user._id}`
+          `https://fermivo-backend.onrender.com/api/blocked/${this.otherUser._id}/${this.user._id}`
         );
         this.wasBlocked = res.data.blocked;
       } catch (err) {
@@ -256,7 +256,7 @@ export default {
         confirm("Deblochezi acest utilizator? Veți putea comunica din nou.")
       ) {
         try {
-          await axios.delete("/blocked", {
+          await axios.delete("https://fermivo-backend.onrender.com/api/blocked", {
             data: {
               blockerId: this.user._id,
               blockedId: this.otherUser._id,

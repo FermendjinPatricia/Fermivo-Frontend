@@ -125,7 +125,7 @@ export default {
   async created() {
     const id = this.$route.params.id;
     try {
-      const response = await axios.get(`/anunturi/${id}`);
+      const response = await axios.get(`https://fermivo-backend.onrender.com/api/anunturi/${id}`);
       if (response.data.success) {
         this.anunt = response.data.anunt;
         this.anunt.moneda = this.anunt.moneda || "lei";
@@ -143,7 +143,7 @@ export default {
     async fetchScraperData() {
       if (!this.anunt.produs) return;
       try {
-        const response = await axios.get("/scrape/brm");
+        const response = await axios.get("https://fermivo-backend.onrender.com/scrape/brm");
         if (response.data.success) {
           this.scraperData = response.data;
           this.filterPrices();
@@ -170,7 +170,7 @@ export default {
       const id = this.$route.params.id;
       try {
         const response = await axios.put(
-          `/anunturi/${id}`,
+          `https://fermivo-backend.onrender.com/api/anunturi/${id}`,
           {
             produs: this.anunt.produs,
             pret_lei_tona: parseFloat(this.anunt.pret_lei_tona),

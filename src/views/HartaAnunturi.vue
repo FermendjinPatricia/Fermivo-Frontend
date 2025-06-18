@@ -100,8 +100,8 @@ export default {
     },
     userProfilePicture() {
       return this.user?.profilePicture
-        ? `/${this.user.profilePicture}`
-        : `/uploads/default_profile.jpg`;
+        ? `https://fermivo-backend.onrender.com/api/${this.user.profilePicture}`
+        : `https://fermivo-backend.onrender.com/api/uploads/default_profile.jpg`;
     },
     anunturiFiltrate() {
       if (this.selectedCategory === "toate") return this.anunturi;
@@ -134,7 +134,7 @@ export default {
     },
     async fetchAnunturi() {
       try {
-        const res = await fetch("/anunturi");
+        const res = await fetch("https://fermivo-backend.onrender.com/api/anunturi");
         const data = await res.json();
         this.anunturi = data.anunturi || [];
       } catch (err) {
@@ -142,7 +142,7 @@ export default {
       }
     },
     async fetchUser(id) {
-      const res = await fetch(`/users/${id}`);
+      const res = await fetch(`https://fermivo-backend.onrender.com/api/users/${id}`);
       const data = await res.json();
       if (data.success) {
         this.user = data.user;

@@ -95,7 +95,7 @@ export default {
   methods: {
     async fetchAnunt() {
       const { id } = this.$route.params;
-      const response = await axios.get(`/anunturi/${id}`);
+      const response = await axios.get(`https://fermivo-backend.onrender.com/api/anunturi/${id}`);
       this.anunt = response.data.anunt;
       this.selectedRating = this.currentRating;
       this.average = this.averageRatingCalc();
@@ -110,7 +110,7 @@ export default {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.post(
-          `/users/${this.anunt.userId._id}/rate`,
+          `https://fermivo-backend.onrender.com/api/users/${this.anunt.userId._id}/rate`,
           { rating },
           {
             headers: {
@@ -131,18 +131,18 @@ export default {
       }
     },
     goToEdit() {
-      this.$router.push(`/editare-anunt/${this.anunt._id}`);
+      this.$router.push(`https://fermivo-backend.onrender.com/api/editare-anunt/${this.anunt._id}`);
     },
     async startConversation() {
       try {
-        const response = await axios.post("/conversatii/start", {
+        const response = await axios.post("https://fermivo-backend.onrender.com/api/conversatii/start", {
           senderId: this.user._id,
           receiverId: this.anunt.userId,
         });
 
         if (response.data.success) {
           const convId = response.data.conversatie._id;
-          this.$router.push(`/chat/${convId}`);
+          this.$router.push(`https://fermivo-backend.onrender.com/api/chat/${convId}`);
         }
       } catch (err) {
         console.error("❌ Eroare la inițiere conversație:", err);
@@ -153,7 +153,7 @@ export default {
       const confirmDelete = confirm("Sigur vrei să ștergi acest anunț?");
       if (confirmDelete) {
         const token = localStorage.getItem("token");
-        await axios.delete(`/anunturi/${this.anunt._id}`, {
+        await axios.delete(`https://fermivo-backend.onrender.com/api/anunturi/${this.anunt._id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

@@ -45,7 +45,7 @@ export default {
       )
         return;
       try {
-        await axios.delete(`/trackers/${id}`, {
+        await axios.delete(`https://fermivo-backend.onrender.com/api/trackers/${id}`, {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         });
         this.fetchCamioane();
@@ -55,7 +55,7 @@ export default {
     },
     async fetchCamioane() {
       try {
-        const res = await axios.get(`/trackers/buyer/${this.user._id}`);
+        const res = await axios.get(`https://fermivo-backend.onrender.com/api/trackers/buyer/${this.user._id}`);
         this.camioane = res.data.trackers.map((t) => ({
           _id: t._id,
           driverName: t.driverName,
@@ -73,7 +73,7 @@ export default {
 
       try {
         const res = await axios.post(
-          "/trackers/generate-link",
+          "https://fermivo-backend.onrender.com/api/trackers/generate-link",
           { driverName: nume },
           {
             headers: {

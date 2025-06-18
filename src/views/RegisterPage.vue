@@ -136,7 +136,7 @@ export default {
       }
 
       try {
-        const apiKey = "364a15bd43a7804f52065fe0c424518fb73acb08"; // 🔒 mută-l ulterior în backend
+        const apiKey = "364a15bd43a7804f52065fe0c424518fb73acb08"; 
         const response = await axios.get(`https://infocui.ro/system/api/data`, {
           params: {
             key: apiKey,
@@ -144,7 +144,7 @@ export default {
           },
         });
 
-        console.log("✅ Răspuns Infocui:", response.data);
+
 
         if (response.data.status === 200) {
           this.cuiStatusMessage = "CUI valid!";
@@ -174,7 +174,7 @@ export default {
       this.isSubmitting = true;
 
       try {
-        const response = await axios.post("/users/register", {
+        const response = await axios.post("https://fermivo-backend.onrender.com/api/users/register", {
           nume: this.nume,
           prenume: this.prenume,
           denumireaFirmei: this.denumireaFirmei,

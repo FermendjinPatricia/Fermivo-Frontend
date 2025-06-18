@@ -220,8 +220,8 @@ export default {
     },
     userProfilePicture() {
       return this.user?.profilePicture
-        ? `http://localhost:5000${this.user.profilePicture}`
-        : `http://localhost:5000/uploads/default_profile.jpg`;
+        ? `https://fermivo-backend.onrender.com${this.user.profilePicture}`
+        : `https://fermivo-backend.onrender.com/uploads/default_profile.jpg`;
     },
     anunturiFiltrate() {
       if (this.selectedCategory === "toate") return this.anunturi;
@@ -254,7 +254,7 @@ export default {
     async fetchUser(userId) {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/users/${userId}`
+          `https://fermivo-backend.onrender.com/api/users/${userId}`
         );
         if (response.data.success) {
           this.user = response.data.user;
@@ -266,7 +266,7 @@ export default {
     },
     async fetchScraperData() {
       try {
-        const response = await axios.get("http://localhost:5000/scrape/brm");
+        const response = await axios.get("https://fermivo-backend.onrender.com/scrape/brm");
         if (response.data.success) {
           this.scraperData = response.data;
         }
@@ -276,7 +276,7 @@ export default {
     },
     async fetchAnunturi() {
       try {
-        const response = await axios.get("/anunturi");
+        const response = await axios.get("https://fermivo-backend.onrender.com/api/anunturi");
         if (response.data.success) {
           this.anunturi = response.data.anunturi;
           this.anunturi.sort((a, b) => {
@@ -291,7 +291,7 @@ export default {
     },
     async fetchPredictii() {
       try {
-        const response = await axios.get("http://localhost:5000/api/predictii");
+        const response = await axios.get("https://fermivo-backend.onrender.com/api/predictii");
         if (response.data.success) {
           this.predictii = response.data.predictii;
         }

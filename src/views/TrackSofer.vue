@@ -34,7 +34,7 @@ export default {
         async (position) => {
           const { latitude, longitude } = position.coords;
           try {
-            await axios.post(`/api/trackers/${token}/location`, {
+            await axios.post(`https://fermivo-backend.onrender.com/api/trackers/${token}/location`, {
               lat: latitude,
               lng: longitude,
               driverName: this.driverName,

@@ -73,8 +73,8 @@ export default {
     },
     userProfilePicture() {
       return this.currentUser?.profilePicture
-        ? `http://localhost:5000${this.currentUser.profilePicture}`
-        : `http://localhost:5000/uploads/default_profile.jpg`;
+        ? `https://fermivo-backend.onrender.com${this.currentUser.profilePicture}`
+        : `https://fermivo-backend.onrender.com/uploads/default_profile.jpg`;
     },
   },
   methods: {
@@ -91,7 +91,7 @@ export default {
         const token = localStorage.getItem("token");
 
         const response = await axios.post(
-          `/users/${this.user._id}/rate`,
+          `https://fermivo-backend.onrender.com/api/users/${this.user._id}/rate`,
           { rating },
           {
             headers: {
@@ -113,7 +113,7 @@ export default {
     async fetchUserById(id) {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/users/${id}`
+          `https://fermivo-backend.onrender.com/api/users/${id}`
         );
         if (response.data.success) {
           this.user = response.data.user;
@@ -131,7 +131,7 @@ export default {
       if (!localUser || !localUser._id) return;
 
       const response = await axios.get(
-        `http://localhost:5000/api/users/${localUser._id}`
+        `https://fermivo-backend.onrender.com/api/users/${localUser._id}`
       );
       if (response.data.success) {
         this.user = response.data.user;
@@ -140,14 +140,14 @@ export default {
     },
     async startConversation() {
       try {
-        const response = await axios.post("/conversatii/start", {
+        const response = await axios.post("https://fermivo-backend.onrender.com/api/conversatii/start", {
           senderId: this.currentUser._id,
           receiverId: this.user._id,
         });
 
         if (response.data.success) {
           const convId = response.data.conversatie._id;
-          this.$router.push(`/chat/${convId}`);
+          this.$router.push(`https://fermivo-backend.onrender.com/api/chat/${convId}`);
         }
       } catch (err) {
         console.error("❌ Eroare la inițiere conversație:", err);

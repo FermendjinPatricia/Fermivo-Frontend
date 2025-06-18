@@ -40,7 +40,7 @@ export default {
   },
   async created() {
     try {
-      const res = await axios.get(`/conversatii/user/${this.user._id}`);
+      const res = await axios.get(`https://fermivo-backend.onrender.com/api/conversatii/user/${this.user._id}`);
       this.conversatii = res.data.conversatii;
     } catch (err) {
       console.error("❌ Eroare la fetch conversatii:", err);
@@ -54,11 +54,11 @@ export default {
     getOtherUserPicture(conv) {
       const other = conv.participants.find(p => p._id !== this.user._id);
       return other.profilePicture
-        ? `http://localhost:5000${other.profilePicture}`
-        : `http://localhost:5000/uploads/default_profile.jpg`;
+        ? `https://fermivo-backend.onrender.com${other.profilePicture}`
+        : `https://fermivo-backend.onrender.com/uploads/default_profile.jpg`;
     },
     goToChat(conv) {
-      this.$router.push(`/chat/${conv._id}`);
+      this.$router.push(`https://fermivo-backend.onrender.com/api/chat/${conv._id}`);
     },
     formatDate(date) {
       return new Date(date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });

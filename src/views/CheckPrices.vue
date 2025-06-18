@@ -120,7 +120,7 @@
         <li><router-link to="/register">Register</router-link></li>
         <li>
           <router-link to="/check-prices"
-            >Check prices on the market</router-link
+            >Vezi prețurile de pe piață</router-link
           >
         </li>
         <li><router-link to="/about">About</router-link></li>
@@ -155,8 +155,8 @@ export default {
     },
     userProfilePicture() {
       return this.user?.profilePicture
-        ? `http://localhost:5000${this.user.profilePicture}`
-        : `http://localhost:5000/uploads/default_profile.jpg`;
+        ? `https://fermivo-backend.onrender.com/api/${this.user.profilePicture}`
+        : `https://fermivo-backend.onrender.com/api/uploads/default_profile.jpg`;
     },
   },
   created() {
@@ -184,7 +184,7 @@ export default {
         if (!userId) return;
 
         const response = await axios.get(
-          `http://localhost:5000/api/users/${userId}`
+          `https://fermivo-backend.onrender.com/api/users/${userId}`
         );
         if (response.data.success) {
           this.user = response.data.user;
@@ -196,7 +196,7 @@ export default {
     },
     async fetchData() {
       try {
-        const response = await axios.get("http://localhost:5000/scrape/brm");
+        const response = await axios.get("https://fermivo-backend.onrender.com/scrape/brm");
         console.log("📊 Date primite în frontend:", response.data);
 
         if (!response.data || !response.data.success) {

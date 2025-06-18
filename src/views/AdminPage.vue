@@ -50,8 +50,8 @@ export default {
   },
   async created() {
     const [reportsRes, usersRes] = await Promise.all([
-      axios.get("/reports"),
-      axios.get("/users/all"),
+      axios.get("https://fermivo-backend.onrender.com/api/reports"),
+      axios.get("https://fermivo-backend.onrender.com/api/users/all"),
     ]);
     this.reports = reportsRes.data.reports;
     this.users = usersRes.data.users;
