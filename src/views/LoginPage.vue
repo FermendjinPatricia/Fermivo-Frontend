@@ -42,7 +42,7 @@ export default {
   methods: {
     async handleLogin() {
       try {
-        const response = await axios.post("/users/login", {
+        const response = await axios.post("https://fermivo-backend.onrender.com/api/users/login", {
           email: this.email,
           parola: this.parola,
         });
