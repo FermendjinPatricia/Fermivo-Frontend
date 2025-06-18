@@ -31,15 +31,25 @@ export default {
     async anuleazaPartajarea() {
       try {
         const token = this.$route.params.token;
-        await axios.patch(`https://fermivo-backend.onrender.com/api/trackers/${token}/cancel`);
+        const res = await axios.patch(
+          `https://fermivo-backend.onrender.com/api/trackers/${token}/cancel`
+        );
         alert("Ai oprit partajarea locației.");
-        this.driverName = ""; // Resetăm numele șoferului
-        this.$router.push("/"); // Redirecționăm utilizatorul la pagina principală
+        console.log(res.data);
       } catch (err) {
-        alert("Eroare la anulare: " + err.message);
+        if (err.response) {
+          console.error(
+            "⚠️ Backend a răspuns cu eroare:",
+            err.response.status,
+            err.response.data
+          );
+          alert("Eroare la anulare: " + err.response.data.message);
+        } else {
+          console.error("❌ Eroare rețea:", err);
+          alert("Eroare la anulare: Network Error");
+        }
       }
     },
-
     async startTracking() {
       const token = this.$route.params.token;
 
