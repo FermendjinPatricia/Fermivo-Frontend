@@ -73,7 +73,7 @@ export default {
     },
     userProfilePicture() {
       return this.currentUser?.profilePicture
-        ? `https://fermivo-backend.onrender.com${this.currentUser.profilePicture}`
+        ? `https://fermivo-backend.onrender.com/${this.currentUser.profilePicture}`
         : `https://fermivo-backend.onrender.com/uploads/default_profile.jpg`;
     },
   },
@@ -147,7 +147,7 @@ export default {
 
         if (response.data.success) {
           const convId = response.data.conversatie._id;
-          this.$router.push(`https://fermivo-backend.onrender.com/api/chat/${convId}`);
+          this.$router.push(`/chat/${convId}`);
         }
       } catch (err) {
         console.error("❌ Eroare la inițiere conversație:", err);

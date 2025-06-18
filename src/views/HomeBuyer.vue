@@ -220,7 +220,7 @@ export default {
     },
     userProfilePicture() {
       return this.user?.profilePicture
-        ? `https://fermivo-backend.onrender.com${this.user.profilePicture}`
+        ? `https://fermivo-backend.onrender.com/${this.user.profilePicture}`
         : `https://fermivo-backend.onrender.com/uploads/default_profile.jpg`;
     },
     anunturiFiltrate() {

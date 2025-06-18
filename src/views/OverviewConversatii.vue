@@ -58,7 +58,7 @@ export default {
         : `https://fermivo-backend.onrender.com/uploads/default_profile.jpg`;
     },
     goToChat(conv) {
-      this.$router.push(`https://fermivo-backend.onrender.com/api/chat/${conv._id}`);
+      this.$router.push(`/chat/${conv._id}`);
     },
     formatDate(date) {
       return new Date(date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
