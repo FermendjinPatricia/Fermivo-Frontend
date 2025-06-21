@@ -129,7 +129,7 @@
       <ul>
         <li v-if="isLoggedIn"><router-link to="/adauga-anunt">Adaugă anunț</router-link></li>
         <li><router-link to="/check-prices">Vezi prețurile curente</router-link></li>
-        <li v-if="isMobile"><router-link to="/predictii" v-if="isMobile">Vezi predicții de prețuri</router-link></li>
+        <li><router-link to="/predictii">Vezi predicții de prețuri</router-link></li>
         <li v-if="isMobile && !isPremium">
           <router-link to="/premium">Devino Premium</router-link>
         </li>

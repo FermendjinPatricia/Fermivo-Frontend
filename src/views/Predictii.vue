@@ -106,16 +106,16 @@
             >Editează Profil</router-link
           >
         </li>
-        <li v-if="isMobile">
+        <li>
           <router-link to="/predictii" v-if="isMobile"
             >Vezi predicții de prețuri</router-link
           >
         </li>
-        <li v-if="isMobile">
+        <li>
           <router-link
             v-if="isPremium && isLoggedIn && isMobile"
             to="/camioane-cumparator"
-            >Urmărește Șofer</router-link
+            >Urmărește Șoferi</router-link
           >
         </li>
         <li v-if="isMobile">
