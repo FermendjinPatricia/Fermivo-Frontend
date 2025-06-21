@@ -1,7 +1,7 @@
 <template>
   <div class="welcome-page">
     <div class="header">
-      <div class="header-left" style="display: flex; align-items: center; gap: 1rem">
+      <div class="header-left" style="display: flex; align-items: center; gap: 5rem">
         <button class="menu-button" @click="toggleMenu">&#9776;</button>
         <router-link
           v-if="isPremium && isLoggedIn"
@@ -514,7 +514,7 @@ body {
   background-color: #320bbe;
   color: white;
   border: none;
-  padding: 8px 12px;
+  padding: 8px 20px;
   margin-left: 10px;
   margin-right: 60px;
   border-radius: 4px;
