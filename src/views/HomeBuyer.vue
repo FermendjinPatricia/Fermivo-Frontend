@@ -198,12 +198,11 @@
     <!-- MENIU -->
     <nav v-if="menuOpen" class="menu">
       <ul>
-
         <li><router-link to="/check-prices">Vezi prețurile curente</router-link></li>
         <li><router-link to="/predictii">Vezi predicții de prețuri</router-link></li>
         <li><router-link v-if="isPremium && isLoggedIn" to="/camioane-cumparator">Urmărește Șoferi</router-link></li>
-        <li v-if="isMobile"><router-link :to="`/editare-profil/${user._id}`" v-if="isMobile">Editează Profil</router-link></li>
-        <li v-if="isMobile"><router-link to="/premium" v-if="!isPremium && isLoggedIn && isMobile">Devino Premium</router-link></li>
+        <li><router-link :to="`/editare-profil/${user._id}`">Editează Profil</router-link></li>
+        <li><router-link to="/premium" v-if="!isPremium && isLoggedIn">Devino Premium</router-link></li>
         <li><router-link to="/about">Despre noi</router-link></li>
       </ul>
     </nav>

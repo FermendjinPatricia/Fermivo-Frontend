@@ -88,23 +88,13 @@
     <!-- MENIU MOBIL -->
     <nav v-if="menuOpen" class="menu">
       <ul>
-        <li><router-link to="/home-buyer">Home</router-link></li>
-        <li><router-link to="/check-prices">Check prices</router-link></li>
-        <li v-if="isMobile">
-          <router-link :to="`/editare-profil/${user._id}`"
-            >Editează Profil</router-link
-          >
-        </li>
-        <li v-if="isMobile">
-          <router-link to="/predictii">Vezi predicții</router-link>
-        </li>
-        <li v-if="isMobile && isPremium">
-          <router-link to="/camioane-cumparator">Urmărește Șofer</router-link>
-        </li>
-        <li v-if="isMobile && !isPremium">
-          <router-link to="/premium">Devino Premium</router-link>
-        </li>
-        <li><router-link to="/about">Despre</router-link></li>
+        <li><router-link to="/home-buyer">Acasă</router-link></li>
+        <li><router-link to="/check-prices">Vezi prețurile curente</router-link></li>
+        <li><router-link to="/predictii">Vezi predicții de prețuri</router-link></li>
+        <li><router-link v-if="isPremium && isLoggedIn" to="/camioane-cumparator">Urmărește Șoferi</router-link></li>
+        <li><router-link :to="`/editare-profil/${user._id}`">Editează Profil</router-link></li>
+        <li><router-link to="/premium" v-if="!isPremium && isLoggedIn">Devino Premium</router-link></li>
+        <li><router-link to="/about">Despre noi</router-link></li>
       </ul>
     </nav>
   </div>
