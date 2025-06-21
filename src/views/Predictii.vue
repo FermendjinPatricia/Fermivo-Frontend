@@ -105,6 +105,7 @@ export default {
       isPremium: false,
       menuOpen: false,
       predictii: [],
+      showMenu: false,
       currentSlide: 0,
       touchStartX: 0,
       touchEndX: 0,
@@ -173,6 +174,12 @@ export default {
     },
     toggleProfileMenu() {
       this.showProfileMenu = !this.showProfileMenu;
+    },
+    handleOutsideClick(event) {
+      const menu = this.$el.querySelector(".menu-button");
+      if (this.showMenu && menu && !menu.contains(event.target)) {
+        this.showMenu = false;
+      }
     },
     handleLogout() {
       localStorage.clear();
