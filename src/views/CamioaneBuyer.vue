@@ -65,10 +65,6 @@
         </li>
       </ul>
 
-      <button class="genereaza-btn" @click="genereazaLink">
-        Generează link nou
-      </button>
-
       <div class="genereaza-form">
         <input
           v-model="numeSofer"
@@ -216,27 +212,27 @@ export default {
       }
     },
     async genereazaLink() {
-    if (!this.numeSofer.trim()) {
-      alert("Introduceți un nume valid");
-      return;
-    }
+      if (!this.numeSofer.trim()) {
+        alert("Introduceți un nume valid");
+        return;
+      }
 
-    try {
-      const res = await axios.post(
-        "https://fermivo-backend.onrender.com/api/trackers/generate-link",
-        { driverName: this.numeSofer },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      this.linkGenerat = res.data.link;
-      this.fetchCamioane();
-    } catch (e) {
-      console.error("Eroare la generare link:", e);
-    }
-  },
+      try {
+        const res = await axios.post(
+          "https://fermivo-backend.onrender.com/api/trackers/generate-link",
+          { driverName: this.numeSofer },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        this.linkGenerat = res.data.link;
+        this.fetchCamioane();
+      } catch (e) {
+        console.error("Eroare la generare link:", e);
+      }
+    },
     copiazaLink() {
       navigator.clipboard.writeText(this.linkGenerat).then(() => {
         alert("Link copiat în clipboard! 📋");
@@ -303,6 +299,49 @@ body {
   align-items: center;
   gap: 8px;
 }
+
+.genereaza-form {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 400px;
+}
+
+.input-sofer {
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.link-output {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.generated-link {
+  flex-grow: 1;
+  padding: 0.4rem;
+  border-radius: 6px;
+  border: 1px solid #999;
+  font-family: monospace;
+}
+
+.copy-btn {
+  padding: 0.5rem 0.8rem;
+  background-color: #1b5e20;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.copy-btn:hover {
+  background-color: #093b12;
+}
+
 .truck-button {
   background-color: #320bbe;
   color: white;
