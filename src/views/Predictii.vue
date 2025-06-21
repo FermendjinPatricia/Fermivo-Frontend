@@ -187,6 +187,8 @@ export default {
     },
   },
   mounted() {
+    document.addEventListener("click", this.handleOutsideClick);
+
     const localUser = JSON.parse(localStorage.getItem("user"));
     const token = localStorage.getItem("token");
 
@@ -199,8 +201,9 @@ export default {
     this.startAutoplay();
   },
   beforeUnmount() {
-    clearInterval(this.autoplayInterval);
-  }
+  clearInterval(this.autoplayInterval);
+  document.removeEventListener("click", this.handleOutsideClick);
+},
 };
 </script>
 

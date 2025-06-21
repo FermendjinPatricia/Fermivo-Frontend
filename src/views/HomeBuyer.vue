@@ -286,9 +286,11 @@ export default {
   mounted() {
     this.startAutoplay();
     window.addEventListener("resize", this.handleResize);
+    document.addEventListener("click", this.handleOutsideClick);
   },
   beforeUnmount() {
     window.removeEventListener("resize", this.handleResize);
+    document.removeEventListener("click", this.handleOutsideClick);
   },
   beforeDestroy() {
     clearInterval(this.autoplayInterval);
@@ -413,7 +415,7 @@ export default {
       }
     },
     handleOutsideClick(event) {
-      const menu = this.$el.querySelector(".menu-btn");
+      const menu = this.$el.querySelector(".menu-button");
       if (this.showMenu && menu && !menu.contains(event.target)) {
         this.showMenu = false;
       }

@@ -150,6 +150,7 @@ export default {
       user: JSON.parse(localStorage.getItem("user")),
       isPremium: false,
       showProfileMenu: false,
+      showMenu: false,
       isMobile: window.innerWidth <= 1024,
     };
   },
@@ -179,6 +180,14 @@ export default {
         this.fetchData();
       }, 5 * 60 * 1000); // reîncarcă datele la fiecare 5 minute
     }
+  },
+  mounted() {
+    window.addEventListener("resize", this.handleResize);
+    document.addEventListener("click", this.handleOutsideClick);
+  },
+  beforeUnmount() {
+    window.removeEventListener("resize", this.handleResize);
+    document.removeEventListener("click", this.handleOutsideClick);
   },
   methods: {
     handleResize() {
@@ -261,6 +270,12 @@ export default {
         this.cereals = parsedData;
       } catch (error) {
         console.error("❌ Eroare la preluarea datelor:", error);
+      }
+    },
+    handleOutsideClick(event) {
+      const menu = this.$el.querySelector(".menu-button");
+      if (this.showMenu && menu && !menu.contains(event.target)) {
+        this.showMenu = false;
       }
     },
     handleLogout() {

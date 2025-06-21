@@ -153,6 +153,7 @@ export default {
       cereals: [],
       isLoggedIn: false,
       showProfileMenu: false,
+      showMenu: false,
       user: null,
       predictii: [],
       currentSlide: 0,
@@ -206,9 +207,11 @@ export default {
   },
   mounted() {
     this.startAutoplay();
+    document.addEventListener("click", this.handleOutsideClick);
   },
-  beforeDestroy() {
+  beforeUnmount() {
     clearInterval(this.autoplayInterval);
+    document.removeEventListener("click", this.handleOutsideClick);
   },
   methods: {
     toggleMenu() {
@@ -274,6 +277,12 @@ export default {
     prevSlide() {
       this.currentSlide =
         (this.currentSlide - 1 + this.predictii.length) % this.predictii.length;
+    },
+    handleOutsideClick(event) {
+      const menu = this.$el.querySelector(".menu-button");
+      if (this.showMenu && menu && !menu.contains(event.target)) {
+        this.showMenu = false;
+      }
     },
     handleTouchStart(e) {
       this.touchStartX = e.changedTouches[0].screenX;
