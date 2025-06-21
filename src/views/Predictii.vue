@@ -878,7 +878,7 @@ p {
   font-weight: bold;
 }
 
-.menu {
+/* .menu {
   position: absolute;
   top: 60px;
   left: 15px;
@@ -887,7 +887,7 @@ p {
   border-radius: 5px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 2;
-}
+} */
 
 .detalii-button,
 .adauga_anunt {
