@@ -860,43 +860,6 @@ p {
   background: #093b12;
 }
 
-@media (max-width: 1024px) {
-  .site-title {
-    margin: 0 auto;
-    font-size: 1rem;
-  }
-
-  .data-container {
-    padding: 0.5rem;
-    width: 95%;
-    max-width: 100%;
-    overflow-x: auto;
-  }
-
-  table {
-    width: 100%;
-    font-size: 0.75rem;
-  }
-
-  th,
-  td {
-    padding: 6px;
-    word-break: break-word;
-  }
-
-  .site-title {
-    font-size: 1.2rem;
-  }
-
-  .sign-out-button {
-    padding: 0.3rem 0.7rem;
-    font-size: 0.8rem;
-  }
-
-  .menu-button {
-    font-size: 1.5rem;
-  }
-}
 
 /* Tabel cu date */
 .data-container {
@@ -949,4 +912,43 @@ th {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 2;
 }
+
+@media (max-width: 1024px) {
+  .site-title {
+    margin: 0 auto;
+    font-size: 1rem;
+  }
+
+  .data-container {
+    padding: 0.5rem;
+    width: 95%;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    font-size: 0.75rem;
+  }
+
+  th,
+  td {
+    padding: 6px;
+    word-break: break-word;
+  }
+
+  .site-title {
+    font-size: 1.2rem;
+  }
+
+  .sign-out-button {
+    padding: 0.3rem 0.7rem;
+    font-size: 0.8rem;
+  }
+
+  .menu-button {
+    font-size: 1.5rem;
+  }
+}
+
 </style>
