@@ -538,17 +538,6 @@ body {
   font-family: "Inria Sans", sans-serif;
 }
 
-.header {
-  display: flex;
-  align-items: center;
-  /*justify-content: space-between;*/
-  width: 97%;
-  background: rgba(253, 253, 253, 0.9);
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  position: relative;
-}
-
 .site-title {
   position: absolute;
   left: 50%;
@@ -1101,37 +1090,6 @@ p {
 .filtru-categorii button:hover {
   background-color: #1b5e20;
   color: white;
-}
-
-.welcome-page {
-  font-family: "Inria Sans", sans-serif;
-}
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 97%;
-  background: rgba(253, 253, 253, 0.9);
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  position: relative;
-}
-
-.site-title {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #1b5e20;
-  text-decoration: none;
-  font-family: "Inria Sans", sans-serif;
-}
-
-.header-right {
-  display: flex;
-  align-items: right;
-  gap: 0.2rem;
 }
 
 .premium-button {
