@@ -3,10 +3,24 @@
     <div class="header">
       <button class="menu-button" @click="toggleMenu">&#9776;</button>
 
-      <router-link v-if="isBuyer && isPremium" to="/home-buyer" class="site-title">Fermivo Premium🌾</router-link>
-      <router-link v-if="!isBuyer && isPremium" to="/home" class="site-title">Fermivo Premium🌾</router-link>
-      <router-link v-if="isBuyer && !isPremium" to="/home-buyer" class="site-title">Fermivo🌾</router-link>
-      <router-link v-if="!isBuyer && !isPremium" to="/home" class="site-title">Fermivo🌾</router-link>
+      <router-link
+        v-if="isBuyer && isPremium"
+        to="/home-buyer"
+        class="site-title"
+        >Fermivo Premium🌾</router-link
+      >
+      <router-link v-if="!isBuyer && isPremium" to="/home" class="site-title"
+        >Fermivo Premium🌾</router-link
+      >
+      <router-link
+        v-if="isBuyer && !isPremium"
+        to="/home-buyer"
+        class="site-title"
+        >Fermivo🌾</router-link
+      >
+      <router-link v-if="!isBuyer && !isPremium" to="/home" class="site-title"
+        >Fermivo🌾</router-link
+      >
       <router-link
         v-if="isLoggedIn && !isPremium"
         to="/premium"
@@ -16,30 +30,28 @@
       </router-link>
 
       <div class="header-right">
-      <div class="header-right" v-if="isLoggedIn && user && !isMobile">
-        <div class="user-profile-wrapper">
-          <div class="user-profile" @click="toggleProfileMenu">
-            <img :src="userProfilePicture" class="profile-picture" />
-            <span class="user-name">{{ userName }}</span>
-          </div>
+        <div class="header-right" v-if="isLoggedIn && user && !isMobile">
+          <div class="user-profile-wrapper">
+            <div class="user-profile" @click="toggleProfileMenu">
+              <img :src="userProfilePicture" class="profile-picture" />
+              <span class="user-name">{{ userName }}</span>
+            </div>
 
-          <img
-            src="../assets/chat-icon.png"
-            class="chat-icon"
-            alt="Chat"
-            @click="$router.push('/chat')"
-          />
+            <img
+              src="../assets/chat-icon.png"
+              class="chat-icon"
+              alt="Chat"
+              @click="$router.push('/chat')"
+            />
 
-          <div v-if="showProfileMenu" class="profile-menu">
-            <router-link :to="`/editare-profil/${user._id}`">
-              Editează Profil
-            </router-link>
+            <div v-if="showProfileMenu" class="profile-menu">
+              <router-link :to="`/editare-profil/${user._id}`">
+                Editează Profil
+              </router-link>
+            </div>
           </div>
         </div>
-       
-       
-      </div>
-       <button class="sign-out-button" @click="handleLogout">Sign Out</button>
+        <button class="sign-out-button" @click="handleLogout">Sign Out</button>
       </div>
     </div>
 
@@ -109,7 +121,7 @@
         <li v-if="isMobile && isPremium && isBuyer">
           <router-link to="/camioane-cumparator">Urmărește Șofer</router-link>
         </li>
-        <li v-if="isMobile && !isPremium ">
+        <li v-if="isMobile && !isPremium">
           <router-link to="/premium">Devino Premium</router-link>
         </li>
         <li><router-link to="/about">About</router-link></li>
@@ -164,7 +176,7 @@ export default {
 
     if (this.isLoggedIn) {
       this.fetchUser().then(() => {
-      this.fetchData();
+        this.fetchData();
       });
       setInterval(() => {
         this.fetchData();
@@ -199,7 +211,9 @@ export default {
     },
     async fetchData() {
       try {
-        const response = await axios.get("https://fermivo-backend.onrender.com/scrape/brm");
+        const response = await axios.get(
+          "https://fermivo-backend.onrender.com/scrape/brm"
+        );
         console.log("📊 Date primite în frontend:", response.data);
 
         if (!response.data || !response.data.success) {
@@ -444,7 +458,6 @@ body {
   cursor: pointer;
   color: #1b5e20;
 }
-
 
 .menu {
   position: absolute;
@@ -840,6 +853,37 @@ p {
   .site-title {
     margin: 0 auto;
     font-size: 1rem;
+  }
+
+  .data-container {
+    padding: 0.5rem;
+    width: 95%;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    font-size: 0.75rem;
+  }
+
+  th,
+  td {
+    padding: 6px;
+    word-break: break-word;
+  }
+
+  .site-title {
+    font-size: 1.2rem;
+  }
+
+  .sign-out-button {
+    padding: 0.3rem 0.7rem;
+    font-size: 0.8rem;
+  }
+
+  .menu-button {
+    font-size: 1.5rem;
   }
 }
 
