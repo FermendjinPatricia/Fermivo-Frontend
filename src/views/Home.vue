@@ -11,7 +11,7 @@
         >Fermivo🌾</router-link
       >
       <router-link
-        v-if="isLoggedIn && !isPremium"
+        v-if="isLoggedIn && !isPremium && !isMobile"
         to="/premium"
         class="premium-button"
       >
@@ -19,7 +19,7 @@
       </router-link>
 
       <div class="header-right">
-        <div class="header-right" v-if="isLoggedIn && user">
+        <div class="header-right" v-if="isLoggedIn && user && !isMobile">
           <div class="user-profile-wrapper">
             <div class="user-profile" @click="toggleProfileMenu">
               <img :src="userProfilePicture" class="profile-picture" />
@@ -161,6 +161,7 @@ export default {
       touchEndX: 0,
       autoplayInterval: null,
       isPremium: false,
+      isMobile: window.innerWidth <= 1024,
       selectedCategory: "toate",
       categories: [
         "toate",
@@ -175,9 +176,6 @@ export default {
     };
   },
   computed: {
-    isBuyer() {
-      return this.user?.role === "buyer";
-    },
     userName() {
       return this.user
         ? `${this.user.nume} ${this.user.prenume}`
@@ -215,6 +213,9 @@ export default {
     clearInterval(this.autoplayInterval);
   },
   methods: {
+    handleResize() {
+      this.isMobile = window.innerWidth <= 1024;
+    },
     toggleMenu() {
       this.menuOpen = !this.menuOpen;
     },
