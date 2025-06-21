@@ -648,6 +648,38 @@ body {
   color: #1b5e20;
 }
 
+
+.menu {
+  position: absolute;
+  top: 60px;
+  left: 15px;
+  background: white;
+  padding: 1rem;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+
+.menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu li {
+  margin: 10px 0;
+}
+
+.menu a {
+  text-decoration: none;
+  color: #1b5e20;
+  font-weight: bold;
+}
+
+.menu a:hover {
+  text-decoration: underline;
+}
+
 .sign-in-button,
 .sign-out-button {
   background-color: #1b5e20;
