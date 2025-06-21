@@ -2,38 +2,46 @@
   <div class="welcome-page">
     <!-- HEADER -->
     <div class="header">
-      <div class="header-left" style="display: flex; align-items: center; gap: 5rem">
+      <div
+        class="header-left"
+        style="display: flex; align-items: center; gap: 5rem"
+      >
         <button class="menu-button" @click="toggleMenu">&#9776;</button>
       </div>
 
-      <router-link v-if="isPremium" to="/home-buyer" class="site-title">Fermivo Premium🌾</router-link>
-      <router-link v-else to="/home-buyer" class="site-title">Fermivo🌾</router-link>
+      <router-link v-if="isPremium" to="/home-buyer" class="site-title"
+        >Fermivo Premium🌾</router-link
+      >
+      <router-link v-else to="/home-buyer" class="site-title"
+        >Fermivo🌾</router-link
+      >
 
-      <div class="header-right"> 
+      <div class="header-right">
         <div class="header-right" v-if="user && !isMobile">
-        <div class="user-profile-wrapper">
-          <div class="user-profile" @click="toggleProfileMenu">
-            <img :src="userProfilePicture" class="profile-picture" />
-            <span class="user-name">{{ userName }}</span>
-          </div>
+          <div class="user-profile-wrapper">
+            <div class="user-profile" @click="toggleProfileMenu">
+              <img :src="userProfilePicture" class="profile-picture" />
+              <span class="user-name">{{ userName }}</span>
+            </div>
 
-          <img
-            src="../assets/chat-icon.png"
-            class="chat-icon"
-            alt="Chat"
-            @click="$router.push('/chat')"
-          />
+            <img
+              src="../assets/chat-icon.png"
+              class="chat-icon"
+              alt="Chat"
+              @click="$router.push('/chat')"
+            />
 
-          <div v-if="showProfileMenu" class="profile-menu">
-            <router-link :to="`/editare-profil/${user._id}`">Editează Profil</router-link>
+            <div v-if="showProfileMenu" class="profile-menu">
+              <router-link :to="`/editare-profil/${user._id}`"
+                >Editează Profil</router-link
+              >
+            </div>
           </div>
-        </div>
         </div>
         <button v-if="isLoggedIn" class="sign-out-button" @click="handleLogout">
           Sign Out
         </button>
       </div>
-      
     </div>
 
     <img src="../assets/login.jpg" alt="Background" class="background-image" />
@@ -42,18 +50,41 @@
     <div class="camioane-page">
       <h2>Camioanele Mele 🚛</h2>
 
-      <div v-if="camioane.length === 0">Nu există camioane active în acest moment.</div>
+      <div v-if="camioane.length === 0">
+        Nu există camioane active în acest moment.
+      </div>
 
       <ul class="camioane-list">
         <li v-for="c in camioane" :key="c._id">
           <strong>{{ c.driverName }}</strong>
           <span v-if="c.lat && c.lng">📍 activ</span>
           <span v-else>🕒 așteaptă acceptul</span>
-          <button @click="dezactiveaza(c._id)" class="deactivate-btn">Dezactivează urmărirea</button>
+          <button @click="dezactiveaza(c._id)" class="deactivate-btn">
+            Dezactivează urmărirea
+          </button>
         </li>
       </ul>
 
-      <button class="genereaza-btn" @click="genereazaLink">Generează link nou</button>
+      <button class="genereaza-btn" @click="genereazaLink">
+        Generează link nou
+      </button>
+
+      <div class="genereaza-form">
+        <input
+          v-model="numeSofer"
+          type="text"
+          placeholder="Nume șofer"
+          class="input-sofer"
+        />
+        <button @click="genereazaLink" class="genereaza-btn">
+          Generează link nou
+        </button>
+
+        <div v-if="linkGenerat" class="link-output">
+          <input :value="linkGenerat" readonly class="generated-link" />
+          <button @click="copiazaLink" class="copy-btn">📋 Copiază</button>
+        </div>
+      </div>
 
       <MapComponent v-if="camioane.length" :anunturi="camioane" />
     </div>
@@ -63,10 +94,20 @@
       <ul>
         <li><router-link to="/home-buyer">Home</router-link></li>
         <li><router-link to="/check-prices">Check prices</router-link></li>
-        <li v-if="isMobile"><router-link :to="`/editare-profil/${user._id}`">Editează Profil</router-link></li>
-        <li v-if="isMobile"><router-link to="/predictii">Vezi predicții</router-link></li>
-        <li v-if="isMobile && isPremium"><router-link to="/camioane-cumparator">Urmărește Șofer</router-link></li>
-        <li v-if="isMobile && !isPremium"><router-link to="/premium">Devino Premium</router-link></li>
+        <li v-if="isMobile">
+          <router-link :to="`/editare-profil/${user._id}`"
+            >Editează Profil</router-link
+          >
+        </li>
+        <li v-if="isMobile">
+          <router-link to="/predictii">Vezi predicții</router-link>
+        </li>
+        <li v-if="isMobile && isPremium">
+          <router-link to="/camioane-cumparator">Urmărește Șofer</router-link>
+        </li>
+        <li v-if="isMobile && !isPremium">
+          <router-link to="/premium">Devino Premium</router-link>
+        </li>
         <li><router-link to="/about">Despre</router-link></li>
       </ul>
     </nav>
@@ -89,11 +130,14 @@ export default {
       showProfileMenu: false,
       isPremium: false,
       isLoggedIn: false,
+      linkGenerat: "",
     };
   },
   computed: {
     userName() {
-      return this.user ? `${this.user.nume} ${this.user.prenume}` : "Utilizator";
+      return this.user
+        ? `${this.user.nume} ${this.user.prenume}`
+        : "Utilizator";
     },
     userProfilePicture() {
       return this.user?.profilePicture
@@ -125,7 +169,9 @@ export default {
   methods: {
     async fetchUser(userId) {
       try {
-        const response = await axios.get(`https://fermivo-backend.onrender.com/api/users/${userId}`);
+        const response = await axios.get(
+          `https://fermivo-backend.onrender.com/api/users/${userId}`
+        );
         if (response.data.success) {
           this.user = response.data.user;
           this.isPremium = response.data.user.isPremium;
@@ -136,7 +182,9 @@ export default {
     },
     async fetchCamioane() {
       try {
-        const res = await axios.get(`https://fermivo-backend.onrender.com/api/trackers/buyer/${this.user._id}`);
+        const res = await axios.get(
+          `https://fermivo-backend.onrender.com/api/trackers/buyer/${this.user._id}`
+        );
         this.camioane = res.data.trackers.map((t) => ({
           _id: t._id,
           driverName: t.driverName,
@@ -149,32 +197,50 @@ export default {
       }
     },
     async dezactiveaza(id) {
-      if (!confirm("Ești sigur că vrei să dezactivezi urmărirea acestui șofer?")) return;
+      if (
+        !confirm("Ești sigur că vrei să dezactivezi urmărirea acestui șofer?")
+      )
+        return;
       try {
-        await axios.delete(`https://fermivo-backend.onrender.com/api/trackers/${id}`, {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        });
+        await axios.delete(
+          `https://fermivo-backend.onrender.com/api/trackers/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
         this.fetchCamioane();
       } catch (e) {
         console.error("Eroare la dezactivare:", e);
       }
     },
     async genereazaLink() {
-      const nume = prompt("Numele șoferului:");
-      if (!nume) return;
-      try {
-        const res = await axios.post(
-          "https://fermivo-backend.onrender.com/api/trackers/generate-link",
-          { driverName: nume },
-          {
-            headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-          }
-        );
-        alert("Link generat: " + res.data.link);
-        this.fetchCamioane();
-      } catch (e) {
-        console.error("Eroare la generare link:", e);
-      }
+    if (!this.numeSofer.trim()) {
+      alert("Introduceți un nume valid");
+      return;
+    }
+
+    try {
+      const res = await axios.post(
+        "https://fermivo-backend.onrender.com/api/trackers/generate-link",
+        { driverName: this.numeSofer },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      this.linkGenerat = res.data.link;
+      this.fetchCamioane();
+    } catch (e) {
+      console.error("Eroare la generare link:", e);
+    }
+  },
+    copiazaLink() {
+      navigator.clipboard.writeText(this.linkGenerat).then(() => {
+        alert("Link copiat în clipboard! 📋");
+      });
     },
     toggleMenu() {
       this.menuOpen = !this.menuOpen;
@@ -197,9 +263,7 @@ export default {
 };
 </script>
 
-
 <style scoped>
-
 html,
 body {
   overflow: hidden;
@@ -356,7 +420,6 @@ body {
   cursor: pointer;
   color: #1b5e20;
 }
-
 
 .menu {
   position: absolute;
