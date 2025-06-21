@@ -1,10 +1,13 @@
 <template>
   <div class="welcome-page">
     <div class="header">
-      <div class="header-left" style="display: flex; align-items: center; gap: 5rem">
+      <div
+        class="header-left"
+        style="display: flex; align-items: center; gap: 5rem"
+      >
         <button class="menu-button" @click="toggleMenu">&#9776;</button>
         <router-link
-          v-if="isPremium && isLoggedIn"
+          v-if="isPremium && isLoggedIn && !isMobile"
           to="/camioane-cumparator"
           class="truck-button"
         >
@@ -27,7 +30,7 @@
       </router-link>
 
       <div class="header-right">
-        <div class="header-right" v-if="user">
+        <div class="header-right" v-if="user && !isMobile">
           <div class="user-profile-wrapper">
             <div class="user-profile" @click="toggleProfileMenu">
               <img :src="userProfilePicture" class="profile-picture" />
@@ -69,7 +72,7 @@
 
     <!-- PREDICTII SLIDER -->
     <div
-      v-if="predictii.length"
+      v-if="predictii.length && !isMobile"
       class="predictii-slider"
       @touchstart="handleTouchStart"
       @touchend="handleTouchEnd"
@@ -271,11 +274,18 @@ export default {
   },
   mounted() {
     this.startAutoplay();
+    window.addEventListener("resize", this.handleResize);
+  },
+  beforeUnmount() {
+    window.removeEventListener("resize", this.handleResize);
   },
   beforeDestroy() {
     clearInterval(this.autoplayInterval);
   },
   methods: {
+    handleResize() {
+      this.isMobile = window.innerWidth <= 768;
+    },
     async fetchUser(userId) {
       try {
         const response = await axios.get(
@@ -524,6 +534,20 @@ body {
 }
 .truck-button:hover {
   background-color: #658ec8;
+}
+
+.btn-vezi-harta {
+  background-color: #011bc2;
+  color: white;
+  padding: 8px 20px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s;
+}
+.btn-vezi-harta:hover {
+  background-color: #197ba2;
+  transform: translateY(-2px);
 }
 
 .premium-button {
@@ -970,4 +994,12 @@ p {
 .slide-controls button:hover {
   background: #093b12;
 }
+
+@media (max-width: 768px) {
+  .site-title {
+    margin: 0 auto;
+    font-size: 1rem;
+  }
+}
+
 </style>
