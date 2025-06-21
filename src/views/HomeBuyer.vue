@@ -413,7 +413,7 @@ export default {
       }
     },
     handleOutsideClick(event) {
-      const menu = this.$el.querySelector(".menu-wrapper");
+      const menu = this.$el.querySelector(".menu-btn");
       if (this.showMenu && menu && !menu.contains(event.target)) {
         this.showMenu = false;
       }

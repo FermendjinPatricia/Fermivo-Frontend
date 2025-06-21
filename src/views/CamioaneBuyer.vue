@@ -250,7 +250,8 @@ export default {
       this.showProfileMenu = !this.showProfileMenu;
     },
     handleOutsideClick(event) {
-      const menu = this.$el.querySelector(".menu");
+      const menu = this.$el.querySelector(".menu-button");
+
       if (this.menuOpen && menu && !menu.contains(event.target)) {
         this.menuOpen = false;
       }
