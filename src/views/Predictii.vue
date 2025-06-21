@@ -3,7 +3,10 @@
     <div class="welcome-page">
       <!-- HEADER -->
       <div class="header">
-        <div class="header-left" style="display: flex; align-items: center; gap: 5rem">
+        <div
+          class="header-left"
+          style="display: flex; align-items: center; gap: 5rem"
+        >
           <button class="menu-button" @click="toggleMenu">&#9776;</button>
           <router-link
             v-if="isPremium && isLoggedIn && !isMobile"
@@ -14,10 +17,18 @@
           </router-link>
         </div>
 
-        <router-link v-if="isPremium" to="/home-buyer" class="site-title">Fermivo Premium🌾</router-link>
-        <router-link v-else to="/home-buyer" class="site-title">Fermivo🌾</router-link>
+        <router-link v-if="isPremium" to="/home-buyer" class="site-title"
+          >Fermivo Premium🌾</router-link
+        >
+        <router-link v-else to="/home-buyer" class="site-title"
+          >Fermivo🌾</router-link
+        >
 
-        <router-link v-if="isLoggedIn && !isPremium" to="/premium" class="premium-button">
+        <router-link
+          v-if="isLoggedIn && !isPremium"
+          to="/premium"
+          class="premium-button"
+        >
           Devino Premium
         </router-link>
 
@@ -36,11 +47,17 @@
             />
 
             <div v-if="showProfileMenu" class="profile-menu">
-              <router-link :to="`/editare-profil/${user._id}`">Editează Profil</router-link>
+              <router-link :to="`/editare-profil/${user._id}`"
+                >Editează Profil</router-link
+              >
             </div>
           </div>
 
-          <button v-if="isLoggedIn" class="sign-out-button" @click="handleLogout">
+          <button
+            v-if="isLoggedIn"
+            class="sign-out-button"
+            @click="handleLogout"
+          >
             Sign Out
           </button>
         </div>
@@ -49,35 +66,24 @@
       <div class="container">
         <h1 class="title">📈 Predicții de preț pentru cereale</h1>
 
-        <div class="select-wrapper">
-          <label for="produs">Selectează produsul:</label>
-          <select id="produs" v-model="selectedProdus" @change="fetchPredictii">
-            <option disabled value="">Alege un produs</option>
-            <option v-for="produs in produse" :key="produs" :value="produs">
-              {{ produs }}
-            </option>
-          </select>
-        </div>
-
-        <div v-if="predictii.length > 0">
-          <h2 class="subtitle">Prețuri estimate (lei/tonă)</h2>
-          <table class="predictii-table">
-            <thead>
-              <tr>
-                <th>Dată</th>
-                <th>Preț estimat</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="item in predictii" :key="item.data">
-                <td>{{ formatDate(item.data) }}</td>
-                <td>{{ item.pret.toFixed(2) }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div v-else class="no-data">
-          <p>Selectează un produs pentru a vedea predicțiile.</p>
+        <div
+          v-if="predictii.length && !isMobile"
+          class="predictii-slider"
+          @touchstart="handleTouchStart"
+          @touchend="handleTouchEnd"
+        >
+          <div class="slide">
+            <h3>{{ predictii[currentSlide].produs }}</h3>
+            <p><strong>Zonă:</strong> {{ predictii[currentSlide].zona }}</p>
+            <p>
+              <strong>Preț estimat:</strong>
+              {{ predictii[currentSlide].pret_lei_predictie }}
+            </p>
+          </div>
+          <div class="slide-controls">
+            <button @click="prevSlide">⬅️</button>
+            <button @click="nextSlide">➡️</button>
+          </div>
         </div>
       </div>
     </div>
@@ -107,15 +113,15 @@ export default {
   methods: {
     async fetchPredictii() {
       try {
-        const response = await axios.get(`/api/predictii/${this.selectedProdus}`);
-        this.predictii = response.data;
-      } catch (err) {
-        console.error("Eroare la obținerea predicțiilor:", err);
-        this.predictii = [];
+        const response = await axios.get(
+          "https://fermivo-backend.onrender.com/api/predictii"
+        );
+        if (response.data.success) {
+          this.predictii = response.data.predictii;
+        }
+      } catch (error) {
+        console.error("❌ Eroare la fetch predictii:", error);
       }
-    },
-    toggleMenu() {
-      this.$emit("toggle-menu");
     },
     formatDate(dateStr) {
       const date = new Date(dateStr);
@@ -124,6 +130,45 @@ export default {
         month: "long",
         day: "numeric",
       });
+    },
+    nextSlide() {
+      this.currentSlide = (this.currentSlide + 1) % this.predictii.length;
+    },
+    prevSlide() {
+      this.currentSlide =
+        (this.currentSlide - 1 + this.predictii.length) % this.predictii.length;
+    },
+    handleTouchStart(e) {
+      this.touchStartX = e.changedTouches[0].screenX;
+    },
+    handleTouchEnd(e) {
+      this.touchEndX = e.changedTouches[0].screenX;
+      this.handleSwipe();
+    },
+    handleSwipe() {
+      const delta = this.touchEndX - this.touchStartX;
+      if (Math.abs(delta) > 50) {
+        if (delta < 0) {
+          this.nextSlide();
+        } else {
+          this.prevSlide();
+        }
+      }
+    },
+    startAutoplay() {
+      this.autoplayInterval = setInterval(() => {
+        if (this.predictii.length) {
+          this.nextSlide();
+        }
+      }, 10000); // la 10 secunde
+    },
+    handleLogout() {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      this.$router.push("/login");
+    },
+    toggleMenu() {
+      this.menuOpen = !this.menuOpen;
     },
   },
 };
