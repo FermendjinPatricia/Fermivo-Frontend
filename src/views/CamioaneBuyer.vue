@@ -256,6 +256,9 @@ export default {
         this.menuOpen = false;
       }
     },
+    handleResize() {
+      this.isMobile = window.innerWidth <= 1014;
+    },
     handleLogout() {
       localStorage.removeItem("token");
       localStorage.removeItem("user");

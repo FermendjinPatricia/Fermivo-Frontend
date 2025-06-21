@@ -15,7 +15,8 @@
         Devino Premium
       </router-link>
 
-      <div class="header-right" v-if="isLoggedIn && user">
+      <div class="header-right">
+      <div class="header-right" v-if="isLoggedIn && user && !isMobile">
         <div class="user-profile-wrapper">
           <div class="user-profile" @click="toggleProfileMenu">
             <img :src="userProfilePicture" class="profile-picture" />
@@ -35,13 +36,11 @@
             </router-link>
           </div>
         </div>
-
-        <button class="sign-out-button" @click="handleLogout">Sign Out</button>
+       
+       
       </div>
-
-      <router-link v-else to="/login" class="sign-in-button"
-        >Sign In</router-link
-      >
+       <button class="sign-out-button" @click="handleLogout">Sign Out</button>
+      </div>
     </div>
 
     <img src="../assets/login.jpg" alt="Background" class="background-image" />
@@ -107,11 +106,11 @@
         <li v-else>
           <router-link to="/home">Home</router-link>
         </li>
-
-        <li>
-          <router-link to="/check-prices"
-            >Check prices on the market</router-link
-          >
+        <li v-if="isMobile && isPremium && isBuyer">
+          <router-link to="/camioane-cumparator">Urmărește Șofer</router-link>
+        </li>
+        <li v-if="isMobile && !isPremium && isBuyer">
+          <router-link to="/premium">Devino Premium</router-link>
         </li>
         <li><router-link to="/about">About</router-link></li>
       </ul>
@@ -142,6 +141,7 @@ export default {
       user: JSON.parse(localStorage.getItem("user")),
       isPremium: false,
       showProfileMenu: false,
+      isMobile: window.innerWidth <= 1024,
     };
   },
   computed: {
@@ -172,6 +172,9 @@ export default {
     }
   },
   methods: {
+    handleResize() {
+      this.isMobile = window.innerWidth <= 1024;
+    },
     toggleMenu() {
       this.menuOpen = !this.menuOpen;
     },

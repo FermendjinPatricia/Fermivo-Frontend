@@ -295,7 +295,7 @@ export default {
   },
   methods: {
     handleResize() {
-      this.isMobile = window.innerWidth <= 10124;
+      this.isMobile = window.innerWidth <= 1024;
     },
     async fetchUser(userId) {
       try {
