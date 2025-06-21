@@ -87,7 +87,6 @@ export default {
       isMobile: window.innerWidth <= 1024,
       menuOpen: false,
       showProfileMenu: false,
-      showMenu: false,
       isPremium: false,
       isLoggedIn: false,
     };
@@ -101,24 +100,32 @@ export default {
         ? `https://fermivo-backend.onrender.com/${this.user.profilePicture}`
         : `https://fermivo-backend.onrender.com/uploads/default_profile.jpg`;
     },
-    async created() {
+  },
+  created() {
     const localUser = JSON.parse(localStorage.getItem("user"));
-
     if (localUser && localUser._id) {
       this.isLoggedIn = true;
-      await this.fetchUser(localUser._id);
+      this.fetchUser(localUser._id);
     }
   },
+  mounted() {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
+      this.user = user;
+      this.isLoggedIn = true;
+      this.isPremium = user.isPremium;
+      this.fetchCamioane();
+      setInterval(this.fetchCamioane, 10000);
+    }
+    document.addEventListener("click", this.handleOutsideClick);
+  },
+  beforeUnmount() {
+    document.removeEventListener("click", this.handleOutsideClick);
   },
   methods: {
-    handleResize() {
-      this.isMobile = window.innerWidth <= 10124;
-    },
     async fetchUser(userId) {
       try {
-        const response = await axios.get(
-          `https://fermivo-backend.onrender.com/api/users/${userId}`
-        );
+        const response = await axios.get(`https://fermivo-backend.onrender.com/api/users/${userId}`);
         if (response.data.success) {
           this.user = response.data.user;
           this.isPremium = response.data.user.isPremium;
@@ -176,9 +183,9 @@ export default {
       this.showProfileMenu = !this.showProfileMenu;
     },
     handleOutsideClick(event) {
-      const menu = this.$el.querySelector(".menu-wrapper");
-      if (this.showMenu && menu && !menu.contains(event.target)) {
-        this.showMenu = false;
+      const menu = this.$el.querySelector(".menu");
+      if (this.menuOpen && menu && !menu.contains(event.target)) {
+        this.menuOpen = false;
       }
     },
     handleLogout() {
@@ -187,15 +194,9 @@ export default {
       this.$router.push("/login");
     },
   },
-  async mounted() {
-    this.user = JSON.parse(localStorage.getItem("user"));
-    this.isLoggedIn = !!this.user;
-    this.isPremium = this.user?.isPremium || false;
-    await this.fetchCamioane();
-    setInterval(this.fetchCamioane, 10000);
-  },
 };
 </script>
+
 
 <style scoped>
 
