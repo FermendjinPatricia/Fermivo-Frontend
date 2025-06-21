@@ -75,6 +75,9 @@
         </div>
       </div>
     </div>
+
+    <img src="../assets/login.jpg" alt="Background" class="background-image" />
+
     <nav v-if="menuOpen" class="menu">
       <ul>
         <li><router-link to="/home-buyer">Home</router-link></li>
@@ -96,32 +99,20 @@ export default {
   name: "PaginaPredictii",
   data() {
     return {
-    isLoggedIn: false,
+      isLoggedIn: false,
       isMobile: window.innerWidth <= 1024,
       user: null,
-       menuOpen: false,
-        isPremium: false,
+      isPremium: false,
+      menuOpen: false,
       predictii: [],
       currentSlide: 0,
       touchStartX: 0,
       touchEndX: 0,
       autoplayInterval: null,
+      showProfileMenu: false,
     };
   },
   computed: {
-    isMobile() {
-      return window.innerWidth <= 768;
-    },
-    user() {
-      return JSON.parse(localStorage.getItem("user"));
-    },
-    isLoggedIn() {
-      return !!localStorage.getItem("token");
-    },
-    isPremium() {
-      const user = JSON.parse(localStorage.getItem("user"));
-      return user?.premium === true;
-    },
     userName() {
       return this.user?.name || "";
     },
@@ -178,7 +169,10 @@ export default {
       }, 10000);
     },
     toggleMenu() {
-      this.$emit("toggle-menu");
+      this.menuOpen = !this.menuOpen;
+    },
+    toggleProfileMenu() {
+      this.showProfileMenu = !this.showProfileMenu;
     },
     handleLogout() {
       localStorage.clear();
@@ -186,6 +180,14 @@ export default {
     },
   },
   mounted() {
+    const localUser = JSON.parse(localStorage.getItem("user"));
+    const token = localStorage.getItem("token");
+
+    if (localUser && localUser._id && token) {
+      this.isLoggedIn = true;
+      this.fetchUser(localUser._id);
+    }
+
     this.fetchPredictii();
     this.startAutoplay();
   },
@@ -194,6 +196,7 @@ export default {
   }
 };
 </script>
+
 
 <style scoped>
 .predictii-page {
