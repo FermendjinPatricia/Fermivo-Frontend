@@ -485,7 +485,7 @@ body {
 .header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  /*justify-content: space-between;*/
   width: 97%;
   background: rgba(253, 253, 253, 0.9);
   padding: 0.5rem 1rem;
