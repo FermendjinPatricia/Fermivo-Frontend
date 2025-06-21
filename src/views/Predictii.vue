@@ -199,6 +199,127 @@ export default {
 
 
 <style scoped>
+
+.premium-button {
+  background-color: #f5b301;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  margin-left: 10px;
+  margin-right: 60px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+.premium-button:hover {
+  background-color: #f5a301;
+}
+
+.user-profile-wrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+  gap: 8px;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.profile-picture {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #1b5e20;
+}
+
+.user-name {
+  font-weight: bold;
+  color: #1b5e20;
+}
+
+.profile-menu {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+}
+
+.profile-menu a {
+  color: #1b5e20;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.profile-menu a:hover {
+  text-decoration: underline;
+}
+
+.chat-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-left: 1rem;
+  cursor: pointer;
+}
+
+.chat-icon:hover {
+  transform: scale(1.1);
+  transition: transform 0.2s;
+}
+
+.menu-button {
+  font-size: 2rem;
+  background: rgba(217, 242, 208, 1);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #1b5e20;
+}
+
+
+.menu {
+  position: absolute;
+  top: 60px;
+  left: 15px;
+  background: white;
+  padding: 1rem;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+}
+
+.menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu li {
+  margin: 10px 0;
+}
+
+.menu a {
+  text-decoration: none;
+  color: #1b5e20;
+  font-weight: bold;
+}
+
+.menu a:hover {
+  text-decoration: underline;
+}
+
 .predictii-page {
   background: #f9f9f9;
   min-height: 100vh;
