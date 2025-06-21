@@ -321,6 +321,12 @@ body {
   padding: 0;
 }
 .welcome-page {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   font-family: "Inria Sans", sans-serif;
 }
 
@@ -872,6 +878,7 @@ p {
   text-align: center;
   margin-top: 2rem;
 }
+
 table {
   width: 100%;
   border-collapse: collapse;
