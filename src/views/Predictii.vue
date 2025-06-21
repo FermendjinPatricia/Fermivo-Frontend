@@ -455,7 +455,7 @@ export default {
   margin-top: 2rem;
 }
 
-@media (max-width: 768px) {
+@media (max-width: px) {
   .title {
     font-size: 1.3rem;
   }
@@ -972,7 +972,6 @@ p {
 
 .predictii-slider {
   position: absolute;
-  right: 2rem;
   top: 10rem;
   width: 300px;
   background: rgba(255, 255, 255, 0.85);
