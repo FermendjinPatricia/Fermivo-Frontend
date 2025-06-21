@@ -80,13 +80,14 @@
 
     <nav v-if="menuOpen" class="menu">
       <ul>
-        <li><router-link to="/home-buyer">Home</router-link></li>
-        <li><router-link to="/check-prices">Check prices</router-link></li>
+        <li v-if="isBuyer"><router-link to="/home-buyer">Acasă</router-link></li>
+        <li v-if="!isBuyer"><router-link to="/home">Acasă</router-link></li>
+        <li><router-link to="/check-prices">Vezi prețurile curente</router-link></li>
         <li v-if="isMobile"><router-link :to="`/editare-profil/${user._id}`" v-if="isMobile">Editează Profil</router-link></li>
         <li v-if="isMobile"><router-link to="/predictii" v-if="isMobile">Vezi predicții de prețuri</router-link></li>
         <li v-if="isMobile"><router-link v-if="isPremium && isLoggedIn && isMobile" to="/camioane-cumparator">Urmărește Șofer</router-link></li>
         <li v-if="isMobile"><router-link to="/premium" v-if="!isPremium && isLoggedIn && isMobile">Devino Premium</router-link></li>
-        <li><router-link to="/about">About</router-link></li>
+        <li><router-link to="/about">Despre noi</router-link></li>
       </ul>
     </nav>
   </div>

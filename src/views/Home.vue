@@ -175,6 +175,9 @@ export default {
     };
   },
   computed: {
+    isBuyer() {
+      return this.user?.role === "buyer";
+    },
     userName() {
       return this.user
         ? `${this.user.nume} ${this.user.prenume}`
