@@ -64,7 +64,7 @@
 
     <!-- PREDICTII SLIDER -->
     <div
-      v-if="predictii.length"
+      v-if="predictii.length && !isMobile"
       class="predictii-slider"
       @touchstart="handleTouchStart"
       @touchend="handleTouchEnd"
@@ -207,11 +207,9 @@ export default {
   },
   mounted() {
     this.startAutoplay();
-    document.addEventListener("click", this.handleOutsideClick);
   },
-  beforeUnmount() {
+  beforeDestroy() {
     clearInterval(this.autoplayInterval);
-    document.removeEventListener("click", this.handleOutsideClick);
   },
   methods: {
     toggleMenu() {
@@ -280,8 +278,8 @@ export default {
     },
     handleOutsideClick(event) {
       const menu = this.$el.querySelector(".menu-button");
-      if (this.menuOpen && menu && !menu.contains(event.target)) {
-        this.menuOpen = false;
+      if (this.showMenu && menu && !menu.contains(event.target)) {
+        this.showMenu = false;
       }
     },
     handleTouchStart(e) {
