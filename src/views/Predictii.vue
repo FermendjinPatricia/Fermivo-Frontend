@@ -155,10 +155,14 @@ export default {
       return this.user?.role === "buyer";
     },
     userName() {
-      return this.user?.name || "";
+      return this.user
+        ? `${this.user.nume} ${this.user.prenume}`
+        : "Utilizator";
     },
     userProfilePicture() {
-      return this.user?.picture || "/default-profile.png";
+      return this.user?.profilePicture
+        ? `https://fermivo-backend.onrender.com/${this.user.profilePicture}`
+        : `https://fermivo-backend.onrender.com/uploads/default_profile.jpg`;
     },
   },
   methods: {
