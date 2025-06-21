@@ -96,6 +96,11 @@ export default {
   name: "PaginaPredictii",
   data() {
     return {
+    isLoggedIn: false,
+      isMobile: window.innerWidth <= 1024,
+      user: null,
+       menuOpen: false,
+        isPremium: false,
       predictii: [],
       currentSlide: 0,
       touchStartX: 0,
@@ -125,6 +130,19 @@ export default {
     },
   },
   methods: {
+    async fetchUser(userId) {
+      try {
+        const response = await axios.get(
+          `https://fermivo-backend.onrender.com/api/users/${userId}`
+        );
+        if (response.data.success) {
+          this.user = response.data.user;
+          this.isPremium = response.data.user.isPremium;
+        }
+      } catch (error) {
+        console.error("❌ Eroare la fetch user:", error);
+      }
+    },
     async fetchPredictii() {
       try {
         const res = await axios.get("https://fermivo-backend.onrender.com/api/predictii");
