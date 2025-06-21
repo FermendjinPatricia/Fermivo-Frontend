@@ -76,7 +76,7 @@
           Generează link nou
         </button>
 
-        <div v-if="linkGenerat" class="link-output">
+        <div v-if="linkGenerat && !existaSoferActiv" class="link-output">
           <input :value="linkGenerat" readonly class="generated-link" />
           <button @click="copiazaLink" class="copy-btn">📋 Copiază</button>
         </div>
@@ -139,6 +139,11 @@ export default {
       return this.user?.profilePicture
         ? `https://fermivo-backend.onrender.com/${this.user.profilePicture}`
         : `https://fermivo-backend.onrender.com/uploads/default_profile.jpg`;
+    },
+    existaSoferActiv() {
+      return this.camioane.some(
+        (c) => c.driverName === this.numeSofer && c.lat && c.lng
+      );
     },
   },
   created() {
