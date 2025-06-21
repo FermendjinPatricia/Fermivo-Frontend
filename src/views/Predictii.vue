@@ -419,8 +419,7 @@ export default {
 
 .predictii-slider {
     position: relative;
-    top: 2rem;
-    left: 2 rem;
+    top: 10rem;
   background: rgba(255, 255, 255, 0.85);
   border-radius: 16px;
   padding: 1rem;
@@ -974,8 +973,8 @@ p {
 }
 
 .predictii-slider {
-  position: absolute;
-  top: 2rem;
+  position: relative;
+  top: 10rem;
   width: 300px;
   background: rgba(255, 255, 255, 0.85);
   border-radius: 16px;
