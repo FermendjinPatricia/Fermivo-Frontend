@@ -1,7 +1,16 @@
 <template>
   <div class="welcome-page">
     <div class="header">
-      <button class="menu-button" @click="toggleMenu">&#9776;</button>
+      <div class="header-left" style="display: flex; align-items: center; gap: 1rem">
+        <button class="menu-button" @click="toggleMenu">&#9776;</button>
+        <router-link
+          v-if="isPremium && isLoggedIn"
+          to="/camioane-cumparator"
+          class="truck-button"
+        >
+          Urmărește Șofer 🚚
+        </router-link>
+      </div>
 
       <router-link v-if="isPremium" to="/home-buyer" class="site-title"
         >Fermivo Premium🌾</router-link
@@ -15,13 +24,6 @@
         class="premium-button"
       >
         Devino Premium
-      </router-link>
-      <router-link
-        v-if="isPremium && isLoggedIn"
-        to="/camioane-cumparator"
-        class="truck-button"
-      >
-        Urmărește Șofer 🚚
       </router-link>
 
       <div class="header-right">
