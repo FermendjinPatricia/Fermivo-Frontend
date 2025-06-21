@@ -224,6 +224,7 @@ export default {
       scraperData: [],
       menuOpen: false,
       showProfileMenu: false,
+      showMenu: false,
       predictii: [],
       currentSlide: 0,
       touchStartX: 0,
@@ -409,6 +410,12 @@ export default {
         }
       } catch (err) {
         console.error("❌ Eroare la toggle favorite:", err);
+      }
+    },
+    handleOutsideClick(event) {
+      const menu = this.$el.querySelector(".menu-wrapper");
+      if (this.showMenu && menu && !menu.contains(event.target)) {
+        this.showMenu = false;
       }
     },
     nextSlide() {
