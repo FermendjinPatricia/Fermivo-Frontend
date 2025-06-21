@@ -424,11 +424,6 @@ export default {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   z-index: 5;
   width: 300px;
-
-  /* ✔️ Asta face centrare reală pe desktop */
-  margin: 2rem auto;
-  position: relative;
-  text-align: center;
 }
 
 
