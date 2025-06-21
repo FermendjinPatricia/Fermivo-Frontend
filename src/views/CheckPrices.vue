@@ -22,7 +22,7 @@
         >Fermivo🌾</router-link
       >
       <router-link
-        v-if="isLoggedIn && !isPremium"
+        v-if="isLoggedIn && !isPremium && !isMobile"
         to="/premium"
         class="premium-button"
       >

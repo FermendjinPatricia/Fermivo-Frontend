@@ -151,6 +151,9 @@ export default {
     };
   },
   computed: {
+    isBuyer() {
+      return this.user?.role === "buyer";
+    },
     userName() {
       return this.user?.name || "";
     },
