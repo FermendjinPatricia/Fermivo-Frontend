@@ -209,6 +209,7 @@ export default {
   data() {
     return {
       isLoggedIn: false,
+      isMobile: window.innerWidth <= 1024,
       user: null,
       anunturi: [],
       scraperData: [],
@@ -284,7 +285,7 @@ export default {
   },
   methods: {
     handleResize() {
-      this.isMobile = window.innerWidth <= 768;
+      this.isMobile = window.innerWidth <= 10124;
     },
     async fetchUser(userId) {
       try {
@@ -995,7 +996,7 @@ p {
   background: #093b12;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .site-title {
     margin: 0 auto;
     font-size: 1rem;
