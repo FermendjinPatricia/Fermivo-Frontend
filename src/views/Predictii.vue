@@ -251,6 +251,15 @@ export default {
 </script>
 
 <style scoped>
+.welcome-page {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Inria Sans", sans-serif;
+}
 .premium-button {
   background-color: #f5b301;
   color: white;
@@ -414,7 +423,8 @@ export default {
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   max-width: 400px;
-  margin: 0 auto;
+  margin: 2 rem auto;
+position: relative;
   text-align: center;
 }
 
