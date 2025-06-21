@@ -140,6 +140,16 @@
           <router-link :to="`/anunturi/${item._id}`" class="detalii-button">
             Vezi detalii
           </router-link>
+          <div style="text-align: right; margin-bottom: 8px">
+            <span
+              style="font-size: 1.5rem; cursor: pointer"
+              :style="{ color: isFavorite(item._id) ? 'red' : 'gray' }"
+              @click="toggleFavorite(item._id)"
+              title="Adaugă la favorite"
+            >
+              {{ isFavorite(item._id) ? "❤️" : "🤍" }}
+            </span>
+          </div>
         </div>
 
         <!-- 🟨 Coloana 2: Prețuri BRM -->
@@ -199,6 +209,7 @@ export default {
       touchEndX: 0,
       autoplayInterval: null,
       isPremium: false,
+      favoriteAnunturi: [],
       selectedCategory: "toate",
       categories: [
         "toate",
@@ -238,6 +249,7 @@ export default {
     if (localUser && localUser._id) {
       this.isLoggedIn = true;
       await this.fetchUser(localUser._id);
+      await this.fetchFavorites();
     }
     this.fetchAnunturi();
     await this.fetchScraperData();
@@ -266,7 +278,9 @@ export default {
     },
     async fetchScraperData() {
       try {
-        const response = await axios.get("https://fermivo-backend.onrender.com/scrape/brm");
+        const response = await axios.get(
+          "https://fermivo-backend.onrender.com/scrape/brm"
+        );
         if (response.data.success) {
           this.scraperData = response.data;
         }
@@ -276,7 +290,9 @@ export default {
     },
     async fetchAnunturi() {
       try {
-        const response = await axios.get("https://fermivo-backend.onrender.com/api/anunturi");
+        const response = await axios.get(
+          "https://fermivo-backend.onrender.com/api/anunturi"
+        );
         if (response.data.success) {
           this.anunturi = response.data.anunturi;
           this.anunturi.sort((a, b) => {
@@ -291,7 +307,9 @@ export default {
     },
     async fetchPredictii() {
       try {
-        const response = await axios.get("https://fermivo-backend.onrender.com/api/predictii");
+        const response = await axios.get(
+          "https://fermivo-backend.onrender.com/api/predictii"
+        );
         if (response.data.success) {
           this.predictii = response.data.predictii;
         }
@@ -311,6 +329,54 @@ export default {
       };
       const key = mapping[produs];
       return this.scraperData[key] || [];
+    },
+    async fetchFavorites() {
+      try {
+        const res = await axios.get(
+          "https://fermivo-backend.onrender.com/api/users/favorites",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        this.favoriteAnunturi = res.data.map((anunt) => anunt._id);
+      } catch (err) {
+        console.error("❌ Eroare la fetch favorites:", err);
+      }
+    },
+    isFavorite(anuntId) {
+      return this.favoriteAnunturi.includes(anuntId);
+    },
+    async toggleFavorite(anuntId) {
+      const isFav = this.isFavorite(anuntId);
+      const url = `https://fermivo-backend.onrender.com/api/users/favorites/${anuntId}`;
+
+      try {
+        if (isFav) {
+          await axios.delete(url, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          });
+          this.favoriteAnunturi = this.favoriteAnunturi.filter(
+            (id) => id !== anuntId
+          );
+        } else {
+          await axios.post(
+            url,
+            {},
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
+          );
+          this.favoriteAnunturi.push(anuntId);
+        }
+      } catch (err) {
+        console.error("❌ Eroare la toggle favorite:", err);
+      }
     },
     nextSlide() {
       this.currentSlide = (this.currentSlide + 1) % this.predictii.length;
