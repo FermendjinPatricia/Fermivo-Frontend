@@ -19,7 +19,7 @@
       <router-link
         v-if="isPremium && isLoggedIn"
         to="/camioane-cumparator"
-        class="premium-button"
+        class="truck-button"
       >
         Urmărește Șofer 🚚
       </router-link>
@@ -507,6 +507,21 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
+}
+.truck-button {
+  background-color: #320bbe;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  margin-left: 10px;
+  margin-right: 60px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+.truck-button:hover {
+  background-color: #658ec8;
 }
 
 .premium-button {
