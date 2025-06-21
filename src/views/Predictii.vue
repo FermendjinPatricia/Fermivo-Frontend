@@ -3,10 +3,7 @@
     <div class="welcome-page">
       <!-- HEADER -->
       <div class="header">
-        <div
-          class="header-left"
-          style="display: flex; align-items: center; gap: 5rem"
-        >
+        <div class="header-left" style="display: flex; align-items: center; gap: 5rem">
           <button class="menu-button" @click="toggleMenu">&#9776;</button>
           <router-link
             v-if="isPremium && isLoggedIn && !isMobile"
@@ -17,12 +14,12 @@
           </router-link>
         </div>
 
-        <router-link v-if="isPremium" to="/home-buyer" class="site-title"
-          >Fermivo Premium🌾</router-link
-        >
-        <router-link v-else to="/home-buyer" class="site-title"
-          >Fermivo🌾</router-link
-        >
+        <router-link v-if="isPremium" to="/home-buyer" class="site-title">
+          Fermivo Premium🌾
+        </router-link>
+        <router-link v-else to="/home-buyer" class="site-title">
+          Fermivo🌾
+        </router-link>
 
         <router-link
           v-if="isLoggedIn && !isPremium"
@@ -47,9 +44,7 @@
             />
 
             <div v-if="showProfileMenu" class="profile-menu">
-              <router-link :to="`/editare-profil/${user._id}`"
-                >Editează Profil</router-link
-              >
+              <router-link :to="`/editare-profil/${user._id}`">Editează Profil</router-link>
             </div>
           </div>
 
@@ -63,27 +58,26 @@
         </div>
       </div>
 
+      <!-- CONȚINUT -->
       <div class="container">
         <h1 class="title">📈 Predicții de preț pentru cereale</h1>
 
-        <div
-          v-if="predictii.length && !isMobile"
-          class="predictii-slider"
-          @touchstart="handleTouchStart"
-          @touchend="handleTouchEnd"
-        >
+        <div v-if="predictii.length > 0" class="predictii-slider"
+             @touchstart="handleTouchStart"
+             @touchend="handleTouchEnd">
           <div class="slide">
             <h3>{{ predictii[currentSlide].produs }}</h3>
             <p><strong>Zonă:</strong> {{ predictii[currentSlide].zona }}</p>
-            <p>
-              <strong>Preț estimat:</strong>
-              {{ predictii[currentSlide].pret_lei_predictie }}
-            </p>
+            <p><strong>Preț estimat:</strong> {{ predictii[currentSlide].pret_lei_predictie }} lei/tonă</p>
           </div>
           <div class="slide-controls">
             <button @click="prevSlide">⬅️</button>
             <button @click="nextSlide">➡️</button>
           </div>
+        </div>
+
+        <div v-else class="no-data">
+          <p>Nu există predicții disponibile.</p>
         </div>
       </div>
     </div>
@@ -97,46 +91,50 @@ export default {
   name: "PaginaPredictii",
   data() {
     return {
-      selectedProdus: "",
-      produse: [
-        "Grâu panificație",
-        "Grâu furajer",
-        "Porumb",
-        "Orz",
-        "Orz furajer",
-        "Rapiță",
-        "Floarea soarelui",
-      ],
       predictii: [],
+      currentSlide: 0,
+      touchStartX: 0,
+      touchEndX: 0,
+      autoplayInterval: null,
     };
+  },
+  computed: {
+    isMobile() {
+      return window.innerWidth <= 768;
+    },
+    user() {
+      return JSON.parse(localStorage.getItem("user"));
+    },
+    isLoggedIn() {
+      return !!localStorage.getItem("token");
+    },
+    isPremium() {
+      const user = JSON.parse(localStorage.getItem("user"));
+      return user?.premium === true;
+    },
+    userName() {
+      return this.user?.name || "";
+    },
+    userProfilePicture() {
+      return this.user?.picture || "/default-profile.png";
+    },
   },
   methods: {
     async fetchPredictii() {
       try {
-        const response = await axios.get(
-          "https://fermivo-backend.onrender.com/api/predictii"
-        );
-        if (response.data.success) {
-          this.predictii = response.data.predictii;
+        const res = await axios.get("https://fermivo-backend.onrender.com/api/predictii");
+        if (res.data.success) {
+          this.predictii = res.data.predictii;
         }
-      } catch (error) {
-        console.error("❌ Eroare la fetch predictii:", error);
+      } catch (err) {
+        console.error("❌ Eroare la fetch predictii:", err);
       }
-    },
-    formatDate(dateStr) {
-      const date = new Date(dateStr);
-      return date.toLocaleDateString("ro-RO", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      });
     },
     nextSlide() {
       this.currentSlide = (this.currentSlide + 1) % this.predictii.length;
     },
     prevSlide() {
-      this.currentSlide =
-        (this.currentSlide - 1 + this.predictii.length) % this.predictii.length;
+      this.currentSlide = (this.currentSlide - 1 + this.predictii.length) % this.predictii.length;
     },
     handleTouchStart(e) {
       this.touchStartX = e.changedTouches[0].screenX;
@@ -148,29 +146,29 @@ export default {
     handleSwipe() {
       const delta = this.touchEndX - this.touchStartX;
       if (Math.abs(delta) > 50) {
-        if (delta < 0) {
-          this.nextSlide();
-        } else {
-          this.prevSlide();
-        }
+        delta < 0 ? this.nextSlide() : this.prevSlide();
       }
     },
     startAutoplay() {
       this.autoplayInterval = setInterval(() => {
-        if (this.predictii.length) {
-          this.nextSlide();
-        }
-      }, 10000); // la 10 secunde
-    },
-    handleLogout() {
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
-      this.$router.push("/login");
+        if (this.predictii.length) this.nextSlide();
+      }, 10000);
     },
     toggleMenu() {
-      this.menuOpen = !this.menuOpen;
+      this.$emit("toggle-menu");
+    },
+    handleLogout() {
+      localStorage.clear();
+      this.$router.push("/login");
     },
   },
+  mounted() {
+    this.fetchPredictii();
+    this.startAutoplay();
+  },
+  beforeUnmount() {
+    clearInterval(this.autoplayInterval);
+  }
 };
 </script>
 
@@ -213,33 +211,35 @@ export default {
   margin-bottom: 1rem;
 }
 
-.select-wrapper {
-  margin-bottom: 1.5rem;
-}
-
-.select-wrapper select {
-  padding: 0.5rem;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-}
-
-.predictii-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.predictii-table th,
-.predictii-table td {
-  padding: 0.7rem;
-  border: 1px solid #ccc;
+.predictii-slider {
+  background: #fff;
+  padding: 1.2rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  max-width: 400px;
+  margin: 0 auto;
   text-align: center;
 }
 
-.subtitle {
-  margin-bottom: 0.5rem;
+.slide h3 {
   font-size: 1.2rem;
-  color: #444;
+  color: #2e7d32;
+}
+
+.slide-controls {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.slide-controls button {
+  font-size: 1.2rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  background: #2e7d32;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .no-data {
@@ -248,6 +248,8 @@ export default {
   font-style: italic;
   margin-top: 2rem;
 }
+
+
 
 @media (max-width: 768px) {
   .title {
