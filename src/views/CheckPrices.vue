@@ -150,7 +150,6 @@ export default {
       user: JSON.parse(localStorage.getItem("user")),
       isPremium: false,
       showProfileMenu: false,
-      showMenu: false,
       isMobile: window.innerWidth <= 1024,
     };
   },
@@ -274,8 +273,8 @@ export default {
     },
     handleOutsideClick(event) {
       const menu = this.$el.querySelector(".menu-button");
-      if (this.showMenu && menu && !menu.contains(event.target)) {
-        this.showMenu = false;
+      if (this.menuOpen && menu && !menu.contains(event.target)) {
+        this.menuOpen = false;
       }
     },
     handleLogout() {

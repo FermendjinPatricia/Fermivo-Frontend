@@ -224,7 +224,6 @@ export default {
       scraperData: [],
       menuOpen: false,
       showProfileMenu: false,
-      showMenu: false,
       predictii: [],
       currentSlide: 0,
       touchStartX: 0,
@@ -416,8 +415,8 @@ export default {
     },
     handleOutsideClick(event) {
       const menu = this.$el.querySelector(".menu-button");
-      if (this.showMenu && menu && !menu.contains(event.target)) {
-        this.showMenu = false;
+      if (this.menuOpen && menu && !menu.contains(event.target)) {
+        this.menuOpen = false;
       }
     },
     nextSlide() {
