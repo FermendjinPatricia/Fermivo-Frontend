@@ -4,13 +4,6 @@
     <div class="header">
       <div class="header-left" style="display: flex; align-items: center; gap: 5rem">
         <button class="menu-button" @click="toggleMenu">&#9776;</button>
-        <router-link
-          v-if="isPremium && isLoggedIn && !isMobile"
-          to="/camioane-cumparator"
-          class="truck-button"
-        >
-          Urmărește Șofer 🚚
-        </router-link>
       </div>
 
       <router-link v-if="isPremium" to="/home-buyer" class="site-title">Fermivo Premium🌾</router-link>
@@ -35,10 +28,10 @@
             <router-link :to="`/editare-profil/${user._id}`">Editează Profil</router-link>
           </div>
         </div>
+        </div>
         <button v-if="isLoggedIn" class="sign-out-button" @click="handleLogout">
           Sign Out
         </button>
-        </div>
       </div>
       
     </div>
