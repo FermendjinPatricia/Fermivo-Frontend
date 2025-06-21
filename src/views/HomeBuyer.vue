@@ -866,7 +866,7 @@ p {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   font-family: "Inria Sans", sans-serif;
   font-size: 0.9rem;
-  width: 100%;
+  width: auto;
   text-align: center;
   transition: all 0.3s ease;
   border: 1px solid #e0e0e0;
