@@ -127,13 +127,21 @@
     <!-- MENIU -->
     <nav v-if="menuOpen" class="menu">
       <ul>
-        <li><router-link to="/login">Login</router-link></li>
-        <li><router-link to="/register">Register</router-link></li>
+        <li v-if="!isLoggedIn">
+          <router-link to="/home" >Acasă</router-link>
+        </li>
+        <li v-if="isLoggedIn">
+          <router-link to="/adauga-anunt">Adaugă anunț</router-link>
+        </li>
         <li>
           <router-link to="/check-prices"
-            >Check prices on the market</router-link
+            >Vezi prețurile curente</router-link
           >
         </li>
+        <li v-if="isMobile && !isPremium">
+          <router-link to="/premium">Devino Premium</router-link>
+        </li>
+        <li v-if="isMobile"><router-link :to="`/editare-profil/${user._id}`" v-if="isMobile">Editează Profil</router-link></li>
         <li><router-link to="/about">About</router-link></li>
       </ul>
     </nav>
