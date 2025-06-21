@@ -100,6 +100,12 @@
         >
           {{ categorie }}
         </button>
+        <button
+          :class="{ activ: selectedCategory === 'favorite' }"
+          @click="selectedCategory = 'favorite'"
+        >
+          ❤️ Favorite
+        </button>
       </div>
       <div class="harta-button-wrapper">
         <router-link to="/harta-anunturi" class="btn-vezi-harta">
@@ -237,6 +243,11 @@ export default {
     anunturiFiltrate() {
       if (this.selectedCategory === "toate") return this.anunturi;
 
+      if (this.selectedCategory === "favorite") {
+        return this.anunturi.filter((a) =>
+          this.favoriteAnunturi.includes(a._id)
+        );
+      }
       const selected = this.normalize(this.selectedCategory);
       return this.anunturi.filter(
         (anunt) => this.normalize(anunt.produs) === selected
