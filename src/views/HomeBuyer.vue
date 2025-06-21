@@ -22,7 +22,7 @@
         >Fermivo🌾</router-link
       >
       <router-link
-        v-if="isLoggedIn && !isPremium"
+        v-if="isLoggedIn && !isPremium && !isMobile"
         to="/premium"
         class="premium-button"
       >
@@ -186,7 +186,12 @@
         </div>
 
         <!-- 🟦 Coloana 3: Imagine -->
-        <img src="../assets/grau.jpg" alt="Imagine produs" class="card-image" v-if="!isMobile"/>
+        <img
+          src="../assets/grau.jpg"
+          alt="Imagine produs"
+          class="card-image"
+          v-if="!isMobile"
+        />
       </div>
     </div>
 
@@ -195,6 +200,10 @@
       <ul>
         <li><router-link to="/home-buyer">Home</router-link></li>
         <li><router-link to="/check-prices">Check prices</router-link></li>
+        <li><router-link :to="`/editare-profil/${user._id}`" v-if="isMobile">Editează Profil</router-link></li>
+        <li><router-link to="/predictii" v-if="isMobile">Vezi predicții de prețuri</router-link></li>
+        <li><router-link v-if="isPremium && isLoggedIn && isMobile" to="/camioane-cumparator">Urmărește Șofer</router-link></li>
+        <li><router-link to="/premium" v-if="!isPremium && isLoggedIn && isMobile">Devino Premium</router-link></li>
         <li><router-link to="/about">About</router-link></li>
       </ul>
     </nav>
@@ -1002,5 +1011,4 @@ p {
     font-size: 1rem;
   }
 }
-
 </style>

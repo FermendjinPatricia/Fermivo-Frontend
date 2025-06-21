@@ -19,6 +19,7 @@ import ProfilUtilizator from "@/views/ProfilUtilizator.vue";
 import HartaAnunturi from "@/views/HartaAnunturi.vue";
 import TrackSofer from "@/views/TrackSofer.vue";
 import CamioaneBuyer from "@/views/CamioaneBuyer.vue";
+import Predictii from "@/views/Predictii.vue";
 
 const routes = [
   {
@@ -47,6 +48,12 @@ const routes = [
     name: "CheckPrices",
     component: CheckPrices,
     meta: { requiresAuth: true, allowedRoles: ["seller", "buyer", "admin"] },
+  },
+  {
+    path: "/predictii",
+    name: "Predictii",
+    component: Predictii,
+    meta: { requiresAuth: true, allowedRoles: ["seller", "buyer", "admin"] }, // toți au voie aici
   },
   // Seller & Buyer  routes
   {
