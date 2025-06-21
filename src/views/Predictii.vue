@@ -8,26 +8,40 @@
           style="display: flex; align-items: center; gap: 5rem"
         >
           <button class="menu-button" @click="toggleMenu">&#9776;</button>
+          <router-link
+          v-if="isPremium && isLoggedIn && !isMobile"
+          to="/camioane-cumparator"
+          class="truck-button"
+        >
+          Urmărește Șofer 🚚
+        </router-link>
         </div>
 
         <router-link
-          v-if="isBuyer && isPremium"
-          to="/home-buyer"
-          class="site-title"
-          >Fermivo Premium🌾</router-link
-        >
-        <router-link v-if="!isBuyer && isPremium" to="/home" class="site-title"
-          >Fermivo Premium🌾</router-link
-        >
-        <router-link
-          v-if="isBuyer && !isPremium"
-          to="/home-buyer"
-          class="site-title"
-          >Fermivo🌾</router-link
-        >
-        <router-link v-if="!isBuyer && !isPremium" to="/home" class="site-title"
-          >Fermivo🌾</router-link
-        >
+        v-if="isBuyer && isPremium"
+        to="/home-buyer"
+        class="site-title"
+        >Fermivo Premium🌾</router-link
+      >
+      <router-link v-if="!isBuyer && isPremium" to="/home" class="site-title"
+        >Fermivo Premium🌾</router-link
+      >
+      <router-link
+        v-if="isBuyer && !isPremium"
+        to="/home-buyer"
+        class="site-title"
+        >Fermivo🌾</router-link
+      >
+      <router-link v-if="!isBuyer && !isPremium" to="/home" class="site-title"
+        >Fermivo🌾</router-link
+      >
+      <router-link
+        v-if="isLoggedIn && !isPremium && !isMobile"
+        to="/premium"
+        class="premium-button"
+      >
+        Devino Premium
+      </router-link>
 
         <div class="header-right">
           <div v-if="user && !isMobile" class="user-profile-wrapper">
@@ -101,13 +115,13 @@
         <li>
           <router-link to="/check-prices">Vezi prețurile curente</router-link>
         </li>
-        <li v-if="isMobile">
-          <router-link :to="`/editare-profil/${user._id}`" v-if="isMobile"
+        <li>
+          <router-link :to="`/editare-profil/${user._id}`" 
             >Editează Profil</router-link
           >
         </li>
         <li>
-          <router-link to="/predictii" v-if="isMobile"
+          <router-link to="/predictii" 
             >Vezi predicții de prețuri</router-link
           >
         </li>
@@ -342,6 +356,23 @@ export default {
   transform: scale(1.1);
   transition: transform 0.2s;
 }
+
+.truck-button {
+  background-color: #320bbe;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  margin-left: 10px;
+  margin-right: 60px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+.truck-button:hover {
+  background-color: #658ec8;
+}
+
 
 .menu-button {
   font-size: 2rem;
