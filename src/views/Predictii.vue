@@ -418,15 +418,19 @@ export default {
 }
 
 .predictii-slider {
-  background: #fff;
-  padding: 1.2rem;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  max-width: 400px;
-  margin: 2 rem auto;
-position: relative;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 16px;
+  padding: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 5;
+  width: 300px;
+
+  /* ✔️ Asta face centrare reală pe desktop */
+  margin: 2rem auto;
+  position: relative;
   text-align: center;
 }
+
 
 .slide h3 {
   font-size: 1.2rem;
