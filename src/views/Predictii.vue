@@ -3,24 +3,31 @@
     <div class="welcome-page">
       <!-- HEADER -->
       <div class="header">
-        <div class="header-left" style="display: flex; align-items: center; gap: 5rem">
+        <div
+          class="header-left"
+          style="display: flex; align-items: center; gap: 5rem"
+        >
           <button class="menu-button" @click="toggleMenu">&#9776;</button>
-          <router-link
-            v-if="isPremium && isLoggedIn && !isMobile"
-            to="/camioane-cumparator"
-            class="truck-button"
-          >
-            Urmărește Șofer 🚚
-          </router-link>
         </div>
 
-        <router-link v-if="isPremium" to="/home-buyer" class="site-title">
-          Fermivo Premium🌾
-        </router-link>
-        <router-link v-else to="/home-buyer" class="site-title">
-          Fermivo🌾
-        </router-link>
-
+        <router-link
+          v-if="isBuyer && isPremium"
+          to="/home-buyer"
+          class="site-title"
+          >Fermivo Premium🌾</router-link
+        >
+        <router-link v-if="!isBuyer && isPremium" to="/home" class="site-title"
+          >Fermivo Premium🌾</router-link
+        >
+        <router-link
+          v-if="isBuyer && !isPremium"
+          to="/home-buyer"
+          class="site-title"
+          >Fermivo🌾</router-link
+        >
+        <router-link v-if="!isBuyer && !isPremium" to="/home" class="site-title"
+          >Fermivo🌾</router-link
+        >
 
         <div class="header-right">
           <div v-if="user && !isMobile" class="user-profile-wrapper">
@@ -37,7 +44,9 @@
             />
 
             <div v-if="showProfileMenu" class="profile-menu">
-              <router-link :to="`/editare-profil/${user._id}`">Editează Profil</router-link>
+              <router-link :to="`/editare-profil/${user._id}`"
+                >Editează Profil</router-link
+              >
             </div>
           </div>
 
@@ -48,7 +57,6 @@
           >
             Sign Out
           </button>
-          
         </div>
       </div>
 
@@ -56,13 +64,19 @@
       <div class="container">
         <h1 class="title">📈 Predicții de preț pentru cereale</h1>
 
-        <div v-if="predictii.length > 0" class="predictii-slider"
-             @touchstart="handleTouchStart"
-             @touchend="handleTouchEnd">
+        <div
+          v-if="predictii.length > 0"
+          class="predictii-slider"
+          @touchstart="handleTouchStart"
+          @touchend="handleTouchEnd"
+        >
           <div class="slide">
             <h3>{{ predictii[currentSlide].produs }}</h3>
             <p><strong>Zonă:</strong> {{ predictii[currentSlide].zona }}</p>
-            <p><strong>Preț estimat:</strong> {{ predictii[currentSlide].pret_lei_predictie }} lei/tonă</p>
+            <p>
+              <strong>Preț estimat:</strong>
+              {{ predictii[currentSlide].pret_lei_predictie }} lei/tonă
+            </p>
           </div>
           <div class="slide-controls">
             <button @click="prevSlide">⬅️</button>
@@ -80,13 +94,35 @@
 
     <nav v-if="menuOpen" class="menu">
       <ul>
-        <li v-if="isBuyer"><router-link to="/home-buyer">Acasă</router-link></li>
+        <li v-if="isBuyer">
+          <router-link to="/home-buyer">Acasă</router-link>
+        </li>
         <li v-if="!isBuyer"><router-link to="/home">Acasă</router-link></li>
-        <li><router-link to="/check-prices">Vezi prețurile curente</router-link></li>
-        <li v-if="isMobile"><router-link :to="`/editare-profil/${user._id}`" v-if="isMobile">Editează Profil</router-link></li>
-        <li v-if="isMobile"><router-link to="/predictii" v-if="isMobile">Vezi predicții de prețuri</router-link></li>
-        <li v-if="isMobile"><router-link v-if="isPremium && isLoggedIn && isMobile" to="/camioane-cumparator">Urmărește Șofer</router-link></li>
-        <li v-if="isMobile"><router-link to="/premium" v-if="!isPremium && isLoggedIn && isMobile">Devino Premium</router-link></li>
+        <li>
+          <router-link to="/check-prices">Vezi prețurile curente</router-link>
+        </li>
+        <li v-if="isMobile">
+          <router-link :to="`/editare-profil/${user._id}`" v-if="isMobile"
+            >Editează Profil</router-link
+          >
+        </li>
+        <li v-if="isMobile">
+          <router-link to="/predictii" v-if="isMobile"
+            >Vezi predicții de prețuri</router-link
+          >
+        </li>
+        <li v-if="isMobile">
+          <router-link
+            v-if="isPremium && isLoggedIn && isMobile"
+            to="/camioane-cumparator"
+            >Urmărește Șofer</router-link
+          >
+        </li>
+        <li v-if="isMobile">
+          <router-link to="/premium" v-if="!isPremium && isLoggedIn && isMobile"
+            >Devino Premium</router-link
+          >
+        </li>
         <li><router-link to="/about">Despre noi</router-link></li>
       </ul>
     </nav>
@@ -138,7 +174,9 @@ export default {
     },
     async fetchPredictii() {
       try {
-        const res = await axios.get("https://fermivo-backend.onrender.com/api/predictii");
+        const res = await axios.get(
+          "https://fermivo-backend.onrender.com/api/predictii"
+        );
         if (res.data.success) {
           this.predictii = res.data.predictii;
         }
@@ -150,7 +188,8 @@ export default {
       this.currentSlide = (this.currentSlide + 1) % this.predictii.length;
     },
     prevSlide() {
-      this.currentSlide = (this.currentSlide - 1 + this.predictii.length) % this.predictii.length;
+      this.currentSlide =
+        (this.currentSlide - 1 + this.predictii.length) % this.predictii.length;
     },
     handleTouchStart(e) {
       this.touchStartX = e.changedTouches[0].screenX;
@@ -202,16 +241,13 @@ export default {
     this.startAutoplay();
   },
   beforeUnmount() {
-  clearInterval(this.autoplayInterval);
-  document.removeEventListener("click", this.handleOutsideClick);
-},
-
+    clearInterval(this.autoplayInterval);
+    document.removeEventListener("click", this.handleOutsideClick);
+  },
 };
 </script>
 
-
 <style scoped>
-
 .premium-button {
   background-color: #f5b301;
   color: white;
@@ -300,7 +336,6 @@ export default {
   color: #1b5e20;
 }
 
-
 .menu {
   position: absolute;
   top: 60px;
@@ -374,7 +409,7 @@ export default {
   background: #fff;
   padding: 1.2rem;
   border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   max-width: 400px;
   margin: 0 auto;
   text-align: center;
@@ -407,8 +442,6 @@ export default {
   font-style: italic;
   margin-top: 2rem;
 }
-
-
 
 @media (max-width: 768px) {
   .title {
@@ -574,7 +607,6 @@ body {
   cursor: pointer;
   color: #1b5e20;
 }
-
 
 .menu {
   position: absolute;
@@ -970,5 +1002,4 @@ p {
     font-size: 1rem;
   }
 }
-
 </style>
