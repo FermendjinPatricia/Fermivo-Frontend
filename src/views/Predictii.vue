@@ -971,8 +971,9 @@ p {
 }
 
 .predictii-slider {
-  position: absolute;
-  top: 10rem;
+  position: relative;
+  top: 2rem;
+  left: 2rem;
   width: 300px;
   background: rgba(255, 255, 255, 0.85);
   border-radius: 16px;
