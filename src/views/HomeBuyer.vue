@@ -186,7 +186,7 @@
         </div>
 
         <!-- 🟦 Coloana 3: Imagine -->
-        <img src="../assets/grau.jpg" alt="Imagine produs" class="card-image" />
+        <img src="../assets/grau.jpg" alt="Imagine produs" class="card-image" v-if="!isMobile"/>
       </div>
     </div>
 
