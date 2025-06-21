@@ -1,5 +1,5 @@
 <template>
-  <div class="predictii-page">
+  <div>
     <div class="welcome-page">
       <!-- HEADER -->
       <div class="header">
