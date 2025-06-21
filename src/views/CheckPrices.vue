@@ -118,14 +118,10 @@
         <li v-else>
           <router-link to="/home">Acasă</router-link>
         </li>
-        <li v-if="isMobile"><router-link to="/predictii" v-if="isMobile">Vezi predicții de prețuri</router-link></li>
-        <li v-if="isMobile && isPremium && isBuyer">
-          <router-link to="/camioane-cumparator">Urmărește Șofer</router-link>
-        </li>
-        <li v-if="isMobile && !isPremium">
-          <router-link to="/premium">Devino Premium</router-link>
-        </li>
-        <li v-if="isMobile"><router-link :to="`/editare-profil/${user._id}`" v-if="isMobile">Editează Profil</router-link></li>
+        <li><router-link to="/predictii">Vezi predicții de prețuri</router-link></li>
+        <li><router-link :to="`/editare-profil/${user._id}`">Editează Profil</router-link></li>
+        <li v-if="isPremium && isBuyer"><router-link to="/camioane-cumparator">Urmărește Șofer</router-link></li>
+        <li v-if="!isPremium"><router-link to="/premium">Devino Premium</router-link></li>
         <li><router-link to="/about">Despre noi</router-link></li>
       </ul>
       <ul v-else>

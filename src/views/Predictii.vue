@@ -108,35 +108,13 @@
 
     <nav v-if="menuOpen" class="menu">
       <ul>
-        <li v-if="isBuyer">
-          <router-link to="/home-buyer">Acasă</router-link>
-        </li>
+        <li v-if="isBuyer"><router-link to="/home-buyer">Acasă</router-link></li>
         <li v-if="!isBuyer"><router-link to="/home">Acasă</router-link></li>
-        <li>
-          <router-link to="/check-prices">Vezi prețurile curente</router-link>
-        </li>
-        <li>
-          <router-link to="/predictii" 
-            >Vezi predicții de prețuri</router-link
-          >
-        </li>
-        <li>
-          <router-link :to="`/editare-profil/${user._id}`" 
-            >Editează Profil</router-link
-          >
-        </li>
-        <li>
-          <router-link
-            v-if="isPremium && isLoggedIn && isMobile && isBuyer"
-            to="/camioane-cumparator"
-            >Urmărește Șoferi</router-link
-          >
-        </li>
-        <li>
-          <router-link to="/premium" v-if="!isPremium && isLoggedIn"
-            >Devino Premium</router-link
-          >
-        </li>
+        <li><router-link to="/check-prices">Vezi prețurile curente</router-link></li>
+        <li><router-link to="/predictii">Vezi predicții de prețuri</router-link></li>
+        <li><router-link :to="`/editare-profil/${user._id}`" >Editează Profil</router-link></li>
+        <li><router-link v-if="isPremium && isLoggedIn && isBuyer" to="/camioane-cumparator">Urmărește Șoferi</router-link></li>
+        <li><router-link to="/premium" v-if="!isPremium && isLoggedIn">Devino Premium</router-link></li>
         <li><router-link to="/about">Despre noi</router-link></li>
       </ul>
     </nav>
