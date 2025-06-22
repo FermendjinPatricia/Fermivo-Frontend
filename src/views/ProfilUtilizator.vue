@@ -1,4 +1,5 @@
 <template>
+  <img src="../assets/login.jpg" alt="Background" class="background-image" />
   <div class="header">
     <router-link :to="isBuyer ? '/home-buyer' : '/home'" class="site-title">
       {{ isPremium ? "Fermivo Premium🌾" : "Fermivo🌾" }}
@@ -33,8 +34,8 @@
     <button class="btn-chat" @click="startConversation">
       Conversează cu acest utilizator
     </button>
+    <button class="btn-back" @click="goBack">← Înapoi</button>
   </div>
-  <button class="btn-back" @click="goBack">← Înapoi</button>
 </template>
 
 <script>
@@ -159,6 +160,14 @@ export default {
 </script>
 
 <style scoped>
+.background-image {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
 .header {
   display: flex;
   align-items: center;
