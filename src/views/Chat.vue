@@ -1,4 +1,5 @@
 <template>
+  <img src="../assets/login.jpg" alt="Background" class="background-image" />
   <div class="chat-page">
     <div class="chat-header">
       <h2>
@@ -286,6 +287,14 @@ export default {
 </script>
 
 <style scoped>
+.background-image {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
 .chat-page {
   max-width: 700px;
   margin: 4rem auto;

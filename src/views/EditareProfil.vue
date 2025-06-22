@@ -1,4 +1,5 @@
 <template>
+  <img src="../assets/login.jpg" alt="Background" class="background-image" />
   <div class="edit-profile">
     <h1>Editează Profilul</h1>
 
@@ -164,6 +165,14 @@ export default {
 </script>
 
 <style scoped>
+.background-image {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
 .edit-profile {
   max-width: 500px;
   margin: 2rem auto;
