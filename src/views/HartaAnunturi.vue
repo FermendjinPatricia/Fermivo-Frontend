@@ -9,13 +9,6 @@
       <router-link v-else to="/home-buyer" class="site-title"
         >Fermivo🌾</router-link
       >
-      <router-link
-        v-if="isLoggedIn && !isPremium"
-        to="/premium"
-        class="premium-button"
-      >
-        Devino Premium
-      </router-link>
 
       <div class="header-right">
         <div class="header-right" v-if="isLoggedIn && user && !isMobile">
