@@ -18,10 +18,10 @@
       <router-link to="/login" class="sign-in-button">Vino alături de noi!</router-link>
     </div>
     <nav v-if="menuOpen" class="menu">
-      <ul>
+      <ul v-if="!isLoggedIn">
         <li><router-link to="/login">Login</router-link></li>
         <li><router-link to="/register">Register</router-link></li>
-        <li><router-link to="/about">About</router-link></li>
+        <li><router-link to="/about">Despre noi</router-link></li>
       </ul>
     </nav>
   </div>
