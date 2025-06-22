@@ -12,8 +12,10 @@
         </span>
       </h2>
       <button @click="goToChat" class="btn-back">Înapoi</button>
-      <div class="menu-wrapper">
-        <button class="menu-button" @click="toggleMenu">⋮</button>
+      <div class="menu-wrapper" ref="menuWrapper">
+        <button class="menu-button" ref="menuButton" @click="toggleMenu">
+          ⋮
+        </button>
         <div class="menu-options" v-if="showMenu">
           <p @click="confirmDelete">🗑️ Șterge conversația</p>
           <p @click="showReportModal = true">🚩 Raportează utilizatorul</p>
@@ -173,8 +175,15 @@ export default {
     },
 
     handleOutsideClick(event) {
-      const menu = this.$el.querySelector(".menu-wrapper");
-      if (this.showMenu && menu && !menu.contains(event.target)) {
+      const menuWrapper = this.$refs.menuWrapper;
+      const button = this.$refs.menuButton;
+
+      if (
+        this.showMenu &&
+        menuWrapper &&
+        !menuWrapper.contains(event.target) &&
+        !button.contains(event.target)
+      ) {
         this.showMenu = false;
       }
     },
@@ -423,7 +432,6 @@ export default {
 .modal-actions button:last-child:hover {
   background-color: #7f0000;
 }
-
 
 .modal-overlay {
   position: fixed;
