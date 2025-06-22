@@ -60,6 +60,12 @@
       >
         {{ cat }}
       </button>
+      <button
+        :class="{ activ: selectedCategory === 'favorite' }"
+        @click="selectedCategory = 'favorite'"
+      >
+        ❤️ Favorite
+      </button>
     </div>
 
     <!-- HARTA -->
@@ -95,40 +101,17 @@
         >
           Vezi detalii
         </router-link>
+        <div style="text-align: right; margin-bottom: 8px">
+          <span
+            style="font-size: 1.5rem; cursor: pointer"
+            :style="{ color: isFavorite(selectedAnunt._id) ? 'red' : 'gray' }"
+            @click="toggleFavorite(selectedAnunt._id)"
+            title="Adaugă la favorite"
+          >
+            {{ isFavorite(selectedAnunt._id) ? "❤️" : "🤍" }}
+          </span>
+        </div>
       </div>
-
-      <!-- Coloana 2: Prețuri BRM -->
-      <div
-        class="brm-table"
-        v-if="getPreturiProdus && getPreturiProdus(selectedAnunt.produs).length"
-      >
-        <h4>Prețuri azi</h4>
-        <table>
-          <thead>
-            <tr>
-              <th>Zonă</th>
-              <th>Preț</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              v-for="(pret, idx) in getPreturiProdus(selectedAnunt.produs)"
-              :key="idx"
-            >
-              <td>{{ pret.zona }}</td>
-              <td>{{ pret.pret_lei_tona }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Coloana 3: Imagine -->
-      <img
-        src="../assets/grau.jpg"
-        alt="Imagine produs"
-        class="card-image"
-        v-if="!isMobile"
-      />
 
       <button
         @click="selectedAnunt = null"
@@ -182,6 +165,7 @@ export default {
       menuOpen: false,
       isMobile: window.innerWidth <= 1024,
       anunturi: [],
+      favoriteAnunturi: [],
       selectedCategory: "toate",
       selectedAnunt: null,
       categories: [
@@ -209,7 +193,11 @@ export default {
     },
     anunturiFiltrate() {
       if (this.selectedCategory === "toate") return this.anunturi;
-
+      if (this.selectedCategory === "favorite") {
+        return this.anunturi.filter((a) =>
+          this.favoriteAnunturi.includes(a._id)
+        );
+      }
       const selected = this.normalize(this.selectedCategory);
       return this.anunturi.filter((a) => this.normalize(a.produs) === selected);
     },
@@ -227,10 +215,53 @@ export default {
     if (localUser && localUser._id) {
       this.isLoggedIn = true;
       await this.fetchUser(localUser._id);
+      await this.fetchFavorites();
     }
     await this.fetchAnunturi();
   },
   methods: {
+    isFavorite(anuntId) {
+      return this.favoriteAnunturi.includes(anuntId);
+    },
+    async toggleFavorite(anuntId) {
+      const url = `https://fermivo-backend.onrender.com/api/users/favorites/${anuntId}`;
+      const isFav = this.isFavorite(anuntId);
+      try {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        };
+        if (isFav) {
+          await fetch(url, { method: "DELETE", ...config });
+          this.favoriteAnunturi = this.favoriteAnunturi.filter(
+            (id) => id !== anuntId
+          );
+        } else {
+          await fetch(url, { method: "POST", ...config });
+          this.favoriteAnunturi.push(anuntId);
+        }
+      } catch (err) {
+        console.error("❌ Eroare la toggle favorite:", err);
+      }
+    },
+    async fetchFavorites() {
+      try {
+        const res = await fetch(
+          "https://fermivo-backend.onrender.com/api/users/favorites",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        const data = await res.json();
+        this.favoriteAnunturi = data.map((a) => a._id);
+      } catch (err) {
+        console.error("❌ Eroare la fetch favorites:", err);
+      }
+    },
+
     handleMarkerClick(anunt) {
       this.selectedAnunt = anunt;
 
