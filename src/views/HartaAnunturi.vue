@@ -101,6 +101,9 @@
         >
           Vezi detalii
         </router-link>
+        <button @click="selectedAnunt = null" class="ascunde-button">
+          ✖️ Ascunde anunțul
+        </button>
         <div style="text-align: right; margin-bottom: 8px">
           <span
             style="font-size: 1.5rem; cursor: pointer"
@@ -112,14 +115,6 @@
           </span>
         </div>
       </div>
-
-      <button
-        @click="selectedAnunt = null"
-        class="sign-out-button"
-        style="margin-top: 1rem; justify-self: start"
-      >
-        ✖️ Ascunde anunțul
-      </button>
     </div>
 
     <nav v-if="menuOpen" class="menu">
@@ -389,6 +384,24 @@ body {
 .truck-button:hover {
   background-color: #658ec8;
 }
+
+.ascunde-button {
+  margin-top: 0.5rem;
+  background-color: #888; /* gri */
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, transform 0.2s;
+}
+.ascunde-button:hover {
+  background-color: #666;
+  transform: translateY(-2px);
+}
+
 
 .btn-vezi-harta {
   background-color: #011bc2;
