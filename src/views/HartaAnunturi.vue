@@ -113,7 +113,7 @@
 
         <div style="text-align: right; margin-bottom: 8px">
           <span
-            style="font-size: 1.5rem; cursor: pointer"
+            style="font-size: 1rem; cursor: pointer"
             :style="{ color: black }"
             @click="toggleFavorite(anunt._id)"
             title="Adaugă la favorite"
@@ -1316,7 +1316,7 @@ p {
     font-size: 0.9rem;
     padding: 0.4rem 1rem;
   }
-  
+
   .data-container {
     padding: 0.5rem;
     width: 95%;
