@@ -46,6 +46,17 @@
         </span>
       </div>
     </div>
+    <!-- Favorite Button -->
+    <div v-if="isBuyer" style="margin-top: 1rem; text-align: right">
+      <span
+        style="font-size: 1.8rem; cursor: pointer"
+        :style="{ color: isFavorite(anunt._id) ? 'red' : 'gray' }"
+        @click="toggleFavorite(anunt._id)"
+        title="Adaugă la favorite"
+      >
+        {{ isFavorite(anunt._id) ? "❤️" : "🤍" }}
+      </span>
+    </div>
 
     <button v-if="isBuyer" class="btn-chat" @click="startConversation">
       Conversează
@@ -71,6 +82,7 @@ export default {
       hasRated: false,
       average: null,
       numReviews: 0,
+      favoriteAnunturi: [],
     };
   },
   computed: {
@@ -86,12 +98,64 @@ export default {
     },
   },
   async created() {
+    await this.fetchFavorites();
     await this.fetchAnunt();
   },
   methods: {
+    async fetchFavorites() {
+      try {
+        const res = await axios.get(
+          "https://fermivo-backend.onrender.com/api/users/favorites",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        this.favoriteAnunturi = res.data.map((anunt) => anunt._id);
+      } catch (err) {
+        console.error("❌ Eroare la fetch favorites:", err);
+      }
+    },
+    isFavorite(anuntId) {
+      return this.favoriteAnunturi.includes(anuntId);
+    },
+    async toggleFavorite(anuntId) {
+      const isFav = this.isFavorite(anuntId);
+      const url = `https://fermivo-backend.onrender.com/api/users/favorites/${anuntId}`;
+
+      try {
+        if (isFav) {
+          await axios.delete(url, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          });
+          this.favoriteAnunturi = this.favoriteAnunturi.filter(
+            (id) => id !== anuntId
+          );
+        } else {
+          await axios.post(
+            url,
+            {},
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
+          );
+          this.favoriteAnunturi.push(anuntId);
+        }
+      } catch (err) {
+        console.error("❌ Eroare la toggle favorite:", err);
+      }
+    },
+
     async fetchAnunt() {
       const { id } = this.$route.params;
-      const response = await axios.get(`https://fermivo-backend.onrender.com/api/anunturi/${id}`);
+      const response = await axios.get(
+        `https://fermivo-backend.onrender.com/api/anunturi/${id}`
+      );
       this.anunt = response.data.anunt;
       this.selectedRating = this.currentRating;
       this.average = this.averageRatingCalc();
@@ -99,7 +163,10 @@ export default {
     },
     averageRatingCalc() {
       if (!this.anunt.userId?.reviews?.length) return null;
-      const sum = this.anunt.userId.reviews.reduce((acc, r) => acc + r.rating, 0);
+      const sum = this.anunt.userId.reviews.reduce(
+        (acc, r) => acc + r.rating,
+        0
+      );
       return (sum / this.anunt.userId.reviews.length).toFixed(1);
     },
     async rateUser(rating) {
@@ -131,10 +198,13 @@ export default {
     },
     async startConversation() {
       try {
-        const response = await axios.post("https://fermivo-backend.onrender.com/api/conversatii/start", {
-          senderId: this.user._id,
-          receiverId: this.anunt.userId,
-        });
+        const response = await axios.post(
+          "https://fermivo-backend.onrender.com/api/conversatii/start",
+          {
+            senderId: this.user._id,
+            receiverId: this.anunt.userId,
+          }
+        );
 
         if (response.data.success) {
           const convId = response.data.conversatie._id;
@@ -149,11 +219,14 @@ export default {
       const confirmDelete = confirm("Sigur vrei să ștergi acest anunț?");
       if (confirmDelete) {
         const token = localStorage.getItem("token");
-        await axios.delete(`https://fermivo-backend.onrender.com/api/anunturi/${this.anunt._id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        await axios.delete(
+          `https://fermivo-backend.onrender.com/api/anunturi/${this.anunt._id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         alert("Anunț șters!");
         this.$router.push("/home");
       }
