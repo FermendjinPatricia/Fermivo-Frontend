@@ -20,6 +20,7 @@ import HartaAnunturi from "@/views/HartaAnunturi.vue";
 import TrackSofer from "@/views/TrackSofer.vue";
 import CamioaneBuyer from "@/views/CamioaneBuyer.vue";
 import Predictii from "@/views/Predictii.vue";
+import PremiumSuccess from "@/views/PremiumSuccess.vue";
 
 const routes = [
   {
@@ -54,6 +55,12 @@ const routes = [
     name: "Predictii",
     component: Predictii,
     meta: { requiresAuth: true, allowedRoles: ["seller", "buyer", "admin"] }, // toți au voie aici
+  },
+  {
+    path: "/premium-success",
+    name: PremiumSuccess,
+    component: PremiumSuccess,
+    meta: { requiresAuth: true, allowedRoles: ["seller", "buyer"]},
   },
   // Seller & Buyer  routes
   {
