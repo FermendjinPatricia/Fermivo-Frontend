@@ -79,38 +79,46 @@
     </div>
 
     <div
-      v-if="selectedAnunt"
+      v-for="anunt in selectedAnunturi"
+      :key="anunt._id"
       id="anunt-selectat"
       class="card card-grid"
       style="margin-top: 1rem"
     >
-      <!-- Coloana 1: Info anunț -->
       <div class="anunt-info">
         <p>
-          <strong>{{ selectedAnunt.produs }}</strong>
+          <strong>{{ anunt.produs }}</strong>
         </p>
         <p>
-          Preț: {{ selectedAnunt.pret_lei_tona }}
-          {{ selectedAnunt.moneda === "euro" ? "€" : "lei" }}/tonă
+          Preț: {{ anunt.pret_lei_tona }}
+          {{ anunt.moneda === "euro" ? "€" : "lei" }}/tonă
         </p>
-        <p>Județ: {{ selectedAnunt.judet }}</p>
-        <p>Localitate: {{ selectedAnunt.localitate }}</p>
-        <router-link
-          :to="`/anunturi/${selectedAnunt._id}`"
-          class="detalii-button"
-        >
+        <p>Județ: {{ anunt.judet }}</p>
+        <p>Localitate: {{ anunt.localitate }}</p>
+
+        <router-link :to="`/anunturi/${anunt._id}`" class="detalii-button">
           Vezi detalii
         </router-link>
-        <button @click="selectedAnunt = null" class="ascunde-button">
+
+        <button
+          @click="
+            selectedAnunturi = selectedAnunturi.filter(
+              (a) => a._id !== anunt._id
+            )
+          "
+          class="ascunde-button"
+        >
           ✖️ Ascunde anunțul
         </button>
+
         <div style="text-align: right; margin-bottom: 8px">
           <span
             style="font-size: 1.5rem; cursor: pointer"
             :style="{ color: black }"
-            @click="toggleFavorite(selectedAnunt._id)"
+            @click="toggleFavorite(anunt._id)"
             title="Adaugă la favorite"
-          >Adaugă la favorite {{ isFavorite(selectedAnunt._id) ? "❤️" : "🤍" }}
+          >
+            Adaugă la favorite {{ isFavorite(anunt._id) ? "❤️" : "🤍" }}
           </span>
         </div>
       </div>
@@ -161,7 +169,7 @@ export default {
       anunturi: [],
       favoriteAnunturi: [],
       selectedCategory: "toate",
-      selectedAnunt: null,
+      selectedAnunturi: [],
       categories: [
         "toate",
         "Grâu panificație",
@@ -257,11 +265,13 @@ export default {
     },
 
     handleMarkerClick(anunt) {
-      this.selectedAnunt = anunt;
+      const exists = this.selectedAnunturi.some((a) => a._id === anunt._id);
+      if (!exists) {
+        this.selectedAnunturi.push(anunt);
+      }
 
-      // 🔽 scroll automat spre cardul de jos
       this.$nextTick(() => {
-        const el = this.$el.querySelector("#anunt-selectat");
+        const el = this.$el.querySelector(`#anunt-selectat`);
         if (el) el.scrollIntoView({ behavior: "smooth" });
       });
     },
@@ -400,7 +410,6 @@ body {
   background-color: #666;
   transform: translateY(-2px);
 }
-
 
 .btn-vezi-harta {
   background-color: #011bc2;
