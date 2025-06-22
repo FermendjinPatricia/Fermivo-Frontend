@@ -7,24 +7,32 @@
       Nu ai conversații active încă.
     </div>
 
-    <div v-else class="conversatie-card" v-for="conv in conversatii" :key="conv._id" @click="goToChat(conv)">
+    <div
+      v-else
+      class="conversatie-card"
+      v-for="conv in conversatii"
+      :key="conv._id"
+      @click="goToChat(conv)"
+    >
       <img :src="getOtherUserPicture(conv)" class="avatar" />
       <div class="info">
         <p class="name">{{ getOtherUserName(conv) }}</p>
-        <p class="last-message">{{ conv.lastMessage?.text || 'Fără mesaje' }}</p>
+        <p class="last-message">
+          {{ conv.lastMessage?.text || "Fără mesaje" }}
+        </p>
       </div>
       <span class="timestamp">{{ formatDate(conv.updatedAt) }}</span>
     </div>
-  </div>
-  <div v-if="user.role === 'buyer'" >
-    <router-link to="/home-buyer">
-      <button class="btn-back">Înapoi</button>
-    </router-link>
-  </div>
-  <div v-else>
-    <router-link to="/home">
-      <button class="btn-back">Înapoi</button>
-    </router-link>
+    <div v-if="user.role === 'buyer'">
+      <router-link to="/home-buyer">
+        <button class="btn-back">Înapoi</button>
+      </router-link>
+    </div>
+    <div v-else>
+      <router-link to="/home">
+        <button class="btn-back">Înapoi</button>
+      </router-link>
+    </div>
   </div>
 </template>
 
@@ -41,7 +49,9 @@ export default {
   },
   async created() {
     try {
-      const res = await axios.get(`https://fermivo-backend.onrender.com/api/conversatii/user/${this.user._id}`);
+      const res = await axios.get(
+        `https://fermivo-backend.onrender.com/api/conversatii/user/${this.user._id}`
+      );
       this.conversatii = res.data.conversatii;
     } catch (err) {
       console.error("❌ Eroare la fetch conversatii:", err);
@@ -49,11 +59,11 @@ export default {
   },
   methods: {
     getOtherUserName(conv) {
-      const other = conv.participants.find(p => p._id !== this.user._id);
+      const other = conv.participants.find((p) => p._id !== this.user._id);
       return `${other.nume} ${other.prenume}`;
     },
     getOtherUserPicture(conv) {
-      const other = conv.participants.find(p => p._id !== this.user._id);
+      const other = conv.participants.find((p) => p._id !== this.user._id);
       return other.profilePicture
         ? `https://fermivo-backend.onrender.com${other.profilePicture}`
         : `https://fermivo-backend.onrender.com/uploads/default_profile.jpg`;
@@ -62,8 +72,11 @@ export default {
       this.$router.push(`/chat/${conv._id}`);
     },
     formatDate(date) {
-      return new Date(date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    }
+      return new Date(date).toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    },
   },
 };
 </script>
