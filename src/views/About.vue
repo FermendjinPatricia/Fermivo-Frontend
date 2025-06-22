@@ -1,39 +1,42 @@
 <template>
   <img src="../assets/login.jpg" alt="Background" class="background-image" />
   <div class="anunt-details">
-  <div class="content-box">
-    <h1>Despre Fermivo</h1>
-    <p>
-      <strong>Fermivo</strong> este o platformă digitală agricolă ce pune în
-      legătură <strong>fermieri</strong> și <strong>companii</strong> din
-      România. Scopul nostru este să digitalizăm comerțul cu produse agricole,
-      oferind un spațiu sigur, eficient și transparent pentru tranzacții.
-    </p>
-    <ul>
-      <li>
-        📈 Vezi prețurile curente ale cerealelor de pe Bursa Română de Mărfuri
-        (BRM)
-      </li>
-      <li>
-        🤖 Primește predicții automate despre evoluția prețurilor folosind
-        inteligență artificială
-      </li>
-      <li>🛒 Publică și gestionează anunțuri de vânzare sau cumpărare</li>
-      <li>💬 Comunică prin chat în timp real cu ceilalți utilizatori</li>
-      <li>
-        🌟 Cu un cont Premium, ai acces la promovarea anunțurilor și urmărirea
-        camioanelor 🚚
-      </li>
-    </ul>
-    <p>
-      Fermivo sprijină viitorul agriculturii românești prin inovație și
-      conectivitate. Hai alături de noi!
-    </p>
-    <p>Contactează-ne pentru mai multe informații sau întrebări la
-    contact@fermivo.ro pentru mai multe informații.
-    </p>
-    <button class="btn-back" @click="$router.back()">Înapoi</button>
-  </div>
+    <div class="content-box">
+      <h1>Despre Fermivo</h1>
+      <p>
+        <strong>Fermivo</strong> este o platformă digitală agricolă ce pune în
+        legătură <strong>fermieri</strong> și <strong>companii</strong> din
+        România. Scopul nostru este să digitalizăm comerțul cu produse agricole,
+        oferind un spațiu sigur, eficient și transparent pentru tranzacții.
+      </p>
+      <ul>
+        <li>
+          📈 Vezi prețurile curente ale cerealelor de pe Bursa Română de Mărfuri
+          (BRM)
+        </li>
+        <li>
+          🤖 Primește predicții automate despre evoluția prețurilor folosind
+          inteligență artificială
+        </li>
+        <li>🛒 Publică și gestionează anunțuri de vânzare sau cumpărare</li>
+        <li>💬 Comunică prin chat în timp real cu ceilalți utilizatori</li>
+        <li>
+          🌟 Cu un cont Premium, ai acces la promovarea anunțurilor și urmărirea
+          camioanelor 🚚
+        </li>
+      </ul>
+      <p>
+        Fermivo sprijină viitorul agriculturii românești prin inovație și
+        conectivitate. Hai alături de noi!
+      </p>
+      <p>
+        Contactează-ne pentru mai multe informații sau întrebări la
+        contact@fermivo.ro pentru mai multe informații.
+      </p>
+      <div style="text-align: center; margin-top: 2rem">
+        <button class="btn-back" @click="$router.back()">Înapoi</button>
+      </div>
+    </div>
   </div>
 </template>
 
