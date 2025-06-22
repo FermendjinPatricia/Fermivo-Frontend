@@ -29,8 +29,9 @@
       Fermivo sprijină viitorul agriculturii românești prin inovație și
       conectivitate. Hai alături de noi!
     </p>
-    Contactează-ne pentru mai multe informații sau întrebări la
+    <p>Contactează-ne pentru mai multe informații sau întrebări la
     contact@fermivo.ro pentru mai multe informații.
+    </p>
     <button class="btn-back" @click="$router.back()">Înapoi</button>
   </div>
   </div>
