@@ -68,17 +68,100 @@
         ref="map"
         :anunturi="anunturiFiltrate"
         :key="selectedCategory"
+        @marker-clicked="handleMarkerClick"
       />
     </div>
+
+    <div
+      v-if="selectedAnunt"
+      id="anunt-selectat"
+      class="card card-grid"
+      style="margin-top: 1rem"
+    >
+      <!-- Coloana 1: Info anunț -->
+      <div class="anunt-info">
+        <p>
+          <strong>{{ selectedAnunt.produs }}</strong>
+        </p>
+        <p>
+          Preț: {{ selectedAnunt.pret_lei_tona }}
+          {{ selectedAnunt.moneda === "euro" ? "€" : "lei" }}/tonă
+        </p>
+        <p>Județ: {{ selectedAnunt.judet }}</p>
+        <p>Localitate: {{ selectedAnunt.localitate }}</p>
+        <router-link
+          :to="`/anunturi/${selectedAnunt._id}`"
+          class="detalii-button"
+        >
+          Vezi detalii
+        </router-link>
+      </div>
+
+      <!-- Coloana 2: Prețuri BRM -->
+      <div
+        class="brm-table"
+        v-if="getPreturiProdus && getPreturiProdus(selectedAnunt.produs).length"
+      >
+        <h4>Prețuri azi</h4>
+        <table>
+          <thead>
+            <tr>
+              <th>Zonă</th>
+              <th>Preț</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="(pret, idx) in getPreturiProdus(selectedAnunt.produs)"
+              :key="idx"
+            >
+              <td>{{ pret.zona }}</td>
+              <td>{{ pret.pret_lei_tona }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Coloana 3: Imagine -->
+      <img
+        src="../assets/grau.jpg"
+        alt="Imagine produs"
+        class="card-image"
+        v-if="!isMobile"
+      />
+
+      <button
+        @click="selectedAnunt = null"
+        class="sign-out-button"
+        style="margin-top: 1rem; justify-self: start"
+      >
+        ✖️ Ascunde anunțul
+      </button>
+    </div>
+
     <nav v-if="menuOpen" class="menu">
       <ul v-if="isLoggedIn">
-        <li v-if="isBuyer"><router-link to="/home-buyer">Acasă</router-link></li>
-        <li><router-link to="/check-prices">Vezi prețurile curente</router-link></li>
-        <li><router-link to="/predictii">Vezi predicții de prețuri</router-link></li>
-        <li v-if="isPremium && isBuyer"><router-link to="/camioane-cumparator">Urmărește Șofer</router-link></li>
-        <li v-if="!isPremium"><router-link to="/premium">Devino Premium</router-link></li>
+        <li v-if="isBuyer">
+          <router-link to="/home-buyer">Acasă</router-link>
+        </li>
+        <li>
+          <router-link to="/check-prices">Vezi prețurile curente</router-link>
+        </li>
+        <li>
+          <router-link to="/predictii">Vezi predicții de prețuri</router-link>
+        </li>
+        <li v-if="isPremium && isBuyer">
+          <router-link to="/camioane-cumparator">Urmărește Șofer</router-link>
+        </li>
+        <li v-if="!isPremium">
+          <router-link to="/premium">Devino Premium</router-link>
+        </li>
         <li><router-link to="/chat">Conversațiile tale</router-link></li>
-        <li><router-link :to="`/editare-profil/${user._id}`">Editează Profil</router-link></li>
+        <li>
+          <router-link :to="`/editare-profil/${user._id}`"
+            >Editează Profil</router-link
+          >
+        </li>
         <li><router-link to="/about">Despre noi</router-link></li>
       </ul>
     </nav>
@@ -100,6 +183,7 @@ export default {
       isMobile: window.innerWidth <= 1024,
       anunturi: [],
       selectedCategory: "toate",
+      selectedAnunt: null,
       categories: [
         "toate",
         "Grâu panificație",
@@ -147,6 +231,15 @@ export default {
     await this.fetchAnunturi();
   },
   methods: {
+    handleMarkerClick(anunt) {
+      this.selectedAnunt = anunt;
+
+      // 🔽 scroll automat spre cardul de jos
+      this.$nextTick(() => {
+        const el = this.$el.querySelector("#anunt-selectat");
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      });
+    },
     handleResize() {
       this.isMobile = window.innerWidth <= 1024;
     },
@@ -1119,5 +1212,4 @@ p {
     font-size: 1.5rem;
   }
 }
-
 </style>

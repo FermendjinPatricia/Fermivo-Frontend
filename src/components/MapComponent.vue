@@ -38,9 +38,8 @@ export default {
         if (window.google) return resolve();
         const script = document.createElement("script");
         const apiKey = process.env.VUE_APP_GOOGLE_MAPS_API_KEY;
-        console.log("🔑 Cheia din .env este:", apiKey); 
-        script.src =
-          `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMapCallback`;
+        console.log("🔑 Cheia din .env este:", apiKey);
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMapCallback`;
         script.async = true;
         script.defer = true;
         window.initMapCallback = resolve;
@@ -84,7 +83,10 @@ export default {
           }
 
           const info = new google.maps.InfoWindow({ content });
-          marker.addListener("click", () => info.open(this.map, marker));
+          marker.addListener("click", () => {
+            info.open(this.map, marker);
+            this.$emit("marker-clicked", anunt); // ⬅️ emitere spre HartaAnunturi.vue
+          });
           this.markers.push(marker);
         }
       });
