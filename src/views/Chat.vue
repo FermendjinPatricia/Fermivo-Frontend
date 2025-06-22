@@ -180,7 +180,6 @@ export default {
     },
     async submitReport() {
       if (!this.reportReason || !this.reportText.trim()) {
-        alert("Completează toate câmpurile!");
         return;
       }
 
@@ -191,24 +190,20 @@ export default {
           reason: this.reportReason,
           description: this.reportText,
         });
-        alert("Raport trimis!");
         this.showReportModal = false;
         this.reportReason = "";
         this.reportText = "";
       } catch (err) {
         console.error("❌ Eroare la raportare:", err);
-        alert("A apărut o eroare la trimiterea raportului.");
       }
     },
     async confirmDelete() {
       if (confirm("Ești sigur că vrei să ștergi conversația?")) {
         try {
           await axios.delete(`/conversatii/${this.convId}`);
-          alert("Conversația a fost ștearsă!");
           this.$router.push("/chat");
         } catch (err) {
           console.error("❌ Eroare la ștergerea conversației:", err);
-          alert("A apărut o eroare la ștergerea conversației.");
         }
       }
     },
@@ -227,7 +222,6 @@ export default {
           this.$router.push("/chat/:id"); // redirecționare, opțional
         } catch (err) {
           console.error("❌ Eroare la blocare:", err);
-          alert("Nu s-a putut bloca utilizatorul.");
         }
       }
     },
@@ -264,10 +258,8 @@ export default {
             },
           });
           this.isBlocked = false;
-          alert("Utilizator deblocat.");
         } catch (err) {
           console.error("❌ Eroare la deblocare:", err);
-          alert("Nu s-a putut debloca utilizatorul.");
         }
       }
     },
@@ -320,31 +312,44 @@ export default {
 }
 
 .menu-button {
-  background: none;
+  font-size: 2rem;
+  background: rgba(217, 242, 208, 1);
   border: none;
-  font-size: 1.5rem;
+  border-radius: 8px;
   cursor: pointer;
+  color: #1b5e20;
+  padding: 0.2rem 0.6rem;
+  transition: background-color 0.2s ease;
+}
+
+.menu-button:hover {
+  background-color: #c5e1a5;
 }
 
 .menu-options {
   position: absolute;
-  top: 30px;
+  top: 40px;
   right: 0;
   background: white;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 10;
+  min-width: 200px;
+  font-family: "Inria Sans", sans-serif;
 }
 
 .menu-options p {
-  margin: 0;
-  padding: 0.5rem 1rem;
+  margin: 10px 0;
   cursor: pointer;
+  font-weight: bold;
+  color: #1b5e20;
+  transition: color 0.2s ease;
 }
 
 .menu-options p:hover {
-  background: #f0f0f0;
+  text-decoration: underline;
+  color: #33691e;
 }
 
 .modal {
