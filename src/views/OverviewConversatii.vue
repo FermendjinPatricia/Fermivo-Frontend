@@ -1,4 +1,5 @@
 <template>
+  <img src="../assets/login.jpg" alt="Background" class="background-image" />
   <div class="conversatii-container">
     <h2>Conversațiile tale 📬</h2>
 
@@ -68,6 +69,14 @@ export default {
 </script>
 
 <style scoped>
+.background-image {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
 .btn-back {
   background-color: #4caf50;
   color: white;
