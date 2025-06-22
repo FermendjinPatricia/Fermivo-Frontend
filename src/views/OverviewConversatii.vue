@@ -23,16 +23,11 @@
       </div>
       <span class="timestamp">{{ formatDate(conv.updatedAt) }}</span>
     </div>
-    <div v-if="user.role === 'buyer'">
-      <router-link to="/home-buyer">
-        <button class="btn-back">Înapoi</button>
-      </router-link>
-    </div>
-    <div v-else>
-      <router-link to="/home">
-        <button class="btn-back">Înapoi</button>
-      </router-link>
-    </div>
+    <div class="btn-wrapper">
+  <router-link :to="user.role === 'buyer' ? '/home-buyer' : '/home'">
+    <button class="btn-back">Înapoi</button>
+  </router-link>
+</div>
   </div>
 </template>
 
@@ -90,6 +85,11 @@ export default {
   height: 100%;
   z-index: -1;
 }
+.btn-wrapper {
+  text-align: center;
+  margin-top: 2rem;
+}
+
 .btn-back {
   background-color: #4caf50;
   color: white;
