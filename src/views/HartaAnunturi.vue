@@ -189,12 +189,15 @@ export default {
       }
     },
     toggleProfileMenu() {
-      this.showProfileMenu = !this.showProfileMenu;
+      this.menuOpen = !this.menuOpen;
     },
-    toggleMenu() {},
+    toggleMenu() {
+      this.menuOpen = !this.menuOpen;
+    },
     handleLogout() {
       localStorage.removeItem("token");
       localStorage.removeItem("user");
+      this.isLoggedIn = false;
       this.$router.push("/login");
     },
   },
