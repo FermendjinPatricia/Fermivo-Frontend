@@ -24,8 +24,7 @@
       <p>
         Fermivo sprijină viitorul agriculturii românești prin inovație și conectivitate. Hai alături de noi!
       </p>
-
-      <router-link to="/register" class="sign-in-button">Creează un cont</router-link>
+      Contactează-ne pentru mai multe informații sau întrebări la contact@fermivo.ro pentru mai multe informații.
     </div>
 
     <nav v-if="menuOpen" class="menu">
