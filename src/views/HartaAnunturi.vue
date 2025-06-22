@@ -107,10 +107,10 @@
         <div style="text-align: right; margin-bottom: 8px">
           <span
             style="font-size: 1.5rem; cursor: pointer"
-            :style="{ color: isFavorite(selectedAnunt._id) ? 'red' : 'gray' }"
+            :style="{ color: black }"
             @click="toggleFavorite(selectedAnunt._id)"
             title="Adaugă la favorite"
-          >Adaugă la favorite anunțul {{ isFavorite(selectedAnunt._id) ? "❤️" : "🤍" }}
+          >Adaugă la favorite {{ isFavorite(selectedAnunt._id) ? "❤️" : "🤍" }}
           </span>
         </div>
       </div>
