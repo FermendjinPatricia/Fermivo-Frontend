@@ -1,4 +1,5 @@
 <template>
+  <img src="../assets/login.jpg" alt="Background" class="background-image" />
   <div class="anunt-details">
     <h1>{{ anunt.produs }}</h1>
     <p>
@@ -54,12 +55,7 @@
     <button v-if="!isBuyer" class="btn-delete" @click="deleteAnunt">
       Șterge
     </button>
-    <button v-if="!isBuyer" class="btn-back" @click="$router.push('/home')">
-      Înapoi
-    </button>
-    <button v-if="isBuyer" class="btn-back" @click="$router.push('/home-buyer')">
-      Înapoi
-    </button>
+    <button class="btn-back" @click="$router.back()">Înapoi</button>
   </div>
 </template>
 
@@ -167,6 +163,14 @@ export default {
 </script>
 
 <style scoped>
+.background-image {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
 .btn-vanzator {
   color: #1b5e20;
   font-weight: bold;
