@@ -1144,17 +1144,6 @@ p {
   font-weight: bold;
 }
 
-.menu {
-  position: absolute;
-  top: 60px;
-  left: 15px;
-  background: rgb(201, 223, 192);
-  padding: 1rem;
-  border-radius: 5px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  z-index: 2;
-}
-
 .detalii-button,
 .adauga_anunt {
   display: inline-block;
