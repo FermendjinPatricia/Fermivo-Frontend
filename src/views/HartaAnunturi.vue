@@ -379,7 +379,7 @@ body {
   gap: 8px;
 }
 
-.anunt-card {Add commentMore actions
+.anunt-card {
   background: rgba(197, 241, 186, 0.9);
   padding: 1.5rem;
   border-radius: 20px;
