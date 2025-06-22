@@ -113,7 +113,7 @@
 
         <div style="text-align: right; margin-bottom: 8px">
           <span
-            style="font-size: 1rem; cursor: pointer"
+            style="font-size: 1.5rem; cursor: pointer"
             :style="{ color: black }"
             @click="toggleFavorite(anunt._id)"
             title="Adaugă la favorite"
@@ -377,82 +377,6 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-}
-.anunt-card {
-  background: rgba(197, 241, 186, 0.9);
-  padding: 1.5rem;
-  border-radius: 20px;
-  max-width: 600px;
-  width: 95%;
-  margin: 1.5rem auto 1rem auto;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  font-family: "Inria Sans", sans-serif;
-}
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.5rem;
-}
-
-.card-header h2 {
-  margin: 0;
-  font-size: 1.5rem;
-  color: #1b5e20;
-}
-
-.favorite-icon {
-  font-size: 1.8rem;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-.favorite-icon:hover {
-  transform: scale(1.2);
-}
-
-.anunt-card p {
-  font-size: 1.1rem;
-  color: #1b5e20;
-  margin: 0.2rem 0;
-  font-weight: bold;
-}
-
-.anunt-buttons {
-  margin-top: 1rem;
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-.btn-vezi,
-.btn-ascunde {
-  padding: 0.5rem 1.2rem;
-  border-radius: 10px;
-  font-weight: bold;
-  font-size: 1rem;
-  border: none;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-}
-
-.btn-vezi {
-  background-color: #1b5e20;
-  color: white;
-}
-.btn-vezi:hover {
-  background-color: #093b12;
-  transform: translateY(-2px);
-}
-
-.btn-ascunde {
-  background-color: #9e9e9e;
-  color: white;
-}
-.btn-ascunde:hover {
-  background-color: #777;
-  transform: translateY(-2px);
 }
 
 .truck-button {
@@ -1297,24 +1221,6 @@ p {
   .site-title {
     margin: 0 auto;
     font-size: 1rem;
-  }
-
-  .anunt-card {
-    padding: 1rem;
-  }
-
-  .card-header h2 {
-    font-size: 1.3rem;
-  }
-
-  .anunt-card p {
-    font-size: 1rem;
-  }
-
-  .btn-vezi,
-  .btn-ascunde {
-    font-size: 0.9rem;
-    padding: 0.4rem 1rem;
   }
 
   .data-container {
