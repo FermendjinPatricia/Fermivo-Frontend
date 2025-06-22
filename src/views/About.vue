@@ -1,5 +1,6 @@
 <template>
   <img src="../assets/login.jpg" alt="Background" class="background-image" />
+  <div class="anunt-details">
   <div class="content-box">
     <h1>Despre Fermivo</h1>
     <p>
@@ -31,6 +32,7 @@
     Contactează-ne pentru mai multe informații sau întrebări la
     contact@fermivo.ro pentru mai multe informații.
     <button class="btn-back" @click="$router.back()">Înapoi</button>
+  </div>
   </div>
 </template>
 
