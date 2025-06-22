@@ -347,6 +347,79 @@ export default {
   background: #f0f0f0;
 }
 
+.modal {
+  background: #f1f8e9;
+  padding: 2rem;
+  border-radius: 16px;
+  max-width: 450px;
+  width: 90%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  font-family: "Inria Sans", sans-serif;
+}
+
+.modal h3 {
+  color: #1b5e20;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.modal label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+  color: #2e7d32;
+}
+
+.modal textarea,
+.modal select {
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 0.95rem;
+}
+
+.modal textarea::placeholder {
+  color: #999;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.modal-actions button {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.modal-actions button:first-child {
+  background-color: #1b5e20;
+  color: white;
+}
+
+.modal-actions button:first-child:hover {
+  background-color: #093b12;
+}
+
+.modal-actions button:last-child {
+  background-color: #b71c1c;
+  color: white;
+}
+
+.modal-actions button:last-child:hover {
+  background-color: #7f0000;
+}
+
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -359,7 +432,7 @@ export default {
   justify-content: center;
   z-index: 999;
 }
-
+/* 
 .modal {
   background: white;
   padding: 1.5rem;
@@ -379,7 +452,7 @@ export default {
 .modal-actions {
   display: flex;
   justify-content: space-between;
-}
+} */
 
 .chat-box {
   flex: 1;
