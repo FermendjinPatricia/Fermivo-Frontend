@@ -47,7 +47,7 @@
       </div>
     </div>
     <!-- Favorite Button -->
-    <div v-if="isBuyer" style="margin-top: 1rem; text-align: right">
+    <div v-if="isBuyer" style="margin-top: 1rem;">
       <span
         style="font-size: 1.8rem; cursor: pointer"
         :style="{ color: isFavorite(anunt._id) ? 'red' : 'gray' }"
