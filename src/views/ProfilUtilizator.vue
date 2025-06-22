@@ -1,11 +1,5 @@
 <template>
   <img src="../assets/login.jpg" alt="Background" class="background-image" />
-  <div class="header">
-    <router-link :to="isBuyer ? '/home-buyer' : '/home'" class="site-title">
-      {{ isPremium ? "Fermivo Premium🌾" : "Fermivo🌾" }}
-    </router-link>
-  </div>
-
   <div class="profil-user">
     <h1>{{ user.nume }} {{ user.prenume }}</h1>
     <p><strong>Firmă:</strong> {{ user.denumireaFirmei }}</p>
