@@ -40,6 +40,9 @@
       </div>
 
       <button type="submit" class="save-button">Salvează</button>
+      <button type="button" class="cancel-button" @click="anuleaza">
+        Anulează
+      </button>
     </form>
   </div>
 </template>
@@ -77,6 +80,9 @@ export default {
     this.fetchUserData();
   },
   methods: {
+    anuleaza() {
+      this.$router.back();
+    },
     async fetchUserData() {
       try {
         const userId = JSON.parse(localStorage.getItem("user"))?._id;
@@ -133,8 +139,6 @@ export default {
         );
 
         if (updateResponse.data.success) {
-          alert("✅ Profil actualizat cu succes!");
-
           // Actualizează user-ul și localStorage-ul
           const updatedUser = updateResponse.data.user;
           localStorage.setItem("user", JSON.stringify(updatedUser));
@@ -219,4 +223,19 @@ input[type="email"] {
 .save-button:hover {
   background: #093b12;
 }
+.cancel-button {
+  width: 100%;
+  padding: 0.7rem;
+  margin-top: 0.5rem;
+  background: #b71c1c;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.cancel-button:hover {
+  background: #7f0000;
+}
+
 </style>
