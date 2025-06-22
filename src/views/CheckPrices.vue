@@ -112,22 +112,15 @@
 
     <nav v-if="menuOpen" class="menu">
       <ul v-if="isLoggedIn">
-        <li v-if="isBuyer">
-          <router-link to="/home-buyer">Acasă</router-link>
-        </li>
-        <li v-else>
-          <router-link to="/home">Acasă</router-link>
-        </li>
+        <li v-if="isBuyer"><router-link to="/home-buyer">Acasă</router-link></li>
+        <li v-else><router-link to="/home">Acasă</router-link></li>
+        <li><router-link to="/check-prices">Vezi prețurile curente</router-link></li>
         <li><router-link to="/predictii">Vezi predicții de prețuri</router-link></li>
-        <li><router-link :to="`/editare-profil/${user._id}`">Editează Profil</router-link></li>
         <li v-if="isPremium && isBuyer"><router-link to="/camioane-cumparator">Urmărește Șofer</router-link></li>
         <li v-if="!isPremium"><router-link to="/premium">Devino Premium</router-link></li>
+        <li><router-link to="/chat">Conversațiile tale</router-link></li>
+        <li><router-link :to="`/editare-profil/${user._id}`">Editează Profil</router-link></li>
         <li><router-link to="/about">Despre noi</router-link></li>
-      </ul>
-      <ul v-else>
-        <li><router-link to="/login">Login</router-link></li>
-        <li><router-link to="/register">Register</router-link></li>
-        <li><router-link to="/about">About</router-link></li>
       </ul>
     </nav>
   </div>
