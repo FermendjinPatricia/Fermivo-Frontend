@@ -110,8 +110,7 @@
             :style="{ color: isFavorite(selectedAnunt._id) ? 'red' : 'gray' }"
             @click="toggleFavorite(selectedAnunt._id)"
             title="Adaugă la favorite"
-          >
-            {{ isFavorite(selectedAnunt._id) ? "❤️" : "🤍" }}
+          >Adaugă la favorite anunțul {{ isFavorite(selectedAnunt._id) ? "❤️" : "🤍" }}
           </span>
         </div>
       </div>
