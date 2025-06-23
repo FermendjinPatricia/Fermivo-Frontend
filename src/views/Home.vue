@@ -62,65 +62,36 @@
       </p>
     </div>
 
-    <!-- PREDICTII SLIDER -->
-    <div
-      v-if="predictii.length && !isMobile"
-      class="predictii-slider"
-      @touchstart="handleTouchStart"
-      @touchend="handleTouchEnd"
-    >
+    <!-- PREDICTII SLIDER --> 
+    <div v-if="predictii.length && !isMobile" class="predictii-slider" @touchstart="handleTouchStart" @touchend="handleTouchEnd"> <!-- Slider pentru predicții -->
       <div class="slide">
-        <h3>{{ predictii[currentSlide].produs }}</h3>
-        <p><strong>Zonă:</strong> {{ predictii[currentSlide].zona }}</p>
+        <h3>{{ predictii[currentSlide].produs }}</h3> <!-- Numele produsului -->
+        <p><strong>Zonă:</strong> {{ predictii[currentSlide].zona }}</p> <!-- Zona geografică -->
         <p>
-          <strong>Preț estimat:</strong>
-          {{ predictii[currentSlide].pret_lei_predictie }}
-        </p>
+          <strong>Preț estimat:</strong>{{ predictii[currentSlide].pret_lei_predictie }}</p> <!-- Prețul estimat -->
       </div>
       <div class="slide-controls">
-        <button @click="prevSlide">⬅️</button>
-        <button @click="nextSlide">➡️</button>
+        <button @click="prevSlide">⬅️</button> <!-- Buton pentru slide-ul anterior -->
+        <button @click="nextSlide">➡️</button> <!-- Buton pentru slide-ul următor -->
       </div>
     </div>
-
-    <router-link to="/adauga-anunt" class="adauga_anunt"
-      >Adaugă un anunț</router-link
-    >
+    <router-link to="/adauga-anunt" class="adauga_anunt">Adaugă un anunț</router-link>
     <!-- ANUNTURI -->
-    <div class="card-container">
-      <p v-if="cereals.length === 0" class="no-ads">
-        Nu ai adăugat încă niciun anunț. Începe chiar acum! 🚜
-      </p>
-      <div v-else class="filtru-categorii">
-          <button
-            v-for="categorie in categories"
-            :key="categorie"
-            :class="{ activ: selectedCategory === categorie }"
-            @click="selectedCategory = categorie"
-          >
-            {{ categorie }}
-          </button>
-        </div>
-
-      <div v-for="(item, index) in anunturiFiltrate" :key="index" class="card">
-        
-
+    <div class="card-container"> <!-- Container pentru anunțuri -->
+      <p v-if="cereals.length === 0" class="no-ads">Nu ai adăugat încă niciun anunț. Începe chiar acum! 🚜</p> 
+      <div v-else class="filtru-categorii"> <!-- Filtru pentru categorii -->
+          <button v-for="categorie in categories" :key="categorie" :class="{ activ: selectedCategory === categorie }" @click="selectedCategory = categorie"
+          >{{ categorie }}</button> <!-- Butoane pentru fiecare categorie -->
+      </div>
+      <div v-for="(item, index) in anunturiFiltrate" :key="index" class="card"> <!-- Card pentru fiecare anunț -->
         <div class="card-text">
-          <p>
-            <strong>{{ item.produs }}</strong>
-          </p>
-          <p>
-            Preț: {{ item.pret_lei_tona }}
-            {{ item.moneda === "euro" ? "€" : "lei" }}/tonă
-          </p>
-          <p>Județ: {{ item.judet }}</p>
-          <p>Localitate: {{ item.localitate }}</p>
-
-          <router-link :to="`/anunturi/${item._id}`" class="detalii-button">
-            Vezi detalii
-          </router-link>
+          <p><strong>{{ item.produs }}</strong></p> <!-- Numele produsului -->
+          <p>Preț: {{ item.pret_lei_tona }}{{ item.moneda === "euro" ? "€" : "lei" }}/tonă</p> <!-- Prețul produsului -->
+          <p>Județ: {{ item.judet }}</p> <!-- Județul în care se află produsul -->
+          <p>Localitate: {{ item.localitate }}</p> <!-- Localitatea în care se află produsul -->
+          <router-link :to="`/anunturi/${item._id}`" class="detalii-button">Vezi detalii</router-link> <!-- Link către detalii -->
         </div>
-        <img src="../assets/grau.jpg" alt="Imagine produs" class="card-image" />
+        <img src="../assets/grau.jpg" alt="Imagine produs" class="card-image" /> <!-- Imaginea produsului -->
       </div>
     </div>
 
@@ -267,14 +238,14 @@ export default {
         this.cereals = [];
       }
     },
-    async fetchPredictii() {
+    async fetchPredictii() { // Funcție pentru a obține predicțiile de prețuri
       try {
-        const response = await axios.get("https://fermivo-backend.onrender.com/api/predictii");
-        if (response.data.success) {
-          this.predictii = response.data.predictii;
+        const response = await axios.get("https://fermivo-backend.onrender.com/api/predictii"); // Endpointul pentru predicții
+        if (response.data.success) { // Verificăm dacă cererea a fost un succes
+          this.predictii = response.data.predictii; // Setăm predicțiile în data
         }
-      } catch (error) {
-        console.error("❌ Eroare la fetch predictii:", error);
+      } catch (error) { // Gestionăm erorile la obținerea predicțiilor
+        console.error("❌ Eroare la fetch predictii:", error); // Logăm eroarea în consolă
       }
     },
     nextSlide() {

@@ -60,7 +60,7 @@
 
     <img src="../assets/login.jpg" alt="Background" class="background-image" />
 
-    <!-- INTRO -->
+    
     <div class="content-box">
       <h1>Bine ai venit! 👋</h1>
       <p>
@@ -92,43 +92,24 @@
     </div>
 
     <!-- ANUNTURI -->
-    <div class="card-container">
-      <p v-if="anunturi.length === 0" class="no-ads">
-        Nu există anunțuri disponibile momentan.
-      </p>
-      <div v-else class="filtru-categorii">
-        <button
-          v-for="categorie in categories"
-          :key="categorie"
-          :class="{ activ: selectedCategory === categorie }"
-          @click="selectedCategory = categorie"
-        >
-          {{ categorie }}
-        </button>
-        <button
-          :class="{ activ: selectedCategory === 'favorite' }"
-          @click="selectedCategory = 'favorite'"
-        >
-          ❤️ Favorite
-        </button>
+    <div class="card-container"> 
+      <p v-if="anunturi.length === 0" class="no-ads">Nu există anunțuri disponibile momentan.</p> <!-- Mesaj când nu sunt anunțuri -->
+      <div v-else class="filtru-categorii"> <!-- Filtru categorii -->
+        <button v-for="categorie in categories" :key="categorie" :class="{ activ: selectedCategory === categorie }" @click="selectedCategory = categorie" 
+        >{{ categorie }}</button> 
+        <button :class="{ activ: selectedCategory === 'favorite' }" @click="selectedCategory = 'favorite'">❤️ Favorite</button>
       </div>
       <div class="harta-button-wrapper">
-        <router-link to="/harta-anunturi" class="btn-vezi-harta">
-          🗺️ Vezi anunțurile pe hartă
-        </router-link>
+        <router-link to="/harta-anunturi" class="btn-vezi-harta">🗺️ Vezi anunțurile pe hartă</router-link>
       </div>
-
       <div
         v-for="(item, index) in anunturiFiltrate"
         :key="index"
-        class="card card-grid"
-      >
-        <!-- 🟩 Coloana 1: Info anunț -->
+        class="card card-grid">
+        <!-- Coloana 1: Informații anunț -->
         <div class="anunt-info">
-          <p>
-            <strong>{{ item.produs }}</strong>
-          </p>
-          <span
+          <p><strong>{{ item.produs }}</strong></p> <!-- Numele produsului -->
+          <span 
             v-if="item.userId?.isPremium"
             style="
               background: #f5b301;
@@ -137,49 +118,34 @@
               border-radius: 12px;
               font-size: 0.85rem;
               font-weight: bold;
-            "
-          >
-            🌟 Promovat
-          </span>
-
-          <p>
-            Preț: {{ item.pret_lei_tona }}
-            {{ item.moneda === "euro" ? "€" : "lei" }}/tonă
-          </p>
-          <p>Județ: {{ item.judet }}</p>
-          <p>Localitate: {{ item.localitate }}</p>
-          <router-link :to="`/anunturi/${item._id}`" class="detalii-button">
-            Vezi detalii
-          </router-link>
-          <div style="text-align: right; margin-bottom: 8px">
+            ">🌟 Promovat</span>
+          <p>Preț: {{ item.pret_lei_tona }} {{ item.moneda === "euro" ? "€" : "lei" }}/tonă</p> <!-- Prețul -->
+          <p>Județ: {{ item.judet }}</p> <!-- Județul -->
+          <p>Localitate: {{ item.localitate }}</p> <!-- Localitatea -->
+          <router-link :to="`/anunturi/${item._id}`" class="detalii-button">Vezi detalii</router-link> <!-- Buton pentru detalii anunț -->
+          <div style="text-align: right; margin-bottom: 8px"> <!-- Iconiță favorite -->
             <span
               style="font-size: 1.5rem; cursor: pointer"
               :style="{ color: isFavorite(item._id) ? 'red' : 'gray' }"
               @click="toggleFavorite(item._id)"
-              title="Adaugă la favorite"
-            >
-              {{ isFavorite(item._id) ? "❤️" : "🤍" }}
-            </span>
+              title="Adaugă la favorite">{{ isFavorite(item._id) ? "❤️" : "🤍" }}</span> 
           </div>
         </div>
 
         <!-- 🟨 Coloana 2: Prețuri BRM -->
-        <div class="brm-table" v-if="getPreturiProdus(item.produs).length">
-          <h4>Prețuri azi</h4>
+        <div class="brm-table" v-if="getPreturiProdus(item.produs).length"> <!-- Verificăm dacă există prețuri -->
+          <h4>Prețuri azi</h4> <!-- Titlu tabel prețuri -->
           <table>
             <thead>
               <tr>
-                <th>Zonă</th>
-                <th>Preț</th>
+                <th>Zonă</th> <!-- Coloana pentru zonă -->
+                <th>Preț</th> <!-- Coloana pentru preț -->
               </tr>
             </thead>
             <tbody>
-              <tr
-                v-for="(pret, idx) in getPreturiProdus(item.produs)"
-                :key="idx"
-              >
-                <td>{{ pret.zona }}</td>
-                <td>{{ pret.pret_lei_tona }}</td>
+              <tr v-for="(pret, idx) in getPreturiProdus(item.produs)" :key="idx"> <!-- Iterăm prin prețuri -->
+                <td>{{ pret.zona }}</td> <!-- Zona produsului -->
+                <td>{{ pret.pret_lei_tona }}</td> <!-- Prețul în lei -->
               </tr>
             </tbody>
           </table>
@@ -311,33 +277,33 @@ export default {
         console.error("❌ Eroare la fetch user:", error);
       }
     },
-    async fetchScraperData() {
+    async fetchScraperData() { // Funcția pentru a obține datele de la scraper
       try {
-        const response = await axios.get(
+        const response = await axios.get( // Endpointul pentru scraper
           "https://fermivo-backend.onrender.com/scrape/brm"
         );
-        if (response.data.success) {
-          this.scraperData = response.data;
+        if (response.data.success) { // Verificăm dacă cererea a fost un success
+          this.scraperData = response.data; // Setăm datele primite de la scraper
         }
-      } catch (error) {
-        console.error("❌ Eroare la fetch scraper:", error);
+      } catch (error) { // Gestionăm erorile de la cererea de scraper
+        console.error("❌ Eroare la fetch scraper:", error); // Logăm eroarea în consolă
       }
     },
-    async fetchAnunturi() {
+    async fetchAnunturi() { // Fetch anunțuri de la backend
       try {
         const response = await axios.get(
-          "https://fermivo-backend.onrender.com/api/anunturi"
+          "https://fermivo-backend.onrender.com/api/anunturi" // Endpointul pentru anunțuri
         );
-        if (response.data.success) {
-          this.anunturi = response.data.anunturi;
-          this.anunturi.sort((a, b) => {
-            const aPremium = a.userId?.isPremium ? 1 : 0;
-            const bPremium = b.userId?.isPremium ? 1 : 0;
-            return bPremium - aPremium; // premium primele
+        if (response.data.success) { // Verificăm dacă cererea a fost un success
+          this.anunturi = response.data.anunturi; // Setăm anunțurile primite
+          this.anunturi.sort((a, b) => { // Sortăm anunțurile
+            const aPremium = a.userId?.isPremium ? 1 : 0; // verificăm dacă utilizatorul este premium
+            const bPremium = b.userId?.isPremium ? 1 : 0; // verificăm dacă utilizatorul este premium
+            return bPremium - aPremium; // Afișăm anunțurile premium la început
           });
         }
-      } catch (error) {
-        console.error("❌ Eroare la anunturi:", error);
+      } catch (error) { // Gestionăm erorile de la cererea de anunțuri
+        console.error("❌ Eroare la anunturi:", error); // Logăm eroarea în consolă
       }
     },
     async fetchPredictii() {

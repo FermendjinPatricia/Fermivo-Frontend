@@ -7,7 +7,6 @@ const urlsToCache = [
   '/icons/icon-512x512.png',
   '/assets/login.jpg',
   '/assets/register.jpg',
-  // adaugă aici toate css/js pe care vrei să le cache-uiască
 ];
 
 self.addEventListener('install', (event) => {

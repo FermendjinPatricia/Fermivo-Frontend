@@ -2,30 +2,30 @@
   <div class="login-page">
     <img src="../assets/login.jpg" alt="Background" class="background-image" />
     <div class="container">
-      <form class="form" @submit.prevent="handleLogin">
-        <h1>Login</h1>
+      <form class="form" @submit.prevent="handleLogin"> <!-- Formularul de login -->
+        <h1>Login</h1> <!-- Titlul formularului -->
 
-        <div class="input-group">
-          <label for="email">E-mail:</label>
-          <input type="email" id="email" v-model="email" required />
+        <div class="input-group"> 
+          <label for="email">E-mail:</label> <!-- Etichetă pentru câmpul de email -->
+          <input type="email" id="email" v-model="email" required /> <!-- Câmp de input pentru email -->
         </div>
 
         <div class="input-group">
-          <label for="parola">Parola:</label>
-          <input type="password" id="parola" v-model="parola" required />
+          <label for="parola">Parola:</label> <!-- Etichetă pentru câmpul de parolă -->
+          <input type="password" id="parola" v-model="parola" required /> <!-- Câmp de input pentru parolă -->
         </div>
 
-        <button type="submit">Login</button>
+        <button type="submit">Login</button> <!-- Butonul de trimitere al formularului -->
 
         <div class="link-container">
-          <router-link to="/register"
-            >Nu ai un cont? Creează unul aici!</router-link
-          >
+          <router-link to="/register">Nu ai un cont? Creează unul aici!</router-link> <!-- Link către pagina de înregistrare -->
         </div>
       </form>
     </div>
   </div>
 </template>
+
+
 
 <script>
 import axios from "../axios";
@@ -42,38 +42,31 @@ export default {
   methods: {
     async handleLogin() {
       try {
-        const response = await axios.post("https://fermivo-backend.onrender.com/api/users/login", {
+        const response = await axios.post("https://fermivo-backend.onrender.com/api/users/login", { // Endpointul de login
+          // Datele de autentificare
           email: this.email,
           parola: this.parola,
         });
-
-        if (response.status === 200) {
-          // Salvăm token + utilizator (ca să putem verifica rolul ulterior)
+        if (response.status === 200) { // Verificăm dacă răspunsul este valid
+          // Salvăm token + utilizator (pentru a putea verifica rolul ulterior)
           localStorage.setItem("token", response.data.token);
-          localStorage.setItem(
-            "user",
-            JSON.stringify(response.data.utilizator)
-          );
-
+          localStorage.setItem("user",JSON.stringify(response.data.utilizator));
           // Verificare rol:
-          const userRole = response.data.utilizator.role;
-          console.log("✅ Utilizator logat cu rol:", userRole);
-
+          const userRole = response.data.utilizator.role; // Obținem rolul utilizatorului din răspuns
           // Redirectare în funcție de rol:
-          if (userRole === "seller") {
-            this.$router.push("/home");
-          } else if (userRole === "buyer") {
-            this.$router.push("/home-buyer");
-          } else if (userRole === "admin") {
-            this.$router.push("/admin");
+          if (userRole === "seller") { // Dacă utilizatorul este vânzător
+            this.$router.push("/home"); // Redirecționăm către pagina de home pentru vânzători
+          } else if (userRole === "buyer") { // Dacă utilizatorul este cumpărător
+            this.$router.push("/home-buyer"); // Redirecționăm către pagina de home pentru cumpărători
+          } else if (userRole === "admin") { // Dacă utilizatorul este administrator
+            this.$router.push("/admin"); // Redirecționăm către pagina de administrare
           } else {
-            alert("Acces interzis pentru rolul: " + userRole);
+            alert("Acces interzis pentru rolul: " + userRole); // Afișăm un mesaj de eroare dacă rolul nu este recunoscut
           }
         }
-      } catch (error) {
-        this.errorMessage =
-          error.response?.data?.message || "Eroare la autentificare.";
-        alert(this.errorMessage);
+      } catch (error) { // Gestionăm erorile de autentificare
+        this.errorMessage =error.response?.data?.message || "Eroare la autentificare."; // Afișăm mesajul de eroare primit de la server sau un mesaj generic
+        alert(this.errorMessage); // Afișăm mesajul de eroare într-un alert
       }
     },
   },

@@ -8,7 +8,12 @@
         <form @submit.prevent="submitAnunt">
           <div class="input-group">
             <label for="produs">Produs:</label>
-            <select id="produs" v-model="produs" @change="fetchScraperData" required>
+            <select
+              id="produs"
+              v-model="produs"
+              @change="fetchScraperData"
+              required
+            >
               <option disabled value="">Selectează un produs...</option>
               <option v-for="prod in produse" :key="prod" :value="prod">
                 {{ prod }}
@@ -31,7 +36,11 @@
             <label for="judet">Județ:</label>
             <select v-model="judetSelectat" @change="updateLocalitati" required>
               <option disabled value="">Selectează județul</option>
-              <option v-for="(localitati, judet) in localitatiRomania" :key="judet" :value="judet">
+              <option
+                v-for="(localitati, judet) in localitatiRomania"
+                :key="judet"
+                :value="judet"
+              >
                 {{ judet }}
               </option>
             </select>
@@ -41,7 +50,11 @@
             <label for="localitate">Localitate:</label>
             <select v-model="localitate" required>
               <option disabled value="">Selectează localitatea</option>
-              <option v-for="localitate in localitatiDisponibile" :key="localitate" :value="localitate">
+              <option
+                v-for="localitate in localitatiDisponibile"
+                :key="localitate"
+                :value="localitate"
+              >
                 {{ localitate }}
               </option>
             </select>
@@ -49,12 +62,23 @@
 
           <div class="input-group">
             <label for="descriere">Descriere:</label>
-            <textarea id="descriere" v-model="descriere" rows="4" maxlength="500" placeholder="Scrie câteva detalii despre produs..." required></textarea>
+            <textarea
+              id="descriere"
+              v-model="descriere"
+              rows="4"
+              maxlength="500"
+              placeholder="Scrie câteva detalii despre produs..."
+              required
+            ></textarea>
           </div>
 
           <div class="butoane-actiune">
             <button type="submit" class="adauga-button">Publică Anunțul</button>
-            <button type="button" class="renunta-button" @click="$router.go(-1)">
+            <button
+              type="button"
+              class="renunta-button"
+              @click="$router.go(-1)"
+            >
               Renunță
             </button>
           </div>
@@ -75,8 +99,17 @@
             <tr v-for="(item, index) in filteredPrices" :key="index">
               <td>{{ item.zona }}</td>
               <td>{{ item.pret_lei_tona }}</td>
-              <td :class="{ positive: item.variatie_procente > 0, negative: item.variatie_procente < 0 }">
-                {{ item.variatie_procente !== null ? item.variatie_procente + "%" : "N/A" }}
+              <td
+                :class="{
+                  positive: item.variatie_procente > 0,
+                  negative: item.variatie_procente < 0,
+                }"
+              >
+                {{
+                  item.variatie_procente !== null
+                    ? item.variatie_procente + "%"
+                    : "N/A"
+                }}
               </td>
             </tr>
           </tbody>
@@ -115,15 +148,24 @@ export default {
       scraperData: [],
     };
   },
+  mounted() {
+    window.addEventListener("online", this.trimiteAnunturiOffline);
+  },
+  beforeDestroy() {
+    window.removeEventListener("online", this.trimiteAnunturiOffline);
+  },
   methods: {
     updateLocalitati() {
-      this.localitatiDisponibile = this.localitatiRomania[this.judetSelectat] || [];
+      this.localitatiDisponibile =
+        this.localitatiRomania[this.judetSelectat] || [];
       this.localitate = "";
     },
     async fetchScraperData() {
       if (!this.produs) return;
       try {
-        const response = await axios.get("https://fermivo-backend.onrender.com/scrape/brm");
+        const response = await axios.get(
+          "https://fermivo-backend.onrender.com/scrape/brm"
+        );
         if (response.data.success) {
           this.scraperData = response.data;
           this.filterPrices();
@@ -148,23 +190,42 @@ export default {
     async submitAnunt() {
       const userString = localStorage.getItem("user");
       const user = userString ? JSON.parse(userString) : null;
+
       if (!user || !user._id) {
         alert("Eroare: utilizatorul nu este autentificat.");
         return;
       }
+
+      const anunt = {
+        produs: this.produs,
+        pret_lei_tona: parseFloat(this.pret_lei_tona),
+        moneda: this.moneda,
+        judet: this.judetSelectat,
+        descriere: this.descriere,
+        localitate: this.localitate,
+        userId: user._id,
+      };
+
+      // Dacă suntem offline → salvăm local
+      if (!navigator.onLine) {
+        const pending = JSON.parse(
+          localStorage.getItem("anunturiOffline") || "[]"
+        );
+        pending.push(anunt);
+        localStorage.setItem("anunturiOffline", JSON.stringify(pending));
+        alert(
+          "Nu ai conexiune la internet. Anunțul a fost salvat și va fi trimis automat când revii online."
+        );
+        this.$router.push("/home");
+        return;
+      }
+
+      // Dacă suntem online → trimitem către server
       try {
         const token = localStorage.getItem("token");
         const response = await axios.post(
           "https://fermivo-backend.onrender.com/api/anunturi",
-          {
-            produs: this.produs,
-            pret_lei_tona: parseFloat(this.pret_lei_tona),
-            moneda: this.moneda,
-            judet: this.judetSelectat, // ✅ trimitem judetul
-            descriere: this.descriere,
-            localitate: this.localitate,
-            userId: user._id,
-          },
+          anunt,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -175,13 +236,42 @@ export default {
           this.$router.push("/home");
         }
       } catch (error) {
-        alert(error.response?.data?.message || "Eroare la adăugarea anunțului.");
+        alert(
+          error.response?.data?.message || "Eroare la adăugarea anunțului."
+        );
       }
+    },
+    async trimiteAnunturiOffline() {
+      const pending = JSON.parse(
+        localStorage.getItem("anunturiOffline") || "[]"
+      );
+      if (!pending.length) return;
+
+      const token = localStorage.getItem("token");
+      for (const anunt of pending) {
+        try {
+          const response = await axios.post(
+            "https://fermivo-backend.onrender.com/api/anunturi",
+            anunt,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          console.log("✅ Anunț offline trimis:", response.data);
+        } catch (error) {
+          console.error("❌ Eroare la trimiterea anunțului offline:", error);
+          return; // oprim aici dacă ceva nu merge
+        }
+      }
+      // Dacă toate au fost trimise cu succes, curățăm lista
+      localStorage.removeItem("anunturiOffline");
+      alert("Anunțurile salvate offline au fost trimise cu succes.");
     },
   },
 };
 </script>
-
 
 <style scoped>
 select {

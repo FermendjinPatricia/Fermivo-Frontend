@@ -1,52 +1,30 @@
 <template>
   <div class="register-page">
-    <img
-      src="../assets/register.jpg"
-      alt="Background"
-      class="background-image"
-    />
+    <img src="../assets/register.jpg" alt="Background"class="background-image"/>
     <div class="register-container">
-      <form class="register-form" @submit.prevent="handleRegister">
-        <h1>Register</h1>
-
-        <div class="row">
-          <div class="input-group">
-            <label for="nume">Nume:</label>
-            <input type="text" id="nume" v-model="nume" required />
+      <form class="register-form" @submit.prevent="handleRegister"> <!-- Formularul de înregistrare -->
+        <h1>Înregistrează-te în universul Fermivo🌾</h1>
+        <div class="row"> 
+          <div class="input-group"> 
+            <label for="nume">Nume:</label> <!-- Etichetă pentru câmpul de nume -->
+            <input type="text" id="nume" v-model="nume" required /> <!-- Câmp de input pentru nume -->
           </div>
           <div class="input-group">
-            <label for="prenume">Prenume:</label>
-            <input type="text" id="prenume" v-model="prenume" required />
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="input-group">
-            <label for="denumireaFirmei">Denumirea Firmei:</label>
-            <input
-              type="text"
-              id="denumireaFirmei"
-              v-model="denumireaFirmei"
-              required
-            />
-          </div>
-          <div class="input-group">
-            <label for="codUnicDeIdentificare"
-              >Cod unic de identificare (CUI):</label
-            >
-            <input
-              type="text"
-              id="codUnicDeIdentificare"
-              v-model="codUnicDeIdentificare"
-              @blur="validateCUI"
-              required
-            />
-            <p v-if="cuiStatusMessage" :class="cuiStatusClass">
-              {{ cuiStatusMessage }}
-            </p>
+            <label for="prenume">Prenume:</label> <!-- Etichetă pentru câmpul de prenume -->
+            <input type="text" id="prenume" v-model="prenume" required /> <!-- Câmp de input pentru prenume -->
           </div>
         </div>
-
+        <div class="row">
+          <div class="input-group">
+            <label for="denumireaFirmei">Denumirea Firmei:</label> <!-- Etichetă pentru câmpul de denumirea firmei -->
+            <input type="text" id="denumireaFirmei" v-model="denumireaFirmei" required/> <!-- Câmp de input pentru denumirea firmei -->
+          </div>
+          <div class="input-group">
+            <label for="codUnicDeIdentificare">Cod unic de identificare (CUI):</label> <!-- Etichetă pentru câmpul de CUI -->
+            <input type="text" id="codUnicDeIdentificare" v-model="codUnicDeIdentificare" @blur="validateCUI" required/> <!-- Câmp de input pentru CUI -->
+            <p v-if="cuiStatusMessage" :class="cuiStatusClass">{{ cuiStatusMessage }}</p> <!-- Mesaj de status pentru CUI -->
+          </div>
+        </div>
         <div class="row">
           <div class="input-group">
             <label for="adresa">Adresa:</label>
@@ -70,22 +48,18 @@
         </div>
 
         <div class="input-group">
-          <label for="role">Alege tipul contului:</label>
-          <select id="role" v-model="role" required>
-            <option value="" disabled selected>Alege un rol...</option>
-            <option value="buyer">Cumpărător</option>
-            <option value="seller">Vânzător</option>
+          <label for="role">Alege tipul contului:</label> <!-- Etichetă pentru câmpul de rol -->
+          <select id="role" v-model="role" required> <!-- Câmp de select pentru rol -->
+            <option value="" disabled selected>Alege un rol...</option> <!-- Opțiune implicită -->
+            <option value="buyer">Cumpărător</option> <!-- Opțiune pentru cumpărător -->
+            <option value="seller">Vânzător</option> <!-- Opțiune pentru vânzător -->
           </select>
         </div>
-
         <button type="submit" :disabled="isRegisterDisabled">
           {{ isSubmitting ? "Înregistrare…" : "Register" }}
         </button>
-
         <div class="register-link">
-          <router-link to="/login"
-            >Ai deja un cont? Conectează-te acum!</router-link
-          >
+          <router-link to="/login">Ai deja un cont? Conectează-te acum!</router-link> <!-- Link către pagina de login -->
         </div>
       </form>
     </div>
@@ -128,54 +102,47 @@ export default {
     },
   },
   methods: {
-    async validateCUI() {
-      if (!this.codUnicDeIdentificare) {
-        this.cuiStatusMessage = "";
-        this.cuiStatusValid = null;
+    async validateCUI() { // Validarea CUI folosind API-ul Infocui
+      if (!this.codUnicDeIdentificare) { // Dacă CUI-ul este nesetat, resetăm statusul
+        this.cuiStatusMessage = ""; // Resetăm mesajul de status
+        this.cuiStatusValid = null; // Setăm statusul CUI ca necunoscut
         return;
       }
-
       try {
-        const apiKey = "364a15bd43a7804f52065fe0c424518fb73acb08"; 
-        const response = await axios.get(`https://infocui.ro/system/api/data`, {
-          params: {
-            key: apiKey,
-            cui: this.codUnicDeIdentificare,
+        const apiKey = "364a15bd43a7804f52065fe0c424518fb73acb08"; // Cheia API pentru Infocui
+        const response = await axios.get(`https://infocui.ro/system/api/data`, { // Facem o cerere GET către Infocui
+          params: { // Parametrii necesari pentru cerere
+            key: apiKey, // Cheia API
+            cui: this.codUnicDeIdentificare, // CUI-ul introdus de utilizator
           },
         });
-
-
-
-        if (response.data.status === 200) {
-          this.cuiStatusMessage = "CUI valid!";
-          this.cuiStatusValid = true;
-        } else {
+        if (response.data.status === 200) { // Verificăm dacă statusul este 200 (CUI valid)
+          this.cuiStatusMessage = "CUI valid!"; // Afișăm un mesaj de succes
+          this.cuiStatusValid = true; // Setăm statusul CUI ca valid
+        } else { // Dacă statusul nu este 200, CUI-ul este invalid
           this.cuiStatusMessage = "CUI invalid!";
-          this.cuiStatusValid = false;
+          this.cuiStatusValid = false; // Setăm statusul CUI ca invalid
         }
       } catch (error) {
-        console.error("❌ Eroare la validarea CUI:", error);
-        this.cuiStatusMessage = "Eroare la validarea CUI!";
-        this.cuiStatusValid = false;
+        console.error("❌ Eroare la validarea CUI:", error); // Logăm eroarea în consolă
+        this.cuiStatusMessage = "Eroare la validarea CUI!"; // Afișăm un mesaj de eroare
+        this.cuiStatusValid = false; // Setăm statusul CUI ca invalid
       }
     },
 
-    async handleRegister() {
-      if (!this.role) {
-        alert("Trebuie să alegi un rol.");
-        return;
+    async handleRegister() { // Funcția de înregistrare
+      if (!this.role) { // Verificăm dacă rolul este selectat
+        alert("Trebuie să alegi un rol."); // Afișăm un mesaj de alertă
+        return; // Oprim execuția dacă rolul nu este selectat
       }
-
-      if (this.cuiStatusValid !== true) {
-        alert("Codul unic de identificare (CUI) nu este valid.");
-        return;
+      if (this.cuiStatusValid !== true) { // Verificăm dacă CUI-ul este valid
+        alert("Codul unic de identificare (CUI) nu este valid."); // Afișăm un mesaj de alertă dacă CUI-ul nu este valid
+        return; // Oprim execuția dacă CUI-ul nu este valid
       }
-
-      this.isSubmitting = true;
-
-      try {
-        const response = await axios.post("https://fermivo-backend.onrender.com/api/users/register", {
-          nume: this.nume,
+      this.isSubmitting = true; // Setăm starea de trimitere pentru a dezactiva butonul
+      try { // Facem cererea de înregistrare către backend
+        const response = await axios.post("https://fermivo-backend.onrender.com/api/users/register", { // Endpointul de înregistrare
+          nume: this.nume, // Datele de înregistrare
           prenume: this.prenume,
           denumireaFirmei: this.denumireaFirmei,
           codUnicDeIdentificare: this.codUnicDeIdentificare,
@@ -185,16 +152,14 @@ export default {
           parola: this.parola,
           role: this.role,
         });
-
-        if (response.status === 201) {
-          alert("Cont creat cu succes!");
-          this.$router.push("/login");
+        if (response.status === 201) { // Verificăm dacă răspunsul este valid
+          alert("Cont creat cu succes!"); // Afișăm un mesaj de succes
+          this.$router.push("/login"); // Redirecționăm utilizatorul către pagina de login
         }
-      } catch (error) {
-        alert(error.response?.data?.message || "Eroare la înregistrare.");
+      } catch (error) { // Gestionăm erorile de înregistrare
+        alert(error.response?.data?.message || "Eroare la înregistrare."); // Afișăm mesajul de eroare primit de la server sau un mesaj generic
       }
-
-      this.isSubmitting = false;
+      this.isSubmitting = false; // Resetăm starea de trimitere pentru a reactiva butonul
     },
   },
 };
