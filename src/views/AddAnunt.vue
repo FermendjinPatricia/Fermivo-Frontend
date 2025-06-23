@@ -206,7 +206,7 @@ export default {
         userId: user._id,
       };
 
-      // Dacă suntem offline → salvăm local
+      // Dacă nu avem conexiune la internet salvăm în localStorage
       if (!navigator.onLine) {
         const pending = JSON.parse(
           localStorage.getItem("anunturiOffline") || "[]"
@@ -220,7 +220,7 @@ export default {
         return;
       }
 
-      // Dacă suntem online → trimitem către server
+      // Dacă avem conexiune, trimitem anunțul
       try {
         const token = localStorage.getItem("token");
         const response = await axios.post(
@@ -262,10 +262,10 @@ export default {
           console.log("✅ Anunț offline trimis:", response.data);
         } catch (error) {
           console.error("❌ Eroare la trimiterea anunțului offline:", error);
-          return; // oprim aici dacă ceva nu merge
+          return; // Oprim procesul dacă apare o eroare
         }
       }
-      // Dacă toate au fost trimise cu succes, curățăm lista
+      // Dacă toate au fost trimise cu succes, ștergem din localStorage
       localStorage.removeItem("anunturiOffline");
       alert("Anunțurile salvate offline au fost trimise cu succes.");
     },
