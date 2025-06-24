@@ -5,52 +5,35 @@
     <div class="anunt-wrapper">
       <div class="anunt-form-box">
         <h2>Adaugă un Anunț Nou 🚜</h2>
-        <form @submit.prevent="submitAnunt">
+        <form @submit.prevent="submitAnunt"> <!-- Formularul de adăugare anunț -->
           <div class="input-group">
-            <label for="produs">Produs:</label>
-            <select
-              id="produs"
-              v-model="produs"
-              @change="fetchScraperData"
-              required
-            >
-              <option disabled value="">Selectează un produs...</option>
-              <option v-for="prod in produse" :key="prod" :value="prod">
-                {{ prod }}
-              </option>
+            <label for="produs">Produs:</label> <!-- Etichetă pentru câmpul de produs -->
+            <select id="produs" v-model="produs" @change="fetchScraperData" required> <!-- Câmp de select pentru produs -->
+              <option disabled value="">Selectează un produs...</option> <!-- Opțiune implicită -->
+              <option v-for="prod in produse" :key="prod" :value="prod">{{ prod }}</option> <!-- Opțiuni pentru produse -->
             </select>
           </div>
-
           <div class="input-group">
-            <label for="pret">Preț (lei/tonă):</label>
-            <input type="number" id="pret" v-model="pret_lei_tona" required />
+            <label for="pret">Preț (lei/tonă):</label> <!-- Etichetă pentru câmpul de preț -->
+            <input type="number" id="pret" v-model="pret_lei_tona" required /> <!-- Câmp de input pentru preț -->
           </div>
-
-          <label for="moneda">Monedă</label>
-          <select v-model="moneda" required>
-            <option value="lei">Lei</option>
-            <option value="euro">Euro</option>
+          <label for="moneda">Monedă</label> <!-- Etichetă pentru câmpul de monedă -->
+          <select v-model="moneda" required> <!-- Câmp de select pentru monedă -->
+            <option value="lei">Lei</option> <!-- Opțiune pentru lei -->
+            <option value="euro">Euro</option> <!-- Opțiune pentru euro -->
           </select>
-
           <div class="form-group">
-            <label for="judet">Județ:</label>
-            <select v-model="judetSelectat" @change="updateLocalitati" required>
-              <option disabled value="">Selectează județul</option>
-              <option
-                v-for="(localitati, judet) in localitatiRomania"
-                :key="judet"
-                :value="judet"
-              >
-                {{ judet }}
-              </option>
+            <label for="judet">Județ:</label> <!-- Etichetă pentru câmpul de județ -->
+            <select v-model="judetSelectat" @change="updateLocalitati" required> <!-- Câmp de select pentru județ -->
+              <option disabled value="">Selectează județul</option> <!-- Opțiune implicită -->
+              <option v-for="(localitati, judet) in localitatiRomania" :key="judet" :value="judet">{{ judet }}</option> <!-- Opțiuni pentru județe -->
             </select>
           </div>
-
           <div class="form-group">
-            <label for="localitate">Localitate:</label>
-            <select v-model="localitate" required>
-              <option disabled value="">Selectează localitatea</option>
-              <option
+            <label for="localitate">Localitate:</label> <!-- Etichetă pentru câmpul de localitate -->
+            <select v-model="localitate" required> <!-- Câmp de select pentru localitate -->
+              <option disabled value="">Selectează localitatea</option> <!-- Opțiune implicită -->
+              <option 
                 v-for="localitate in localitatiDisponibile"
                 :key="localitate"
                 :value="localitate"
@@ -74,13 +57,7 @@
 
           <div class="butoane-actiune">
             <button type="submit" class="adauga-button">Publică Anunțul</button>
-            <button
-              type="button"
-              class="renunta-button"
-              @click="$router.go(-1)"
-            >
-              Renunță
-            </button>
+            <button type="button" class="renunta-button" @click="$router.go(-1)">Renunță</button>
           </div>
         </form>
       </div>
@@ -187,16 +164,14 @@ export default {
       const key = mapping[this.produs];
       this.filteredPrices = this.scraperData[key] || [];
     },
-    async submitAnunt() {
-      const userString = localStorage.getItem("user");
-      const user = userString ? JSON.parse(userString) : null;
-
-      if (!user || !user._id) {
-        alert("Eroare: utilizatorul nu este autentificat.");
-        return;
+    async submitAnunt() { // Funcția pentru trimiterea anunțului
+      const userString = localStorage.getItem("user"); // Obținem utilizatorul din localStorage
+      const user = userString ? JSON.parse(userString) : null; // Parcurgem stringul și îl transformăm în obiect JSON
+      if (!user || !user._id) { // Verificăm dacă utilizatorul este autentificat
+        alert("Eroare: utilizatorul nu este autentificat."); // Afișăm un mesaj de eroare dacă utilizatorul nu este autentificat
+        return; // Oprim execuția dacă utilizatorul nu este autentificat
       }
-
-      const anunt = {
+      const anunt = { // Obiectul anunțului care va fi trimis
         produs: this.produs,
         pret_lei_tona: parseFloat(this.pret_lei_tona),
         moneda: this.moneda,
@@ -205,69 +180,57 @@ export default {
         localitate: this.localitate,
         userId: user._id,
       };
-
       // Dacă nu avem conexiune la internet salvăm în localStorage
-      if (!navigator.onLine) {
-        const pending = JSON.parse(
-          localStorage.getItem("anunturiOffline") || "[]"
-        );
-        pending.push(anunt);
-        localStorage.setItem("anunturiOffline", JSON.stringify(pending));
-        alert(
-          "Nu ai conexiune la internet. Anunțul a fost salvat și va fi trimis automat când revii online."
-        );
-        this.$router.push("/home");
-        return;
+      if (!navigator.onLine) {  // Verificăm dacă suntem offline
+        const pending = JSON.parse( // Obținem anunțurile salvate offline din localStorage
+          localStorage.getItem("anunturiOffline") || "[]"); // Dacă nu există, inițializăm cu un array gol
+        pending.push(anunt); // Adăugăm anunțul la lista de așteptare
+        localStorage.setItem("anunturiOffline", JSON.stringify(pending)); // Salvăm lista actualizată în localStorage
+        alert("Nu ai conexiune la internet. Anunțul a fost salvat și va fi trimis automat când revii online."); // Afișăm un mesaj de succes
+        this.$router.push("/home"); // Redirecționăm utilizatorul către pagina de home
+        return; // Oprim execuția dacă suntem offline
       }
-
       // Dacă avem conexiune, trimitem anunțul
       try {
-        const token = localStorage.getItem("token");
-        const response = await axios.post(
-          "https://fermivo-backend.onrender.com/api/anunturi",
+        const token = localStorage.getItem("token"); // Obținem tokenul de autentificare din localStorage
+        const response = await axios.post( "https://fermivo-backend.onrender.com/api/anunturi",
           anunt,
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           }
-        );
-        if (response.data.success) {
-          this.$router.push("/home");
+        ); // Facem cererea POST către backend pentru a adăuga anunțul
+        if (response.data.success) { // Verificăm dacă cererea a fost un succes
+          this.$router.push("/home"); // Redirecționăm utilizatorul către pagina de home
         }
-      } catch (error) {
-        alert(
-          error.response?.data?.message || "Eroare la adăugarea anunțului."
-        );
+      } catch (error) { // Gestionăm erorile la trimiterea anunțului
+        alert(error.response?.data?.message || "Eroare la adăugarea anunțului."); // Afișăm mesajul de eroare primit de la server sau un mesaj generic
       }
     },
-    async trimiteAnunturiOffline() {
-      const pending = JSON.parse(
-        localStorage.getItem("anunturiOffline") || "[]"
-      );
-      if (!pending.length) return;
-
-      const token = localStorage.getItem("token");
-      for (const anunt of pending) {
-        try {
-          const response = await axios.post(
-            "https://fermivo-backend.onrender.com/api/anunturi",
+    async trimiteAnunturiOffline() { // Funcția pentru trimiterea anunțurilor salvate offline
+      const pending = JSON.parse(localStorage.getItem("anunturiOffline") || "[]"); // Obținem anunțurile salvate offline din localStorage
+      if (!pending.length) return; // Dacă nu există anunțuri de trimis, ieșim din funcție
+      const token = localStorage.getItem("token"); // Obținem tokenul de autentificare din localStorage
+      for (const anunt of pending) { // Iterăm prin fiecare anunț salvat offline
+        try { // Facem cererea POST către backend pentru a adăuga anunțul
+          const response = await axios.post("https://fermivo-backend.onrender.com/api/anunturi",
             anunt,
             {
               headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${token}`, 
               },
             }
           );
-          console.log("✅ Anunț offline trimis:", response.data);
-        } catch (error) {
-          console.error("❌ Eroare la trimiterea anunțului offline:", error);
+          console.log("✅ Anunț offline trimis:", response.data); // Afișăm un mesaj de succes în consolă
+        } catch (error) { // Gestionăm erorile la trimiterea anunțului
+          console.error("❌ Eroare la trimiterea anunțului offline:", error); // Afișăm mesajul de eroare în consolă
           return; // Oprim procesul dacă apare o eroare
         }
       }
       // Dacă toate au fost trimise cu succes, ștergem din localStorage
-      localStorage.removeItem("anunturiOffline");
-      alert("Anunțurile salvate offline au fost trimise cu succes.");
+      localStorage.removeItem("anunturiOffline"); // Ștergem anunțurile salvate offline din localStorage
+      alert("Anunțurile salvate offline au fost trimise cu succes."); // Afișăm un mesaj de succes
     },
   },
 };

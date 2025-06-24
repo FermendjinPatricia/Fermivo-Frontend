@@ -62,9 +62,8 @@
     </div>
 
     <!-- HARTA -->
-    <div class="map-wrapper">
-      <MapComponent
-        ref="map"
+    <div class="map-wrapper"> <!-- Componenta responsabilă cu afișarea hărții -->
+      <MapComponent ref="map" 
         :anunturi="anunturiFiltrate"
         :key="selectedCategory"
         @marker-clicked="handleMarkerClick"
@@ -257,15 +256,14 @@ export default {
       }
     },
 
-    handleMarkerClick(anunt) {
-      const exists = this.selectedAnunturi.some((a) => a._id === anunt._id);
-      if (!exists) {
-        this.selectedAnunturi.push(anunt);
+    handleMarkerClick(anunt) { // Funcția care se ocupă de click pe marker
+      const exists = this.selectedAnunturi.some((a) => a._id === anunt._id); // Verificăm dacă anunțul este deja selectat
+      if (!exists) { // Dacă nu este selectat, îl adăugăm
+        this.selectedAnunturi.push(anunt); // Adăugăm anunțul la lista de anunțuri selectate
       }
-
-      this.$nextTick(() => {
-        const el = this.$el.querySelector(`#anunt-selectat`);
-        if (el) el.scrollIntoView({ behavior: "smooth" });
+      this.$nextTick(() => { // Asigurăm că DOM-ul este actualizat înainte de scroll
+        const el = this.$el.querySelector(`#anunt-selectat`); // Căutăm elementul cu ID-ul anunt-selectat
+        if (el) el.scrollIntoView({ behavior: "smooth" }); // Facem scroll către elementul selectat
       });
     },
     handleResize() {
