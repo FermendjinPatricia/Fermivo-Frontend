@@ -88,12 +88,12 @@
     "preferred_width": 500
   },
   "launch_handler": {
-    "client_mode": "navigate-existing, focus-existing"
+    "client_mode": "focus-existing"
   },
   "protocol_handlers": [
     {
       "protocol": "web+fermivo",
-      "url": "//?source=pwa&amp;link=%s"
+      "url": "/?source=pwa&link=%s"
     }
   ],
   "share_target": {
