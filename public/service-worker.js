@@ -21,6 +21,8 @@ self.addEventListener('install', (event) => { // Evenimentul de instalare a serv
 
 
 self.addEventListener('fetch', (event) => {
+  const url = event.request.url;
+  if (url.startsWith("chrome-extension://")) return;
   event.respondWith(
     caches.match(event.request).then((response) => {
       if (response) return response;
