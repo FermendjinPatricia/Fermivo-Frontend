@@ -1,4 +1,5 @@
 const CACHE_NAME = 'fermivo-v2'; // Nume al cache version
+
 const urlsToCache = [ // Lista de URL-uri de cache
   '/',
   '/index.html', // Pagina principală

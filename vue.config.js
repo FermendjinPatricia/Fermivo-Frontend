@@ -1,18 +1,21 @@
-const { defineConfig } = require("@vue/cli-service");
+const { defineConfig } = require('@vue/cli-service')
 
 module.exports = defineConfig({
   transpileDependencies: true,
   devServer: {
-    historyApiFallback: true,
+    historyApiFallback: true, 
     proxy: {
-      "/api": {
-        target: "http://localhost:5000",
-        changeOrigin: true,
-      },
-    },
+      '/api': {
+        target: 'http://localhost:5000',
+        changeOrigin: true
+      }
+    }
   },
   pwa: {
-    workboxPluginMode: "GenerateSW",
-    filenameHashing: false,
-  },
+    workboxPluginMode: 'InjectManifest',
+    workboxOptions: {
+      swSrc: './public/service-worker.js',
+    },
+    filenameHashing: false
+  }
 });
