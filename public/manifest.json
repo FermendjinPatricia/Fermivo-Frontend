@@ -66,5 +66,24 @@
     "navigation",
     "shopping",
     "utilities"
+  ],
+  "dir": "ltr",
+  "display_override": [
+    "browser",
+    "minimal-ui",
+    "standalone",
+    "window-controls-overlay"
+  ],
+  "related_applications": [
+    {
+      "platform": "webapp",
+      "url": "https://bursacereale.com/",
+      "id": ""
+    },
+    {
+      "platform": "webapp",
+      "url": "https://agriportal.ro/",
+      "id": ""
+    }
   ]
 }
