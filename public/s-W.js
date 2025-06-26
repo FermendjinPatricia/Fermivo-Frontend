@@ -52,6 +52,6 @@ self.addEventListener('activate', (event) => {
           }
         })
       )
-    ).then(() => self.clients.claim()) // ✅ Ia controlul imediat
+    ).then(() => self.clients.claim()) 
   );
 });
