@@ -14,7 +14,7 @@ module.exports = defineConfig({
   pwa: {
     workboxPluginMode: 'InjectManifest',
     workboxOptions: {
-      swSrc: 'public/service-worker.js',
+      swSrc: './public/service-worker.js',
     },
     filenameHashing: false
   }
