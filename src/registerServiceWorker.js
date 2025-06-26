@@ -1,4 +1,4 @@
-const CACHE_NAME = 'fermivo-v1'; // Nume al cache version
+const CACHE_NAME = 'fermivo-v2'; // Nume al cache version
 const urlsToCache = [ // Lista de URL-uri de cache
   '/',
   '/index.html', // Pagina principală
@@ -16,20 +16,21 @@ self.addEventListener('install', (event) => { // Evenimentul de instalare a serv
     })
   );
 });
-self.addEventListener('fetch', (event) => {  // Evenimentul de preluare a resurselor
-  event.respondWith(  // Răspunde cu resursa din cache sau din rețea
-    caches.match(event.request).then((response) => {  // Caută resursa în cache
-      return ( 
-        response ||   // Dacă resursa este găsită în cache, returnează-o
-        fetch(event.request).catch(() => {  // Dacă resursa nu este în cache și nu poate fi preluată din rețea
-          if (event.request.headers.get('accept').includes('text/html')) {  // Dacă cererea este pentru HTML și nu există în cache
-            return caches.match('/offline.html');  // Returnează pagina de rezervă pentru offline
+self.addEventListener('fetch', (event) => {
+  event.respondWith(
+    caches.match(event.request).then((response) => {
+      return (
+        response ||
+        fetch(event.request).catch(() => {
+          if (event.request.headers.get('accept')?.includes('text/html')) {
+            return caches.match('/offline.html');
           }
         })
       );
     })
   );
 });
+
 
 self.addEventListener('activate', (event) => { // Evenimentul de activare a service worker-ului
   event.waitUntil( // Așteaptă până când cache-ul este curățat
