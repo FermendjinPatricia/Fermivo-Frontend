@@ -6,7 +6,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <link rel="icon" href="favicon.ico" />
     <title><%= htmlWebpackPlugin.options.title %></title>
-    <meta name="description" content="Fermivo este platforma digitală de încredere pentru fermieri și companii. Descoperă prețuri la cereale, vinde, cumpără și conectează-te cu parteneri agricoli din România.">
+    <meta
+      name="description"
+      content="Fermivo este platforma digitală de încredere pentru fermieri și companii. Descoperă prețuri la cereale, vinde, cumpără și conectează-te cu parteneri agricoli din România."
+    />
     <link rel="manifest" href="/manifest.json" />
     <meta name="theme-color" content="#1b5e20" />
     <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
@@ -19,6 +22,12 @@
         continue.</strong
       >
     </noscript>
+    <script>
+      if (typeof navigator.serviceWorker !== "undefined") {
+        navigator.serviceWorker.register("/service-worker.js");
+      }
+    </script>
+
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>
