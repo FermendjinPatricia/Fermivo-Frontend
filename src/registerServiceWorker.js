@@ -7,6 +7,7 @@ const urlsToCache = [ // Lista de URL-uri de cache
   '/icons/icon-512x512.png',
   '/assets/login.jpg', // Imaginea pentru autentificare
   '/assets/register.jpg', // Imaginea pentru înregistrare
+  '/public/offline.html', // Pagina de rezervă pentru offline
 ];
 self.addEventListener('install', (event) => { // Evenimentul de instalare a service worker-ului
   event.waitUntil( // Așteaptă până când cache-ul este creat
@@ -15,13 +16,21 @@ self.addEventListener('install', (event) => { // Evenimentul de instalare a serv
     })
   );
 });
-self.addEventListener('fetch', (event) => { // Evenimentul de fetch pentru a intercepta cererile de rețea
-  event.respondWith( // Răspunde cu resursa din cache sau, dacă nu este disponibilă, cu fetch-ul rețelei
-    caches.match(event.request).then((response) => { // Caută resursa în cache
-      return response || fetch(event.request); // Dacă resursa este găsită în cache, o returnează; altfel, face fetch de pe rețea
+self.addEventListener('fetch', (event) => {  // Evenimentul de preluare a resurselor
+  event.respondWith(  // Răspunde cu resursa din cache sau din rețea
+    caches.match(event.request).then((response) => {  // Caută resursa în cache
+      return ( 
+        response ||   // Dacă resursa este găsită în cache, returnează-o
+        fetch(event.request).catch(() => {  // Dacă resursa nu este în cache și nu poate fi preluată din rețea
+          if (event.request.headers.get('accept').includes('text/html')) {  // Dacă cererea este pentru HTML și nu există în cache
+            return caches.match('/offline.html');  // Returnează pagina de rezervă pentru offline
+          }
+        })
+      );
     })
   );
 });
+
 self.addEventListener('activate', (event) => { // Evenimentul de activare a service worker-ului
   event.waitUntil( // Așteaptă până când cache-ul este curățat
     caches.keys().then((cacheNames) => 
