@@ -10,5 +10,12 @@ module.exports = defineConfig({
         changeOrigin: true
       }
     }
+  },
+  pwa: {
+    workboxPluginMode: 'InjectManifest',
+    workboxOptions: {
+      swSrc: 'public/service-worker.js',
+    },
+    filenameHashing: false
   }
 });
