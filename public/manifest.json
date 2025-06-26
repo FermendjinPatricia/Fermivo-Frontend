@@ -85,5 +85,9 @@
       "url": "https://agriportal.ro/",
       "id": ""
     }
-  ]
+  ],
+  "iarc_rating_id": "\"IARC_rating_id\": \"PWA.NotRated\"",
+  "edge_side_panel": {
+    "preferred_width": 500
+  }
 }
