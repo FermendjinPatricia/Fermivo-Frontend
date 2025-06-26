@@ -1,4 +1,4 @@
-  {
+{
   "name": "Fermivo",
   "short_name": "Fermivo",
   "theme_color": "#1b5e20",
@@ -62,11 +62,7 @@
       "description": "Vezi prețurile actuale de pe piață"
     }
   ],
-  "categories": [
-    "navigation",
-    "shopping",
-    "utilities"
-  ],
+  "categories": ["navigation", "shopping", "utilities"],
   "dir": "ltr",
   "display_override": [
     "browser",
@@ -95,5 +91,21 @@
       "protocol": "web+fermivo",
       "url": "//?source=pwa&amp;link=%s"
     }
-  ]
+  ],
+  "share_target": {
+    "action": "/share",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url",
+      "files": [
+        {
+          "name": "file",
+          "accept": ["image/*", "application/pdf"]
+        }
+      ]
+    }
+  }
 }

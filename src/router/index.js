@@ -21,8 +21,15 @@ import TrackSofer from "@/views/TrackSofer.vue";
 import CamioaneBuyer from "@/views/CamioaneBuyer.vue";
 import Predictii from "@/views/Predictii.vue";
 import PremiumSuccess from "@/views/PremiumSuccess.vue";
+import { ShareReceiver} from "@/views/Share.vue";
 
 const routes = [
+  {
+    path: "/share",
+    name: "ShareReceiver",
+    component: ShareReceiver,
+    meta: { requiresAuth: false }, // Nu necesita autentificare
+  },
   {
     path: "/login",
     name: "login",
