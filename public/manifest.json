@@ -27,6 +27,7 @@
   "background_color": "#FFFFFF",
   "scope": "/",
   "lang": "ro",
+  "id": "/?source=pwa",
   "description": "Aplicatie web progresivă folosită în comerțul agricol",
   "orientation": "portrait",
   "screenshots": [
