@@ -47,3 +47,36 @@ self.addEventListener('fetch', (event) => {
     })());
   }
 });
+
+self.addEventListener('sync', function (event) {
+  if (event.tag === 'sync-anunturi') {
+    event.waitUntil(syncAnunturiOffline());
+  }
+});
+
+async function syncAnunturiOffline() {
+  const db = await openDB('fermi-db', 1, {
+    upgrade(db) {
+      db.createObjectStore('anunturiOffline', { keyPath: 'id', autoIncrement: true });
+    },
+  });
+
+  const allAnunturi = await db.getAll('anunturiOffline');
+
+  for (const anunt of allAnunturi) {
+    try {
+      await fetch('https://fermivo-backend.onrender.com/api/anunturi', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${anunt.token}`
+        },
+        body: JSON.stringify(anunt.data)
+      });
+      await db.delete('anunturiOffline', anunt.id);
+    } catch (e) {
+      console.error("Eroare la sync:", e);
+      return; // ieșim dacă a eșuat ceva
+    }
+  }
+}
