@@ -1,4 +1,5 @@
 const CACHE_NAME = 'fermivo-v2'; // Nume al cache version
+self.__WB_MANIFEST; // Manifestul service worker-ului, generat de Workbox
 const urlsToCache = [ // Lista de URL-uri de cache
   '/',
   '/index.html', // Pagina principală
