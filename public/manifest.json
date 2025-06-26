@@ -1,15 +1,8 @@
-{
-    "name": "Fermivo",
-    "short_name": "Fermivo",
-    "start_url": "https://www.fermivo.ro/?source=pwa",
-    "scope": "/",
-    "lang": "ro",
-    "description": "aplicatie web progresiva folosita in comertul agricol",
-    "display": "standalone",
-    "background_color": "#FFFFFF",
-    "theme_color": "#1b5e20",
-    "orientation": "portrait",
-    "icons": [
+  {
+  "name": "Fermivo",
+  "short_name": "Fermivo",
+  "theme_color": "#1b5e20",
+  "icons": [
     {
       "src": "/img/icons/icon1.png",
       "sizes": "192x192",
@@ -29,7 +22,14 @@
       "purpose": "any"
     }
   ],
-   "screenshots": [
+  "start_url": "https://www.fermivo.ro/?source=pwa",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "scope": "/",
+  "lang": "ro",
+  "description": "Aplicatie web progresivă folosită în comerțul agricol",
+  "orientation": "portrait",
+  "screenshots": [
     {
       "src": "/screenshots/screenshot1.png",
       "sizes": "800x600",
@@ -48,6 +48,23 @@
       "type": "image/png",
       "form_factor": "wide"
     }
-    ]
-  }
-  
+  ],
+  "prefer_related_applications": false,
+  "shortcuts": [
+    {
+      "name": "Vezi predicții de prețuri",
+      "url": "/predictii",
+      "description": "Vezi predicțiile AI pentru evoluția prețurilor"
+    },
+    {
+      "name": "Vezi prețurile curente",
+      "url": "/check-prices",
+      "description": "Vezi prețurile actuale de pe piață"
+    }
+  ],
+  "categories": [
+    "navigation",
+    "shopping",
+    "utilities"
+  ]
+}
