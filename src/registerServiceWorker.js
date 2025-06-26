@@ -7,7 +7,7 @@ const urlsToCache = [ // Lista de URL-uri de cache
   '/icons/icon-512x512.png',
   '/assets/login.jpg', // Imaginea pentru autentificare
   '/assets/register.jpg', // Imaginea pentru înregistrare
-  '/public/offline.html', // Pagina de rezervă pentru offline
+  '/offline.html', // Pagina de rezervă pentru offline
 ];
 self.addEventListener('install', (event) => { // Evenimentul de instalare a service worker-ului
   event.waitUntil( // Așteaptă până când cache-ul este creat
