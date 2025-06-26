@@ -89,5 +89,11 @@
   "iarc_rating_id": "\"IARC_rating_id\": \"PWA.NotRated\"",
   "edge_side_panel": {
     "preferred_width": 500
-  }
+  },
+  "protocol_handlers": [
+    {
+      "protocol": "web+fermivo",
+      "url": "//?source=pwa&amp;link=%s"
+    }
+  ]
 }
