@@ -12,7 +12,7 @@ module.exports = defineConfig({
     }
   },
   pwa: {
-    workboxPluginMode: 'InjectManifest',
+    workboxPluginMode: 'GenerateSW',
     workboxOptions: {
       swSrc: './public/service-worker.js',
     },
